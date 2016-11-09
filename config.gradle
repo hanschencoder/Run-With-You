@@ -9,7 +9,7 @@ ext {
     okhttp3Version = '3.0.1'
     supportLibrariesVersion = '24.2.1'
     dependencies = [
-            common            : 'site.hanschen:common:1.0.0',
+            common            : 'site.hanschen:common:1.0.1',
             okhttp            : 'com.squareup.okhttp:okhttp:2.7.1',
             okhttp3           : "com.squareup.okhttp3:okhttp:$okhttp3Version",
             supportV4         : "com.android.support:support-v4:$supportLibrariesVersion",
