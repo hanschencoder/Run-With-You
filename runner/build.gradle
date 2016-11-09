@@ -25,12 +25,16 @@ android {
         sourceCompatibility rootProject.ext.sourceCompatibilityVersion
         targetCompatibility rootProject.ext.targetCompatibilityVersion
     }
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':common')
-    
+
+    compile rootProject.ext.dependencies.common
     compile rootProject.ext.dependencies.supportV13
     compile rootProject.ext.dependencies.supportDesign
     compile rootProject.ext.dependencies.recyclerview

@@ -1,7 +1,7 @@
 package com.hanschen.runwithyou.application;
 
 
-import com.hanschen.common.base.application.BaseApplication;
+import site.hanschen.common.base.application.BaseApplication;
 
 /**
  * @author Hans.Chen

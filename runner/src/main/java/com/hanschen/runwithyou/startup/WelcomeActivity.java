@@ -3,7 +3,7 @@ package com.hanschen.runwithyou.startup;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.hanschen.common.base.activity.BaseActivity;
+import site.hanschen.common.base.activity.BaseActivity;
 
 
 /**

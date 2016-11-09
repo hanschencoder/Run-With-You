@@ -2,7 +2,8 @@ package com.hanschen.runwithyou;
 
 import android.os.Bundle;
 
-import com.hanschen.common.base.activity.BaseActivity;
+import site.hanschen.common.base.activity.BaseActivity;
+
 
 public class MainActivity extends BaseActivity {
 

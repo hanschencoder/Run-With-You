@@ -2,4 +2,40 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--
+        选取尺寸参考：
+        顶部栏高度：24dp
+        AppBar最小高度：56dp
+        底部导航栏高度：48dp
+        悬浮按钮尺寸：56x56dp/40x40dp
+        用户头像尺寸：64x64dp/40x40dp
+        小图标点击区域：48x48dp
+        侧边抽屉到屏幕右边的距离：56dp
+        卡片间距：8dp
+        分隔线上下留白：8dp
+        大多元素的留白距离：16dp
+        屏幕左右对齐基线：16dp
+        文字左侧对齐基线：72dp
+
+        注意56dp这个数字，许多尺寸可变的控件，比如对话框、菜单等，宽度都可以按56的整数倍来设计
+    -->
+
+    <!-- elevation -->
+    <dimen name="elevation_dialog">24dp</dimen>
+    <dimen name="elevation_picker">24dp</dimen>
+    <dimen name="elevation_nav_drawer">16dp</dimen>
+    <dimen name="elevation_bottom_sheet">16dp</dimen>
+    <dimen name="elevation_float_action_btn_press">12dp</dimen>
+    <dimen name="elevation_popup">10dp</dimen>
+    <dimen name="elevation_sub_menu">9dp</dimen>
+    <dimen name="elevation_menu">8dp</dimen>
+    <dimen name="elevation_card">8dp</dimen>
+    <dimen name="elevation_raised_btn">8dp</dimen>
+    <dimen name="elevation_float_action_btn">6dp</dimen>
+    <dimen name="elevation_snack_bar">6dp</dimen>
+    <dimen name="elevation_app_bar">4dp</dimen>
+    <dimen name="elevation_search_bar">3dp</dimen>
+    <dimen name="elevation_switch">1dp</dimen>
+
 </resources>

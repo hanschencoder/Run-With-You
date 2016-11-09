@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Run With You</string>
+
+    <!-- common -->
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="exit">Exit</string>
+    <string name="edit">Edit</string>
+    <string name="exit_now">Exit now</string>
+    <string name="exit_tips">Again to exit the program</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="rename">Rename</string>
+    <string name="submit">Submit</string>
+    <string name="choose">Choose</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="new_version">New version</string>
+    <string name="version">Version</string>
+    <string name="update">Update</string>
+    <string name="modify">Modify</string>
+    <string name="refresh">Refresh</string>
+    <string name="please_wait">Please wait&#8230;</string>
+    <string name="account">Account</string>
+    <string name="change_password">Change password</string>
+    <string name="logout">Logout</string>
+
 </resources>

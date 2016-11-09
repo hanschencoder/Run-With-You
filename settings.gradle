@@ -1,4 +1,3 @@
-include ':common'
 include ':runner'
 
 rootProject.name = 'Run-With-You'

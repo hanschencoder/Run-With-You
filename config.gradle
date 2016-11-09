@@ -1,14 +1,15 @@
 ext {
     compileSdkVersion = 24
     buildToolsVersion = '24.0.3'
-    minSdkVersion = 15
+    minSdkVersion = 14
     targetSdkVersion = 21
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 
     okhttp3Version = '3.0.1'
-    supportLibrariesVersion = '23.0.0'
+    supportLibrariesVersion = '24.2.1'
     dependencies = [
+            common            : 'site.hanschen:common:1.0.0',
             okhttp            : 'com.squareup.okhttp:okhttp:2.7.1',
             okhttp3           : "com.squareup.okhttp3:okhttp:$okhttp3Version",
             supportV4         : "com.android.support:support-v4:$supportLibrariesVersion",
