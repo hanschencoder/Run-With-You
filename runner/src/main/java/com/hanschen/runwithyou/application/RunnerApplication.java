@@ -7,7 +7,7 @@ import android.support.multidex.MultiDex;
 import site.hanschen.common.base.application.BaseApplication;
 
 /**
- * @author Hans.Chen
+ * @author HansChen
  */
 public class RunnerApplication extends BaseApplication {
 

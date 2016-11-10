@@ -7,7 +7,7 @@ import site.hanschen.common.base.activity.BaseActivity;
 
 
 /**
- * @author Hans.Chen
+ * @author HansChen
  */
 public class GuideActivity extends BaseActivity {
 

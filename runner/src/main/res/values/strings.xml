@@ -28,4 +28,9 @@
     <string name="change_password">Change password</string>
     <string name="logout">Logout</string>
 
+    <string name="today">Today</string>
+    <string name="together">Together</string>
+    <string name="discover">Discover</string>
+    <string name="me">Me</string>
+
 </resources>

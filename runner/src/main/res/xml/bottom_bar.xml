@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        id="@+id/tab1"
-        icon="@mipmap/ic_launcher"
-        title="Tab1"/>
+        barColorWhenSelected="@color/colorPrimary"
+        icon="@drawable/ic_runner_black_24dp"
+        id="@+id/tab_today"
+        title="@string/today"/>
     <tab
-        id="@+id/tab2"
-        icon="@mipmap/ic_launcher"
-        title="Tab2"/>
+        barColorWhenSelected="@color/purple"
+        icon="@drawable/ic_we_black_24dp"
+        id="@+id/tab_together"
+        title="@string/together"/>
     <tab
-        id="@+id/tab3"
-        icon="@mipmap/ic_launcher"
-        title="Tab3"/>
+        barColorWhenSelected="@color/teal"
+        icon="@drawable/ic_discover_black_24dp"
+        id="@+id/tab_discover"
+        title="@string/discover"/>
+    <tab
+        barColorWhenSelected="@color/deep_orange"
+        icon="@drawable/ic_account_circle_black_24dp"
+        id="@+id/tab_me"
+        title="@string/me"/>
 </tabs>

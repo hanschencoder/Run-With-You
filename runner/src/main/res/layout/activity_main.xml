@@ -3,105 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.hanschen.runwithyou.MainActivity">
+    tools:context="com.hanschen.runwithyou.main.MainActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:popupTheme="@style/ToolbarPopupTheme"/>
+        app:popupTheme="@style/ToolbarPopupTheme"
+        android:fitsSystemWindows="true"/>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_weight="1">
 
-        <TextView
-            style="@style/TextDisplay4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextDisplay3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextDisplay2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextDisplay1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextHeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextSubheading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextBody2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextBody1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextCaption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-        <TextView
-            style="@style/TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-    </LinearLayout>
+    </FrameLayout>
 
     <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottomBar"
+        android:id="@+id/main_bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:bb_activeTabAlpha="1"
-        app:bb_activeTabColor="@color/colorPrimary"
-        app:bb_inActiveTabAlpha="0.6"
-        app:bb_inActiveTabColor="#222222"
-        app:bb_showShadow="true"
+        app:bb_behavior="shifting|underNavbar"
         app:bb_tabXmlResource="@xml/bottom_bar"/>
 
 </LinearLayout>
