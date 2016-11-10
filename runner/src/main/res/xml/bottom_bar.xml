@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab1"
+        icon="@mipmap/ic_launcher"
+        title="Tab1"/>
+    <tab
+        id="@+id/tab2"
+        icon="@mipmap/ic_launcher"
+        title="Tab2"/>
+    <tab
+        id="@+id/tab3"
+        icon="@mipmap/ic_launcher"
+        title="Tab3"/>
+</tabs>

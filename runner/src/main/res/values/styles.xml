@@ -1,11 +1,28 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/white</item><!--控制元件的预设颜色-->
+
+    </style>
+
+    <style name="RunnerTheme" parent="AppTheme.Base">
+        <item name="android:colorBackground">@color/light_content_background</item>
+        <item name="android:windowBackground">@color/light_content_background</item>
+        <item name="android:colorForeground">@color/black</item>
+
+        <item name="android:textColorPrimary">@color/text_color_white_primary</item>
+        <item name="android:textColorPrimaryInverse">@color/text_color_black_primary</item>
+        <item name="android:textColorSecondary">@color/text_color_white_secondary</item>
+        <item name="android:textColorSecondaryInverse">@color/text_color_black_secondary</item>
+    </style>
+
+    <!--Toolbar弹出菜单样式-->
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/text_color_black_primary</item><!--文字颜色-->
+        <item name="android:colorBackground">@color/light_content_background</item><!--背景-->
     </style>
 
 </resources>

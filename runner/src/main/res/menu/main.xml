@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu1"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Menu1"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu2"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Menu2"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu3"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Menu3"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu4"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Menu4"
+        app:showAsAction="ifRoom"/>
+
+</menu>

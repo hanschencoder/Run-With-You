@@ -12,6 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -39,6 +41,8 @@ dependencies {
     compile rootProject.ext.dependencies.supportDesign
     compile rootProject.ext.dependencies.recyclerview
     compile rootProject.ext.dependencies.materialDialog
+    compile rootProject.ext.dependencies.multidex
+    compile rootProject.ext.dependencies.bottomBar
 
     testCompile rootProject.ext.dependencies.junit
     androidTestCompile(rootProject.ext.dependencies.espresso, {
