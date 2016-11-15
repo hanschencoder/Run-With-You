@@ -15,8 +15,6 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import site.hanschen.common.base.activity.BaseActivity;
 
-import static com.hanschen.runwithyou.R.id.main_bottomBar;
-
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
@@ -36,7 +34,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         setSupportActionBar(mToolbar);
 
 
-        mBottomBar = (BottomBar) findViewById(main_bottomBar);
+        mBottomBar = (BottomBar) findViewById(R.id.main_bottomBar);
         mBottomBar.setOnTabSelectListener(MainActivity.this);
     }
 
