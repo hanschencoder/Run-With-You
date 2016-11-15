@@ -9,7 +9,7 @@ ext {
     okhttp3Version = '3.0.1'
     supportLibrariesVersion = '24.2.1'
     dependencies = [
-            common            : 'site.hanschen:common:1.0.4',
+            common            : 'site.hanschen:common:1.0.5',
             okhttp            : 'com.squareup.okhttp:okhttp:2.7.1',
             okhttp3           : "com.squareup.okhttp3:okhttp:$okhttp3Version",
             supportV4         : "com.android.support:support-v4:$supportLibrariesVersion",
@@ -25,6 +25,9 @@ ext {
             espresso          : 'com.android.support.test.espresso:espresso-core:2.2.2',
             multidex          : 'com.android.support:multidex:1.0.1',
             bottomBar         : 'com.roughike:bottom-bar:2.0.2',
+            leakcanaryDebug   : 'com.squareup.leakcanary:leakcanary-android:1.5',
+            leakcanaryRelease : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
+            leakcanaryTest    : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
     ]
 
 

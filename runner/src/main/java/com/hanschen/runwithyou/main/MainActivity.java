@@ -15,8 +15,6 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import site.hanschen.common.base.activity.BaseActivity;
 
-import static com.hanschen.runwithyou.R.id.main_bottomBar;
-
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
@@ -36,24 +34,26 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         setSupportActionBar(mToolbar);
 
 
-        mBottomBar = (BottomBar) findViewById(main_bottomBar);
+        mBottomBar = (BottomBar) findViewById(R.id.main_bottomBar);
         mBottomBar.setOnTabSelectListener(MainActivity.this);
     }
 
     @Override
     public void onTabSelected(@IdRes int tabId) {
+        //attention here, don't add exitAnim for replace fragment, otherwise when fast switch fragment would have problem.
+        //because fragment will not remove before animator is end
         switch (tabId) {
             case R.id.tab_today:
-                replaceFragment(R.id.main_fragment_container, TodayFragment.class, R.animator.fade_in, R.animator.fade_out);
+                replaceFragment(R.id.main_fragment_container, TodayFragment.class, R.animator.fade_in, 0);
                 break;
             case R.id.tab_together:
-                replaceFragment(R.id.main_fragment_container, TogetherFragment.class, R.animator.fade_in, R.animator.fade_out);
+                replaceFragment(R.id.main_fragment_container, TogetherFragment.class, R.animator.fade_in, 0);
                 break;
             case R.id.tab_discover:
-                replaceFragment(R.id.main_fragment_container, DiscoverFragment.class, R.animator.fade_in, R.animator.fade_out);
+                replaceFragment(R.id.main_fragment_container, DiscoverFragment.class, R.animator.fade_in, 0);
                 break;
             case R.id.tab_me:
-                replaceFragment(R.id.main_fragment_container, MeFragment.class, R.animator.fade_in, R.animator.fade_out);
+                replaceFragment(R.id.main_fragment_container, MeFragment.class, R.animator.fade_in, 0);
                 break;
             default:
                 break;

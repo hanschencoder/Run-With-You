@@ -44,6 +44,10 @@ dependencies {
     compile rootProject.ext.dependencies.multidex
     compile rootProject.ext.dependencies.bottomBar
 
+    debugCompile rootProject.ext.dependencies.leakcanaryDebug
+    releaseCompile rootProject.ext.dependencies.leakcanaryRelease
+    
+    testCompile rootProject.ext.dependencies.leakcanaryTest
     testCompile rootProject.ext.dependencies.junit
     androidTestCompile(rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
