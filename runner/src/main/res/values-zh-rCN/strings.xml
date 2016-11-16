@@ -27,5 +27,14 @@
     <string name="account">帐号</string>
     <string name="change_password">修改密码</string>
     <string name="logout">退出登录</string>
+    <string name="sorry">抱歉</string>
+
+    <string name="step">步</string>
+    <string name="discover">发现</string>
+    <string name="me">我</string>
+    <string name="today">今天</string>
+    <string name="together">一起</string>
+    <string name="i_see">知道了</string>
+    <string name="not_support_step_count">您的手机不支持记步功能</string>
 
 </resources>

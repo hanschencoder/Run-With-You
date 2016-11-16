@@ -16,9 +16,9 @@
         app:circleBackground="@color/colorPrimary"
         app:contentTextColor="@color/text_color_white_primary"
         app:contentTextSize="56dp"
-        app:contentUnit="步"
-        app:progressEndColor="@color/black"
-        app:progressStartColor="@color/white"
+        app:contentUnit="@string/step"
+        app:progressEndColor="@color/red"
+        app:progressStartColor="@color/green"
         app:subText="今天目标:10000步"
         app:subTextColor="@color/text_color_white_secondary"
         app:subTextSize="14dp"/>

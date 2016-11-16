@@ -27,10 +27,14 @@
     <string name="account">Account</string>
     <string name="change_password">Change password</string>
     <string name="logout">Logout</string>
+    <string name="sorry">Sorry</string>
 
     <string name="today">Today</string>
     <string name="together">Together</string>
     <string name="discover">Discover</string>
     <string name="me">Me</string>
+    <string name="step">Steps</string>
+    <string name="i_see">I see</string>
+    <string name="not_support_step_count">Oops, Your device does not support the step function</string>
 
 </resources>

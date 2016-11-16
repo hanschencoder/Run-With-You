@@ -1,16 +1,20 @@
 package com.hanschen.runwithyou.widget;
 
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.SystemClock;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.hanschen.runwithyou.R;
 
@@ -42,49 +46,94 @@ public class CircleProgressBar extends View {
     /**
      * 宽度
      */
-    private int   mWidth;
+    private int    mWidth;
     /**
      * 高度
      */
-    private int   mHeight;
+    private int    mHeight;
     /**
      * 进度条最大值
      */
-    private float mMax;
+    private float  mMax;
     /**
-     * 进度条当前进度值
+     * 当前设置的进度值
      */
-    private int   mProgress;
+    private int    mProgress;
+    /**
+     * 当前绘制的进度值，动画过程中会改变
+     */
+    private int    mCurrentDrawProgress;
     /**
      * 绘制弧线的画笔
      */
-    private Paint mProgressPaint;
+    private Paint  mProgressPaint;
     /**
      * 绘制文字的画笔
      */
-    private Paint mTextPaint;
+    private Paint  mTextPaint;
     /**
      * 绘制文字背景圆形的画笔
      */
-    private Paint mTextBgPaint;
+    private Paint  mTextBgPaint;
     /**
      * 默认圆弧大小
      */
-    private int   mDefaultRadius;
+    private int    mDefaultRadius;
     /**
      * 圆弧的半径
      */
-    private int   mCircleRadius;
+    private int    mCircleRadius;
     /**
      * 圆弧圆心X坐标
      */
-    private int   mCenterX;
+    private int    mCenterX;
     /**
      * 圆弧圆心Y坐标
      */
-    private int   mCenterY;
+    private int    mCenterY;
+    /**
+     * 中间字体大小
+     */
+    private int    mContentTextSize;
+    /**
+     * 中间字体颜色
+     */
+    private int    mContentTextColor;
+    /**
+     * 单位
+     */
+    private String mContentUnit;
+    /**
+     * 子内容
+     */
+    private String mSubText;
+    /**
+     * 子内容字体大小
+     */
+    private int    mSubTextSize;
+    /**
+     * 子内容字体颜色
+     */
+    private int    mSubTextColor;
+    /**
+     * 中间圆颜色
+     */
+    private int    mCircleBackground;
+    /**
+     * 进度条开始颜色
+     */
+    private int    mProgressStartColor;
+    /**
+     * 进度条结束颜色
+     */
+    private int    mProgressEndColor;
+    /**
+     * 进度条Inactive颜色
+     */
+    private int    mProgressInactiveColor;
 
-    private Rect textBounds = new Rect();
+    private Rect             mTextBounds       = new Rect();
+    private TimeInterpolator mTimeInterpolator = new DecelerateInterpolator();
 
     public CircleProgressBar(Context context) {
         this(context, null);
@@ -94,18 +143,6 @@ public class CircleProgressBar extends View {
         this(context, attrs, 0);
     }
 
-    private int    contentTextSize;
-    private int    contentTextColor;
-    private String contentUnit = "fen";
-
-    private String subText = "dddd";
-    private int subTextSize;
-    private int subTextColor;
-
-    private int progressColor;
-    private int circleBackground;
-    private int progressStartColor;
-    private int progressEndColor;
 
     public CircleProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -114,27 +151,28 @@ public class CircleProgressBar extends View {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
+        //获取属性
         final TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleProgressBar, defStyleAttr, 0);
-        contentTextSize = a.getDimensionPixelSize(R.styleable.CircleProgressBar_contentTextSize, dp2px(context, 56));
-        contentTextColor = a.getColor(R.styleable.CircleProgressBar_contentTextColor, Color.WHITE);
-        contentUnit = a.getString(R.styleable.CircleProgressBar_contentUnit);
-        subText = a.getString(R.styleable.CircleProgressBar_subText);
-        subTextSize = a.getDimensionPixelSize(R.styleable.CircleProgressBar_subTextSize, dp2px(context, 18));
-        subTextColor = a.getColor(R.styleable.CircleProgressBar_subTextColor, Color.parseColor("#B3FFFFFF"));
-        circleBackground = a.getColor(R.styleable.CircleProgressBar_circleBackground, Color.parseColor("#3F51B5"));
-        progressStartColor = a.getColor(R.styleable.CircleProgressBar_progressStartColor, Color.CYAN);
-        progressEndColor = a.getColor(R.styleable.CircleProgressBar_progressEndColor, Color.CYAN);
+        mContentTextSize = a.getDimensionPixelSize(R.styleable.CircleProgressBar_contentTextSize, dp2px(context, 56));
+        mContentTextColor = a.getColor(R.styleable.CircleProgressBar_contentTextColor, Color.WHITE);
+        mContentUnit = a.getString(R.styleable.CircleProgressBar_contentUnit);
+        mSubText = a.getString(R.styleable.CircleProgressBar_subText);
+        mSubTextSize = a.getDimensionPixelSize(R.styleable.CircleProgressBar_subTextSize, dp2px(context, 18));
+        mSubTextColor = a.getColor(R.styleable.CircleProgressBar_subTextColor, Color.parseColor("#B3FFFFFF"));
+        mCircleBackground = a.getColor(R.styleable.CircleProgressBar_circleBackground, Color.parseColor("#3F51B5"));
+        mProgressStartColor = a.getColor(R.styleable.CircleProgressBar_progressStartColor, Color.CYAN);
+        mProgressEndColor = a.getColor(R.styleable.CircleProgressBar_progressEndColor, Color.CYAN);
+        mProgressInactiveColor = a.getColor(R.styleable.CircleProgressBar_progressInactiveColor, Color.parseColor("#88aaaaaa"));
         a.recycle();
 
+        //设置默认大小
         mDefaultRadius = dp2px(context, 120);
 
+        //初始化画笔
         mProgressPaint = new Paint();
         mProgressPaint.setAntiAlias(true);
-
         mTextPaint = new Paint();
-        mTextPaint.setColor(Color.WHITE);
         mTextPaint.setAntiAlias(true);
-
         mTextBgPaint = new Paint();
         mTextBgPaint.setAntiAlias(true);
     }
@@ -162,6 +200,9 @@ public class CircleProgressBar extends View {
         setMeasuredDimension(mWidth, mHeight);
     }
 
+    /**
+     * 根据控件大小和内边距计算圆心和半径
+     */
     private void calcRadiusAndCenter() {
         int x = mWidth - getPaddingLeft() - getPaddingRight();
         int y = mHeight - getPaddingTop() - getPaddingRight();
@@ -179,10 +220,10 @@ public class CircleProgressBar extends View {
         super.onDraw(canvas);
 
         float start = (360 - ARC_FULL_DEGREE) >> 1; //进度条起始角度
-        float sweep1 = ARC_FULL_DEGREE * (mProgress / mMax); //进度划过的角度
+        float sweep = ARC_FULL_DEGREE * (mCurrentDrawProgress / mMax); //进度划过的角度
 
         //绘制进度条
-        mProgressPaint.setColor(calcColor(mProgress / mMax, progressStartColor, progressEndColor));
+        mProgressPaint.setColor(calcColor(mCurrentDrawProgress / mMax, mProgressStartColor, mProgressEndColor));
         mProgressPaint.setStrokeWidth(ARC_LINE_WIDTH);
         float drawDegree = 1.6f;
         while (drawDegree <= ARC_FULL_DEGREE) {
@@ -192,9 +233,8 @@ public class CircleProgressBar extends View {
             float lineStopX = lineStartX + ARC_LINE_LENGTH * (float) Math.sin(a);
             float lineStopY = lineStartY - ARC_LINE_LENGTH * (float) Math.cos(a);
 
-            if (drawDegree > sweep1) {
-                //绘制进度条背景
-                mProgressPaint.setColor(Color.parseColor("#88aaaaaa"));
+            if (drawDegree > sweep) {
+                mProgressPaint.setColor(mProgressInactiveColor);
                 mProgressPaint.setStrokeWidth(ARC_LINE_WIDTH >> 1);
             }
             canvas.drawLine(lineStartX, lineStartY, lineStopX, lineStopY, mProgressPaint);
@@ -204,39 +244,38 @@ public class CircleProgressBar extends View {
 
         //绘制文字背景圆形
         mTextBgPaint.setStyle(Paint.Style.FILL);//设置填充
-        mTextBgPaint.setColor(circleBackground);
+        mTextBgPaint.setColor(mCircleBackground);
         canvas.drawCircle(mCenterX, mCenterY, (mCircleRadius - ARC_LINE_LENGTH - 20), mTextBgPaint);
-
         mTextBgPaint.setStyle(Paint.Style.STROKE);//设置空心
         mTextBgPaint.setStrokeWidth(2);
         mTextBgPaint.setColor(Color.parseColor("#aaaaaaaa"));
         canvas.drawCircle(mCenterX, mCenterY, (mCircleRadius - ARC_LINE_LENGTH - 20), mTextBgPaint);
 
-        //上一行文字
-        mTextPaint.setTextSize(contentTextSize);
-        mTextPaint.setColor(contentTextColor);
-        String text = (int) (100 * mProgress / mMax) + "";
+        //第一行文字
+        mTextPaint.setTextSize(mContentTextSize);
+        mTextPaint.setColor(mContentTextColor);
+        String text = String.valueOf((int) (100 * mCurrentDrawProgress / mMax));
         float textLen = mTextPaint.measureText(text);
         //计算文字高度
-        mTextPaint.getTextBounds("8", 0, 1, textBounds);
-        float h1 = textBounds.height();
+        mTextPaint.getTextBounds(text, 0, 1, mTextBounds);
+        float h1 = mTextBounds.height();
         canvas.drawText(text, mCenterX - textLen / 2, mCenterY - mCircleRadius / 10 + h1 / 2, mTextPaint);
 
         //单位
-        if (!TextUtils.isEmpty(contentUnit)) {
+        if (!TextUtils.isEmpty(mContentUnit)) {
             mTextPaint.setTextSize(40);
-            mTextPaint.getTextBounds(contentUnit, 0, 1, textBounds);
-            float h11 = textBounds.height();
-            canvas.drawText(contentUnit, mCenterX + textLen / 2 + 5, mCenterY - mCircleRadius / 10 + h1 / 2 - (h1 - h11), mTextPaint);
+            mTextPaint.getTextBounds(mContentUnit, 0, 1, mTextBounds);
+            float h11 = mTextBounds.height();
+            canvas.drawText(mContentUnit, mCenterX + textLen / 2 + 5, mCenterY - mCircleRadius / 10 + h1 / 2 - (h1 - h11), mTextPaint);
 
         }
 
-        //subText
-        if (!TextUtils.isEmpty(subText)) {
-            mTextPaint.setTextSize(subTextSize);
-            mTextPaint.setColor(subTextColor);
-            textLen = mTextPaint.measureText(subText);
-            canvas.drawText(subText, mCenterX - textLen / 2, mCenterY + mCircleRadius / 2.5f, mTextPaint);
+        //mSubText
+        if (!TextUtils.isEmpty(mSubText)) {
+            mTextPaint.setTextSize(mSubTextSize);
+            mTextPaint.setColor(mSubTextColor);
+            textLen = mTextPaint.measureText(mSubText);
+            canvas.drawText(mSubText, mCenterX - textLen / 2, mCenterY + mCircleRadius / 2.5f, mTextPaint);
         }
     }
 
@@ -246,64 +285,52 @@ public class CircleProgressBar extends View {
     }
 
     //动画切换进度值(异步)
-    public void setProgress(final float progress) {
-        new Thread(new Runnable() {
+    public void setProgress(final int progress) {
+        mProgress = progress;
+        startAnimation();
+    }
+
+    private void startAnimation() {
+        ValueAnimator anim = ValueAnimator.ofFloat(0f, 1f);
+        anim.setDuration(2000);
+        anim.setInterpolator(mTimeInterpolator);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void run() {
-                float oldProgress = mProgress;
-                for (int i = 1; i <= 100; i++) {
-                    mProgress = (int) (oldProgress + (progress - oldProgress) * (1.0f * i / 100));
-                    postInvalidate();
-                    SystemClock.sleep(20);
-                }
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float currentValue = (float) animation.getAnimatedValue();
+                float oldProgress = mCurrentDrawProgress;
+                mCurrentDrawProgress = (int) (oldProgress + (mProgress - oldProgress) * currentValue);
+                Log.d("Hans", String.format("currentValue:%f,  mCurrentDrawProgress:%d", currentValue, mCurrentDrawProgress));
+                postInvalidate();
             }
-        }).start();
+        });
+        anim.start();
     }
 
-    //直接设置进度值（同步）
-    public void setProgressSync(int progress) {
-        this.mProgress = progress;
-        invalidate();
+    /**
+     * 计算开始颜色和结束颜色的中间值
+     *
+     * @param startValue 开始颜色
+     * @param endValue   结束颜色
+     * @return 新的颜色值
+     */
+    @ColorInt
+    public int calcColor(float fraction, @ColorInt int startValue, @ColorInt int endValue) {
+        int startA = (startValue >> 24) & 0xff;
+        int startR = (startValue >> 16) & 0xff;
+        int startG = (startValue >> 8) & 0xff;
+        int startB = startValue & 0xff;
+
+        int endA = (endValue >> 24) & 0xff;
+        int endR = (endValue >> 16) & 0xff;
+        int endG = (endValue >> 8) & 0xff;
+        int endB = endValue & 0xff;
+
+        return ((startA + (int) (fraction * (endA - startA))) << 24) |
+                ((startR + (int) (fraction * (endR - startR))) << 16) |
+                ((startG + (int) (fraction * (endG - startG))) << 8) |
+                ((startB + (int) (fraction * (endB - startB))));
     }
 
-    public int calcColor(float fraction, int startValue, int endValue) {
-        int start_a, start_r, start_g, start_b;
-        int end_a, end_r, end_g, end_b;
-        int new_a, new_r, new_g, new_b;
 
-        //start
-        start_a = (startValue) >> 24 & 0xff;
-        start_r = (startValue) >> 16 & 0xff;
-        start_g = (startValue) >> 8 & 0xff;
-        start_b = startValue & 0xff;
-
-        //end
-        end_a = (endValue) >> 24 & 0xff;
-        end_r = (endValue) >> 16 & 0xff;
-        end_g = (endValue) >> 8 & 0xff;
-        end_b = endValue & 0xff;
-
-        //new
-        new_a = (int) (start_a + fraction * (end_a - start_a));
-        new_r = (int) (start_r + fraction * (end_r - start_r));
-        new_g = (int) (start_g + fraction * (end_g - start_g));
-        new_b = (int) (start_b + fraction * (end_b - start_b));
-
-
-        return new_a << 24 | new_r << 16 | new_g | new_b;
-    }
-
-    //从原始#AARRGGBB颜色值中指定位置截取，并转为int.
-    private int getIntValue(String hexValue, int start, int end) {
-        return Integer.parseInt(hexValue.substring(start, end), 16);
-    }
-
-    private String getHexString(int value) {
-        String a = Integer.toHexString(value);
-        if (a.length() == 1) {
-            a = "0" + a;
-        }
-
-        return a;
-    }
 }

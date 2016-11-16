@@ -13,6 +13,7 @@
 
         <attr name="progressStartColor" format="color"/>
         <attr name="progressEndColor" format="color"/>
+        <attr name="progressInactiveColor" format="color"/>
         <attr name="circleBackground" format="color"/>
     </declare-styleable>
 

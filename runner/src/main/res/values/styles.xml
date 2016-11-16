@@ -16,6 +16,11 @@
         <item name="android:textColorPrimaryInverse">@color/text_color_black_primary</item>
         <item name="android:textColorSecondary">@color/text_color_white_secondary</item>
         <item name="android:textColorSecondaryInverse">@color/text_color_black_secondary</item>
+
+        <item name="md_dark_theme">false</item>
+        <item name="md_background_color">@color/white</item>
+        <item name="md_title_color">@color/text_color_black_primary</item>
+        <item name="md_content_color">@color/text_color_black_secondary</item>
     </style>
 
     <style name="RunnerTheme" parent="AppTheme.Base"/>
