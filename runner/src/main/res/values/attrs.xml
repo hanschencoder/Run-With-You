@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="contentTextSize" format="dimension"/>
+        <attr name="contentTextColor" format="color"/>
+
+        <attr name="contentUnit" format="string"/>
+
+        <attr name="subText" format="string"/>
+        <attr name="subTextSize" format="dimension"/>
+        <attr name="subTextColor" format="color"/>
+
+        <attr name="progressStartColor" format="color"/>
+        <attr name="progressEndColor" format="color"/>
+        <attr name="circleBackground" format="color"/>
+    </declare-styleable>
+
+</resources>
