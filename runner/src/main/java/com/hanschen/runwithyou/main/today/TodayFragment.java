@@ -50,13 +50,5 @@ public class TodayFragment extends Fragment {
                 }
             }
         }, 300);
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                    mProgressBar.setProgress(40);
-//
-//            }
-//        }, 5000);
     }
 }

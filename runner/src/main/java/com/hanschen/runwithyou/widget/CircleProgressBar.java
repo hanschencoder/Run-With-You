@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -55,6 +54,10 @@ public class CircleProgressBar extends View {
      * 进度条最大值
      */
     private float  mMax;
+    /**
+     * 上次设置的进度值
+     */
+    private int    mOldProgress;
     /**
      * 当前设置的进度值
      */
@@ -284,23 +287,31 @@ public class CircleProgressBar extends View {
         invalidate();
     }
 
-    //动画切换进度值(异步)
+    //设置新的进度值，带动画
     public void setProgress(final int progress) {
+        mOldProgress = mProgress;
         mProgress = progress;
         startAnimation();
     }
 
+    //设置新的进度值，没有动画
+    public void setProgressWithoutAnim(final int progress) {
+        mOldProgress = mProgress;
+        mProgress = progress;
+        mCurrentDrawProgress = mProgress;
+        postInvalidate();
+    }
+
     private void startAnimation() {
         ValueAnimator anim = ValueAnimator.ofFloat(0f, 1f);
-        anim.setDuration(2000);
+        anim.setDuration(1000);
         anim.setInterpolator(mTimeInterpolator);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float currentValue = (float) animation.getAnimatedValue();
-                float oldProgress = mCurrentDrawProgress;
-                mCurrentDrawProgress = (int) (oldProgress + (mProgress - oldProgress) * currentValue);
-                Log.d("Hans", String.format("currentValue:%f,  mCurrentDrawProgress:%d", currentValue, mCurrentDrawProgress));
+                int diff = (int) ((mProgress - mOldProgress) * currentValue);
+                mCurrentDrawProgress = mOldProgress + diff;
                 postInvalidate();
             }
         });
