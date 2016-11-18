@@ -4,6 +4,8 @@ import android.os.RemoteException;
 
 import com.hanschen.runwithyou.application.RunnerApplication;
 
+import javax.inject.Inject;
+
 import site.hanschen.common.utils.PreconditionUtils;
 
 /**
@@ -13,9 +15,14 @@ public class TodayPresenter implements TodayContract.Presenter {
 
     private TodayContract.View mView;
 
-    public TodayPresenter(TodayContract.View view) {
+    @Inject
+    TodayPresenter(TodayContract.View view) {
         this.mView = PreconditionUtils.checkNotNull(view, "TodayContract.View cannot be null!");
-        mView.setPresenter(TodayPresenter.this);
+    }
+
+    @Inject
+    void setupListeners() {
+        mView.setPresenter(this);
     }
 
     @Override
