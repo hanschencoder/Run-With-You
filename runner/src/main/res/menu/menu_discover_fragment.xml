@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_discover1"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Discover1"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_discover2"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Discover2"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_discover3"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Discover3"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_discover4"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Discover4"
+        app:showAsAction="never"/>
+
+</menu>

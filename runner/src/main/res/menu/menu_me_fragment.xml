@@ -3,27 +3,27 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu1"
+        android:id="@+id/menu_me1"
         android:icon="@mipmap/ic_launcher"
-        android:title="Menu1"
+        android:title="Me1"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/menu2"
+        android:id="@+id/menu_me2"
         android:icon="@mipmap/ic_launcher"
-        android:title="Menu2"
+        android:title="Me2"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/menu3"
+        android:id="@+id/menu_me3"
         android:icon="@mipmap/ic_launcher"
-        android:title="Menu3"
+        android:title="Me3"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/menu4"
+        android:id="@+id/menu_me4"
         android:icon="@mipmap/ic_launcher"
-        android:title="Menu4"
+        android:title="Me4"
         app:showAsAction="never"/>
 
 </menu>

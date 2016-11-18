@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hanschen.runwithyou.R;
@@ -31,6 +30,7 @@ public class MainActivity extends RunnerBaseActivity implements OnTabSelectListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        checkStepCountSupport();
     }
 
     private void initViews() {
@@ -81,11 +81,5 @@ public class MainActivity extends RunnerBaseActivity implements OnTabSelectListe
     private void setToolbarColor(@ColorRes int colorId) {
         mToolbar.setBackgroundResource(colorId);
         StatusBarCompat.setColor(MainActivity.this, ResourceUtils.getColor(mContext, colorId), 38);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 }

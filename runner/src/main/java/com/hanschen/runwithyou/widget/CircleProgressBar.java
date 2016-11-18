@@ -45,15 +45,15 @@ public class CircleProgressBar extends View {
     /**
      * 宽度
      */
-    private int    mWidth;
+    private int mWidth;
     /**
      * 高度
      */
-    private int    mHeight;
+    private int mHeight;
     /**
      * 进度条最大值
      */
-    private float  mMax;
+    private float mMax = 100;
     /**
      * 上次设置的进度值
      */
