@@ -7,7 +7,7 @@
     android:background="@color/light_content_background"
     >
 
-    <com.hanschen.runwithyou.widget.CircleProgressBar
+    <site.hanschen.runwithyou.widget.CircleProgressBar
         android:id="@+id/fragment_today_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
