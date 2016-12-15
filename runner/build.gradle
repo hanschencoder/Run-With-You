@@ -37,20 +37,27 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile rootProject.ext.dependencies.common
+
+    // android library
     compile rootProject.ext.dependencies.supportV13
     compile rootProject.ext.dependencies.supportDesign
     compile rootProject.ext.dependencies.recyclerview
-    compile rootProject.ext.dependencies.materialDialog
     compile rootProject.ext.dependencies.multidex
+
+    // third part library
+    compile rootProject.ext.dependencies.materialDialog
     compile rootProject.ext.dependencies.bottomBar
 
-    debugCompile rootProject.ext.dependencies.leakcanaryDebug
-    releaseCompile rootProject.ext.dependencies.leakcanaryRelease
-    testCompile rootProject.ext.dependencies.leakcanaryTest
+    // leakCanary
+    debugCompile rootProject.ext.dependencies.leakCanaryDebug
+    releaseCompile rootProject.ext.dependencies.leakCanaryRelease
+    testCompile rootProject.ext.dependencies.leakCanaryTest
 
-    compile 'com.google.dagger:dagger:2.7'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    // dagger
+    compile rootProject.ext.dependencies.dagger
+    annotationProcessor rootProject.ext.dependencies.daggerAnnotationProcessor
 
+    // test framework
     testCompile rootProject.ext.dependencies.junit
     androidTestCompile(rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'

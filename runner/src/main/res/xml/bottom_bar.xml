@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        barColorWhenSelected="@color/colorPrimary"
         icon="@drawable/ic_runner_black_24dp"
         id="@+id/tab_today"
         title="@string/today"/>
     <tab
-        barColorWhenSelected="@color/purple"
         icon="@drawable/ic_we_black_24dp"
         id="@+id/tab_together"
         title="@string/together"/>
     <tab
-        barColorWhenSelected="@color/teal"
         icon="@drawable/ic_discover_black_24dp"
         id="@+id/tab_discover"
         title="@string/discover"/>
     <tab
-        barColorWhenSelected="@color/deep_orange"
         icon="@drawable/ic_account_circle_black_24dp"
         id="@+id/tab_me"
         title="@string/me"/>

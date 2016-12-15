@@ -23,6 +23,11 @@
         <item name="md_content_color">@color/text_color_black_secondary</item>
     </style>
 
+    <style name="Fullscreen" parent="AppTheme.Base">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="RunnerTheme" parent="AppTheme.Base"/>
 
     <!--Toolbar弹出菜单样式-->

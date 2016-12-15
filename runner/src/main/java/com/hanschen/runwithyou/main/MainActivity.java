@@ -59,27 +59,18 @@ public class MainActivity extends RunnerBaseActivity implements OnTabSelectListe
         switch (tabId) {
             case R.id.tab_today:
                 replaceFragment(R.id.main_fragment_container, TodayFragment.class, R.animator.fade_in, 0);
-                setToolbarColor(R.color.colorPrimary);
                 break;
             case R.id.tab_together:
                 replaceFragment(R.id.main_fragment_container, TogetherFragment.class, R.animator.fade_in, 0);
-                setToolbarColor(R.color.purple);
                 break;
             case R.id.tab_discover:
                 replaceFragment(R.id.main_fragment_container, DiscoverFragment.class, R.animator.fade_in, 0);
-                setToolbarColor(R.color.teal);
                 break;
             case R.id.tab_me:
                 replaceFragment(R.id.main_fragment_container, MeFragment.class, R.animator.fade_in, 0);
-                setToolbarColor(R.color.deep_orange);
                 break;
             default:
                 break;
         }
-    }
-
-    private void setToolbarColor(@ColorRes int colorId) {
-        mToolbar.setBackgroundResource(colorId);
-        StatusBarCompat.setColor(MainActivity.this, ResourceUtils.getColor(mContext, colorId), 38);
     }
 }

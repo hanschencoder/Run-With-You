@@ -8,26 +8,31 @@ ext {
 
     okhttp3Version = '3.0.1'
     supportLibrariesVersion = '24.2.1'
+    leakcanaryVersion = '1.5'
+    daggerVersion = '2.7'
+
     dependencies = [
-            common            : 'site.hanschen:common:1.0.8',
-            okhttp            : 'com.squareup.okhttp:okhttp:2.7.1',
-            okhttp3           : "com.squareup.okhttp3:okhttp:$okhttp3Version",
-            supportV4         : "com.android.support:support-v4:$supportLibrariesVersion",
-            supportV7         : "com.android.support:appcompat-v7:$supportLibrariesVersion",
-            supportV13        : "com.android.support:support-v13:$supportLibrariesVersion",
-            supportAnnotations: "com.android.support:support-annotations:$supportLibrariesVersion",
-            supportDesign     : "com.android.support:design:$supportLibrariesVersion",
-            recyclerview      : "com.android.support:recyclerview-v7:$supportLibrariesVersion",
-            junit             : 'junit:junit:4.12',
-            commonsCodec      : 'commons-codec:commons-codec:1.10',
-            picasso           : 'com.squareup.picasso:picasso:2.5.2',
-            materialDialog    : 'com.afollestad.material-dialogs:core:0.9.0.2',
-            espresso          : 'com.android.support.test.espresso:espresso-core:2.2.2',
-            multidex          : 'com.android.support:multidex:1.0.1',
-            bottomBar         : 'com.roughike:bottom-bar:2.0.2',
-            leakcanaryDebug   : 'com.squareup.leakcanary:leakcanary-android:1.5',
-            leakcanaryRelease : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
-            leakcanaryTest    : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
+            common                   : 'site.hanschen:common:1.0.8',
+            okhttp                   : 'com.squareup.okhttp:okhttp:2.7.1',
+            okhttp3                  : "com.squareup.okhttp3:okhttp:$okhttp3Version",
+            supportV4                : "com.android.support:support-v4:$supportLibrariesVersion",
+            supportV7                : "com.android.support:appcompat-v7:$supportLibrariesVersion",
+            supportV13               : "com.android.support:support-v13:$supportLibrariesVersion",
+            supportAnnotations       : "com.android.support:support-annotations:$supportLibrariesVersion",
+            supportDesign            : "com.android.support:design:$supportLibrariesVersion",
+            recyclerview             : "com.android.support:recyclerview-v7:$supportLibrariesVersion",
+            junit                    : 'junit:junit:4.12',
+            commonsCodec             : 'commons-codec:commons-codec:1.10',
+            picasso                  : 'com.squareup.picasso:picasso:2.5.2',
+            materialDialog           : 'com.afollestad.material-dialogs:core:0.9.0.2',
+            espresso                 : 'com.android.support.test.espresso:espresso-core:2.2.2',
+            multidex                 : 'com.android.support:multidex:1.0.1',
+            bottomBar                : 'com.roughike:bottom-bar:2.0.2',
+            leakCanaryDebug          : "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion",
+            leakCanaryRelease        : "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion",
+            leakCanaryTest           : "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion",
+            dagger                   : "com.google.dagger:dagger:$daggerVersion",
+            daggerAnnotationProcessor: "com.google.dagger:dagger-compiler:$daggerVersion",
     ]
 
 

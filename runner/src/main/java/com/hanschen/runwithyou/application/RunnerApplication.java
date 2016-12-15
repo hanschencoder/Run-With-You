@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.hanschen.runwithyou.service.RunnerManager;
 import com.hanschen.runwithyou.service.RunnerService;
@@ -13,10 +14,16 @@ import com.squareup.leakcanary.LeakCanary;
 
 import site.hanschen.common.base.application.BaseApplication;
 
+import static com.hanschen.runwithyou.utils.DexInstallHelper.isDexInstallProcess;
+import static com.hanschen.runwithyou.utils.DexInstallHelper.isMultiDexInstalled;
+import static com.hanschen.runwithyou.utils.DexInstallHelper.isVMMultiDexCapable;
+import static com.hanschen.runwithyou.utils.DexInstallHelper.waitForDexInstall;
+
 /**
  * @author HansChen
  */
 public class RunnerApplication extends BaseApplication {
+
 
     private static RunnerApplication sInstance;
     private        RunnerManager     mRunnerManager;
@@ -28,21 +35,39 @@ public class RunnerApplication extends BaseApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(base);
+        if (isInWorkProcess(base)) {
+            return;
+        }
+        // if VM has multi dex support, MultiDex support library is disabled
+        if (!isVMMultiDexCapable()) {
+            if (!isMultiDexInstalled(base)) {
+                waitForDexInstall(base);
+            }
+            long start = System.currentTimeMillis();
+            MultiDex.install(base);
+            Log.d("Hans", "RunnerApplication#MultiDex.install: " + (System.currentTimeMillis() - start));
+        }
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
+        if (isInWorkProcess(this)) {
             return;
         }
+
         LeakCanary.install(this);
         sInstance = RunnerApplication.this;
         bindRunnerService();
     }
+
+    /**
+     * Return {@code true} if current process isn't main process.
+     */
+    private boolean isInWorkProcess(Context context) {
+        return LeakCanary.isInAnalyzerProcess(context) || isDexInstallProcess(context);
+    }
+
 
     @Override
     protected void initializeApplication() {
