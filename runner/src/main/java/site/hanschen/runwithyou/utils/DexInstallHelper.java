@@ -23,7 +23,7 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import site.hanschen.runwithyou.startup.WelcomeActivity;
+import site.hanschen.runwithyou.startup.DexInstallActivity;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 
@@ -143,7 +143,7 @@ public class DexInstallHelper {
     }
 
     private static Class<? extends Activity> getDexInstallActivity() {
-        return WelcomeActivity.class;
+        return DexInstallActivity.class;
     }
 
     private static String get2thDexSHA1(Context context) {

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,12 +53,7 @@ public class TodayFragment extends Fragment implements TodayContract.View {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPresenter.loadStepCount();
-            }
-        }, 300);
+        mPresenter.loadStepCount();
     }
 
     @Override

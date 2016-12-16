@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/RunnerTheme">
         <activity
-            android:name=".main.MainActivity"
+            android:name=".startup.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,7 +20,11 @@
         </activity>
 
         <activity
-            android:name=".startup.WelcomeActivity"
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".startup.DexInstallActivity"
             android:alwaysRetainTaskState="false"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"

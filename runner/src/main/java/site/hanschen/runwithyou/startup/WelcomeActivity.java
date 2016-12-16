@@ -1,27 +1,30 @@
 package site.hanschen.runwithyou.startup;
 
-import android.content.Context;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.multidex.MultiDex;
-import android.util.Log;
+
+import java.util.concurrent.TimeUnit;
 
 import site.hanschen.common.base.activity.BaseActivity;
 import site.hanschen.runwithyou.R;
-import site.hanschen.runwithyou.utils.DexInstallHelper;
-
+import site.hanschen.runwithyou.main.MainActivity;
+import site.hanschen.runwithyou.service.RunnerService;
 
 /**
  * @author HansChen
  */
-public class WelcomeActivity extends BaseActivity implements DexInstallCallback {
+public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        new Thread(new DexInstallTask(mContext, WelcomeActivity.this)).start();
+        RunnerService.bind(getApplicationContext(), mConn);
     }
 
     @Override
@@ -29,38 +32,21 @@ public class WelcomeActivity extends BaseActivity implements DexInstallCallback 
         // not allow back
     }
 
-    @Override
-    public void onInstallStart() {
-        Log.d("Hans", "onInstallStart");
-    }
-
-    @Override
-    public void onInstallComplete() {
-        Log.d("Hans", "onInstallComplete");
-        DexInstallHelper.markInstallFinish(getApplicationContext());
-        finish();
-        System.exit(0);
-    }
-
-    private static class DexInstallTask implements Runnable {
-
-        private final Context            mAppContext;
-        private final DexInstallCallback mCallback;
-
-        DexInstallTask(Context context, DexInstallCallback callback) {
-            if (context == null || callback == null) {
-                throw new IllegalArgumentException("context == null || callback == null");
-            }
-            this.mAppContext = context.getApplicationContext();
-            this.mCallback = callback;
+    private final ServiceConnection mConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            RunnerService.unbind(getApplicationContext(), mConn);
+            getMainHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    finish();
+                }
+            }, TimeUnit.SECONDS.toMillis(1));
         }
 
         @Override
-        public void run() {
-
-            mCallback.onInstallStart();
-            MultiDex.install(mAppContext);
-            mCallback.onInstallComplete();
+        public void onServiceDisconnected(ComponentName name) {
         }
-    }
+    };
 }
