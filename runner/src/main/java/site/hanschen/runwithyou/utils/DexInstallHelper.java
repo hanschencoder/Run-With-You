@@ -146,6 +146,9 @@ public class DexInstallHelper {
         return DexInstallActivity.class;
     }
 
+    /**
+     * @return SHA1 of classes2.dex, may return "" if it not exist
+     */
     private static String get2thDexSHA1(Context context) {
         ApplicationInfo info = context.getApplicationInfo();
         String source = info.sourceDir;

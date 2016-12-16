@@ -12,6 +12,9 @@ import site.hanschen.runwithyou.utils.DexInstallHelper;
 
 
 /**
+ * only display when application is start for first time or application has been updated
+ * it would run in dexInstall process
+ *
  * @author HansChen
  */
 public class DexInstallActivity extends BaseActivity implements DexInstallCallback {
