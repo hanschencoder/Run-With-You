@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        android:title="监视选项">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="保持后台服务以便获取精准的步数记录"
+            android:title="检测步数"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="锁屏状态下检测步数"
+            android:title="锁屏监控"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        android:title="关于应用">
+        <Preference
+            android:key="pref_etc_check_update"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="检查是否有新的版本可更新"
+            android:title="检查新版本"/>
+        <Preference
+            android:key="pref_etc_issue"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="前往GitHub项目主页提交issue"
+            android:title="帮助与反馈"/>
+    </PreferenceCategory>
+</PreferenceScreen>

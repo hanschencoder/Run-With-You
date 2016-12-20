@@ -23,6 +23,7 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import site.hanschen.common.utils.AppUtils;
 import site.hanschen.runwithyou.startup.DexInstallActivity;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
@@ -165,7 +166,6 @@ public class DexInstallHelper {
     }
 
     private static String getPreferencesName(Context context) {
-        PackageInfo packageInfo = PackageUtil.getPackageInfo(context);
-        return context.getPackageName() + "." + packageInfo.versionName;
+        return context.getPackageName() + "." + AppUtils.getVersionName(context);
     }
 }

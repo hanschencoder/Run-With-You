@@ -1,13 +1,11 @@
 package site.hanschen.runwithyou.main.me;
 
-import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.widget.Toast;
 
 import site.hanschen.runwithyou.R;
 
@@ -15,17 +13,32 @@ import site.hanschen.runwithyou.R;
 /**
  * @author HansChen
  */
-public class MeFragment extends Fragment {
+public class MeFragment extends PreferenceFragment {
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_me, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.me_preferences);
+        setPrefListeners();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_me_fragment, menu);
+    private void setPrefListeners() {
+
+        Preference updatePref = findPreference("pref_etc_check_update");
+        updatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(getActivity(), "TODO:", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        Preference issuePref = findPreference("pref_etc_issue");
+        issuePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shensky711/Run-With-You/issues"));
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 }
