@@ -10,7 +10,11 @@ ext {
     supportLibrariesVersion = '24.2.1'
     leakcanaryVersion = '1.5'
     daggerVersion = '2.7'
-
+    rxJava1Version = '1.2.4'
+    rxJava2Version = '2.0.3'
+    rxAndroid1Version = '1.2.1'
+    rxAndroid2Version = '2.0.1'
+    
     dependencies = [
             common                   : 'site.hanschen:common:1.0.8',
             okhttp                   : 'com.squareup.okhttp:okhttp:2.7.1',
@@ -33,7 +37,13 @@ ext {
             leakCanaryTest           : "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion",
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
             daggerAnnotationProcessor: "com.google.dagger:dagger-compiler:$daggerVersion",
+            rxJava1                  : "io.reactivex:rxjava:$rxJava1Version",
+            rxJava2                  : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
+            rxAndroid1               : "io.reactivex:rxandroid:$rxAndroid1Version",
+            rxAndroid2               : "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version",
     ]
+
+
 
 
     isCi = "true".equals(System.getenv('CI'))

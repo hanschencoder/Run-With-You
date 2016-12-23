@@ -16,6 +16,7 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
+import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
 
 /**
@@ -23,11 +24,10 @@ import site.hanschen.runwithyou.widget.CircleProgressBar;
  */
 public class TodayFragment extends Fragment implements TodayContract.View {
 
-    private Context           mContext;
-    private CircleProgressBar mProgressBar;
-
     @Inject
     TodayPresenter mPresenter;
+    private Context           mContext;
+    private CircleProgressBar mProgressBar;
 
     @Override
     public void onAttach(Activity activity) {
@@ -47,7 +47,11 @@ public class TodayFragment extends Fragment implements TodayContract.View {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.fragment_today_progress);
         mProgressBar.setMax(100);
-        DaggerTodayComponent.builder().todayPresenterModule(new TodayPresenterModule(TodayFragment.this)).build().inject(this);
+        DaggerTodayComponent.builder()
+                            .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                            .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
+                            .build()
+                            .inject(this);
     }
 
     @Override

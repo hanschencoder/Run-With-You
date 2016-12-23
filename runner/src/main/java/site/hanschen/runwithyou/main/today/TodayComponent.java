@@ -1,12 +1,15 @@
 package site.hanschen.runwithyou.main.today;
 
 import dagger.Component;
+import site.hanschen.runwithyou.application.ApplicationComponent;
+import site.hanschen.runwithyou.dagger.FragmentScoped;
 
 /**
  * @author HansChen
  */
-@Component(modules = TodayPresenterModule.class)
-public interface TodayComponent {
+@FragmentScoped
+@Component(dependencies = ApplicationComponent.class, modules = TodayPresenterModule.class)
+interface TodayComponent {
 
     void inject(TodayFragment fragment);
 }

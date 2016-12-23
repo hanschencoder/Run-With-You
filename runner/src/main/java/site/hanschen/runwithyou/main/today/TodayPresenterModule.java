@@ -7,11 +7,11 @@ import dagger.Provides;
  * @author HansChen
  */
 @Module
-public class TodayPresenterModule {
+class TodayPresenterModule {
 
     private final TodayContract.View mView;
 
-    public TodayPresenterModule(TodayContract.View view) {
+    TodayPresenterModule(TodayContract.View view) {
         mView = view;
     }
 

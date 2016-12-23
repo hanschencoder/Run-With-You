@@ -7,7 +7,7 @@ import site.hanschen.runwithyou.base.BaseView;
 /**
  * @author HansChen
  */
-public class TodayContract {
+class TodayContract {
 
     interface View extends BaseView<Presenter> {
 

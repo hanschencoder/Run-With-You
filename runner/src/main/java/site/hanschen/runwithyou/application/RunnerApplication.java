@@ -25,11 +25,19 @@ import static site.hanschen.runwithyou.utils.DexInstallHelper.waitForDexInstall;
 public class RunnerApplication extends BaseApplication {
 
 
-    private static RunnerApplication sInstance;
-    private        RunnerManager     mRunnerManager;
+    private static RunnerApplication    sInstance;
+    private        RunnerManager        mRunnerManager;
+    private        ApplicationComponent mApplicationComponent;
 
     public static RunnerApplication getInstance() {
         return sInstance;
+    }
+
+    /**
+     * Return {@code true} if current process isn't main process.
+     */
+    private boolean isInWorkProcess(Context context) {
+        return LeakCanary.isInAnalyzerProcess(context) || isDexInstallProcess(context);
     }
 
     @Override
@@ -56,18 +64,15 @@ public class RunnerApplication extends BaseApplication {
             return;
         }
 
-        LeakCanary.install(this);
         sInstance = RunnerApplication.this;
+        LeakCanary.install(this);
         bindRunnerService();
+        mApplicationComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     }
 
-    /**
-     * Return {@code true} if current process isn't main process.
-     */
-    private boolean isInWorkProcess(Context context) {
-        return LeakCanary.isInAnalyzerProcess(context) || isDexInstallProcess(context);
+    public ApplicationComponent getAppComponent() {
+        return mApplicationComponent;
     }
-
 
     @Override
     protected void initializeApplication() {
@@ -100,7 +105,7 @@ public class RunnerApplication extends BaseApplication {
         mRunnerManager = null;
     }
 
-    public RunnerManager getRunnerManager() {
+    RunnerManager getRunnerManager() {
         if (mRunnerManager == null) {
             throw new IllegalStateException("mRunnerManager is null now ");
         }

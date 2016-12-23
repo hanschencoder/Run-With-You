@@ -27,7 +27,7 @@ public class MeFragment extends PreferenceFragment {
         Preference updatePref = findPreference("pref_etc_check_update");
         updatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(getActivity(), "TODO:", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "TODO:", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
