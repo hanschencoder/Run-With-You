@@ -1,14 +1,16 @@
 package site.hanschen.runwithyou.main.today;
 
-import android.os.RemoteException;
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import site.hanschen.common.utils.PreconditionUtils;
 import site.hanschen.runwithyou.service.RunnerManager;
 
@@ -33,36 +35,31 @@ class TodayPresenter implements TodayContract.Presenter {
 
     @Override
     public void loadStepCount() {
-        Observable.create(new Observable.OnSubscribe<Integer>() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
-            public void call(Subscriber<? super Integer> subscriber) {
-                try {
-                    subscriber.onNext(mRunnerManager.getStepCount());
-                    subscriber.onCompleted();
-                } catch (RemoteException e) {
-                    subscriber.onError(e);
-                }
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(mRunnerManager.getStepCount());
+                emitter.onComplete();
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
-
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
             @Override
-            public void onStart() {
+            public void onSubscribe(Disposable d) {
 
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mView.onStepUpdateFailure();
             }
 
             @Override
             public void onNext(Integer count) {
-                mView.onStepUpdateSuccess(count);
+                mView.onStepLoadSuccess(count);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.onStepLoadFailed();
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

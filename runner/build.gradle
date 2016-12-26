@@ -58,8 +58,8 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies.daggerAnnotationProcessor
 
     // ReactiveX
-    compile rootProject.ext.dependencies.rxJava1
-    compile rootProject.ext.dependencies.rxAndroid1
+    compile rootProject.ext.dependencies.rxJava2
+    compile rootProject.ext.dependencies.rxAndroid2
 
     // test framework
     testCompile rootProject.ext.dependencies.junit

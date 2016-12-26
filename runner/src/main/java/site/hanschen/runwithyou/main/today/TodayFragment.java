@@ -82,12 +82,12 @@ public class TodayFragment extends Fragment implements TodayContract.View {
     }
 
     @Override
-    public void onStepUpdateSuccess(int count) {
+    public void onStepLoadSuccess(int count) {
         mProgressBar.setProgress(count);
     }
 
     @Override
-    public void onStepUpdateFailure() {
-        Toast.makeText(mContext, "获取步数失败", Toast.LENGTH_SHORT).show();
+    public void onStepLoadFailed() {
+        Toast.makeText(mContext.getApplicationContext(), "获取步数失败", Toast.LENGTH_SHORT).show();
     }
 }
