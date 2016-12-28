@@ -1,8 +1,5 @@
 package site.hanschen.runwithyou.main.today;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
@@ -18,24 +15,18 @@ import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
+import site.hanschen.runwithyou.base.RunnerBaseFragment;
 import site.hanschen.runwithyou.service.RunnerCallback;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
 
 /**
  * @author HansChen
  */
-public class TodayFragment extends Fragment implements TodayContract.View {
+public class TodayFragment extends RunnerBaseFragment implements TodayContract.View {
 
     @Inject
     TodayPresenter mPresenter;
-    private Context           mContext;
     private CircleProgressBar mProgressBar;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mContext = activity;
-    }
 
     @Nullable
     @Override

@@ -46,7 +46,7 @@ public class RunnerService extends Service {
     private Context mContext;
     private final    Handler                            mMainHandler = new Handler(Looper.getMainLooper());
     private final    RemoteCallbackList<RunnerCallback> mCallbacks   = new RemoteCallbackList<>();
-    private volatile int                                mStepCount   = 65;
+    private volatile int                                mStepCount   = 0;
     private SharedPreferences mPreferences;
     private SensorManager     mSensorManager;
     private boolean           mIsForegroundService;
