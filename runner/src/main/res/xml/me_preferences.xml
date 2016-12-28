@@ -15,15 +15,31 @@
             android:title="锁屏监控"/>
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="@string/pref_category_memory_resident"
+        android:layout="@layout/preference_category"
+        android:title="后台常驻">
+        <Preference
+            android:key="@string/pref_memory_resident_white_list"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="把应用添加到白名单，防止应用被杀死"
+            android:title="白名单"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pref_memory_resident_foreground_service"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="常驻通知栏，防止应用被杀死"
+            android:title="常驻通知栏"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:layout="@layout/preference_category"
         android:title="关于应用">
         <Preference
-            android:key="pref_etc_check_update"
+            android:key="@string/pref_etc_check_update"
             android:layout="@layout/preference_checkbox_with_summary"
             android:summary="检查是否有新的版本可更新"
             android:title="检查新版本"/>
         <Preference
-            android:key="pref_etc_issue"
+            android:key="@string/pref_etc_issue"
             android:layout="@layout/preference_checkbox_with_summary"
             android:summary="前往GitHub项目主页提交issue"
             android:title="帮助与反馈"/>

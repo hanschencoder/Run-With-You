@@ -37,4 +37,13 @@
     <string name="i_see">I see</string>
     <string name="not_support_step_count">Oops, Your device does not support the step function</string>
 
+    <!--preferences-->
+    <string name="pref_category_memory_resident">pref_category_memory_resident</string>
+    <string name="pref_memory_resident_white_list">pref_memory_resident_white_list</string>
+    <string name="pref_memory_resident_foreground_service">pref_memory_resident_foreground_service</string>
+    
+    <string name="pref_etc_check_update">pref_etc_check_update</string>
+    <string name="pref_etc_issue">pref_etc_issue</string>
+
+
 </resources>
