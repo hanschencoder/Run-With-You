@@ -105,7 +105,7 @@ public class RunnerApplication extends BaseApplication {
         mRunnerManager = null;
     }
 
-    RunnerManager getRunnerManager() {
+    public RunnerManager getRunnerManager() {
         if (mRunnerManager == null) {
             throw new IllegalStateException("mRunnerManager is null now ");
         }

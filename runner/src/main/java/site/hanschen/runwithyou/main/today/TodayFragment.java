@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
+import site.hanschen.runwithyou.service.RunnerCallback;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
 
 /**
@@ -52,6 +54,16 @@ public class TodayFragment extends Fragment implements TodayContract.View {
                             .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
                             .build()
                             .inject(this);
+        try {
+            RunnerApplication.getInstance().getRunnerManager().registerCallback(new RunnerCallback.Stub() {
+                @Override
+                public void onStepUpdate(int count) throws RemoteException {
+                    mProgressBar.setProgress(count);
+                }
+            });
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

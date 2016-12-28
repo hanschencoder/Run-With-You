@@ -1,12 +1,18 @@
 package site.hanschen.runwithyou.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -14,6 +20,7 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -41,6 +48,8 @@ public class RunnerService extends Service {
     private final    RemoteCallbackList<RunnerCallback> mCallbacks   = new RemoteCallbackList<>();
     private volatile int                                mStepCount   = 65;
     private SharedPreferences mPreferences;
+    private SensorManager     mSensorManager;
+    private boolean           mIsForegroundService;
 
     @Override
     public void onCreate() {
@@ -49,12 +58,34 @@ public class RunnerService extends Service {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences.registerOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
         setForegroundState(mPreferences);
+        setupSensor();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPreferences.unregisterOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
+        teardownSensor();
+    }
+
+    private void setupSensor() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        Sensor stepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        mSensorManager.registerListener(mSensorEventListener, stepDetectorSensor, SensorManager.SENSOR_DELAY_UI);
+
+        Sensor stepCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mSensorManager.registerListener(mSensorEventListener, stepCountSensor, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    private void teardownSensor() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+        mSensorManager.unregisterListener(mSensorEventListener);
     }
 
     @Override
@@ -66,6 +97,44 @@ public class RunnerService extends Service {
     public IBinder onBind(Intent intent) {
         return new RunnerManagerImpl();
     }
+
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+                mStepCount = (int) event.values[0];
+                dispatchCallback(new CallbackRunnable<RunnerCallback>() {
+                    @Override
+                    public void run(RunnerCallback callback) throws RemoteException {
+                        callback.onStepUpdate(mStepCount);
+                    }
+                });
+                Log.d("Hans", "event.values[0]: " + event.values[0]);
+                if (mIsForegroundService) {
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    Intent intent = new Intent(RunnerService.this, MainActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(RunnerService.this,
+                                                                            0,
+                                                                            intent,
+                                                                            PendingIntent.FLAG_UPDATE_CURRENT);
+                    Notification notification = new NotificationCompat.Builder(RunnerService.this).setSmallIcon(R.mipmap.ic_launcher)
+                                                                                                  .setContentTitle(getString(R.string.app_name))
+                                                                                                  .setContentText(String.format(Locale.getDefault(),
+                                                                                                                                "当日步数: %d",
+                                                                                                                                mStepCount))
+                                                                                                  .setContentIntent(pendingIntent)
+                                                                                                  .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                                                                  .build();
+                    notificationManager.notify(NOTIFICATION_ID, notification);
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
 
     private SharedPreferences.OnSharedPreferenceChangeListener mOnPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
@@ -89,6 +158,7 @@ public class RunnerService extends Service {
     }
 
     private void startForeground() {
+        mIsForegroundService = true;
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher)
@@ -103,6 +173,7 @@ public class RunnerService extends Service {
     }
 
     private void stopForeground() {
+        mIsForegroundService = false;
         stopForeground(true);
     }
 
