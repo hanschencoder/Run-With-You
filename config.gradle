@@ -14,7 +14,7 @@ ext {
     rxJava2Version = '2.0.3'
     rxAndroid1Version = '1.2.1'
     rxAndroid2Version = '2.0.1'
-    
+
     dependencies = [
             common                   : 'site.hanschen:common:1.0.8',
             okhttp                   : 'com.squareup.okhttp:okhttp:2.7.1',
@@ -41,6 +41,7 @@ ext {
             rxJava2                  : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
             rxAndroid1               : "io.reactivex:rxandroid:$rxAndroid1Version",
             rxAndroid2               : "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version",
+            greenDAO                 : 'org.greenrobot:greendao:3.2.0',
     ]
 
 

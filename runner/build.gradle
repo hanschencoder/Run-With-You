@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
 
@@ -33,6 +34,12 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage 'site.hanschen.runwithyou.database.gen'
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -60,6 +67,9 @@ dependencies {
     // ReactiveX
     compile rootProject.ext.dependencies.rxJava2
     compile rootProject.ext.dependencies.rxAndroid2
+
+    // greenDAO
+    compile rootProject.ext.dependencies.greenDAO
 
     // test framework
     testCompile rootProject.ext.dependencies.junit
