@@ -2,7 +2,6 @@ package site.hanschen.runwithyou.database.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import javax.inject.Inject;
 
@@ -14,13 +13,13 @@ import site.hanschen.runwithyou.dagger.AppContext;
  */
 public class SettingRepositoryImpl implements SettingRepository {
 
-    private Context           mContext;
     private SharedPreferences mPreferences;
+    private Context           mContext;
 
     @Inject
-    public SettingRepositoryImpl(@AppContext Context context) {
-        mContext = context;
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public SettingRepositoryImpl(@AppContext Context context, SharedPreferences sharedPreferences) {
+        this.mContext = context;
+        this.mPreferences = sharedPreferences;
     }
 
     @Override
@@ -30,6 +29,7 @@ public class SettingRepositoryImpl implements SettingRepository {
 
     @Override
     public boolean isForegroundService() {
-        return mPreferences.getBoolean(mContext.getResources().getString(R.string.pref_memory_resident_foreground_service), true);
+        return mPreferences.getBoolean(mContext.getResources()
+                                               .getString(R.string.pref_memory_resident_foreground_service), true);
     }
 }

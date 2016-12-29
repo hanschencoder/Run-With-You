@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
+import site.hanschen.runwithyou.database.repository.StepRepository;
 import site.hanschen.runwithyou.service.RunnerManager;
 
 /**
@@ -25,6 +26,8 @@ public interface ApplicationComponent {
     Context getAppContext();
 
     SettingRepository getSettingRepository();
+
+    StepRepository getStepRepository();
 
     SharedPreferences getDefaultSharedPreferences();
 
