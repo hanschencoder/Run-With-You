@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,7 +22,7 @@ public class WebViewActivity extends RunnerBaseActivity {
     private static final String KEY_URL   = "KEY_URL";
     private static final String KEY_TITLE = "KEY_TITLE";
 
-    public static void startup(@NonNull Context context, @NonNull String url, String title) {
+    public static void startup(@NonNull Context context, @NonNull String url, @NonNull String title) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(KEY_URL, url);
         intent.putExtra(KEY_TITLE, title);
@@ -46,6 +46,13 @@ public class WebViewActivity extends RunnerBaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.web_toolbar);
         toolbar.setTitle(mTitle);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mWebView = (WebView) findViewById(R.id.web_view);
         mWebView.getSettings().setBuiltInZoomControls(false);
@@ -70,11 +77,11 @@ public class WebViewActivity extends RunnerBaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
             mWebView.goBack();
-            return true;
+        } else {
+            super.onBackPressed();
         }
-        return super.onKeyDown(keyCode, event);
     }
 }

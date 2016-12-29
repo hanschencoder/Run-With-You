@@ -30,6 +30,8 @@
 
     <style name="RunnerTheme" parent="AppTheme.Base"/>
 
+    <!--Toolbar样式-->
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <!--Toolbar弹出菜单样式-->
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/text_color_black_primary</item><!--文字颜色-->

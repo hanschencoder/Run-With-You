@@ -38,12 +38,12 @@
     <string name="not_support_step_count">Oops, Your device does not support the step function</string>
 
     <!--preferences-->
-    <string name="pref_target_step">pref_target_step</string>
-    <string name="pref_category_memory_resident">pref_category_memory_resident</string>
-    <string name="pref_memory_resident_white_list">pref_memory_resident_white_list</string>
-    <string name="pref_memory_resident_foreground_service">pref_memory_resident_foreground_service</string>
-    <string name="pref_etc_check_update">pref_etc_check_update</string>
-    <string name="pref_etc_issue">pref_etc_issue</string>
+    <string name="pref_target_step" translatable="false">pref_target_step</string>
+    <string name="pref_category_memory_resident" translatable="false">pref_category_memory_resident</string>
+    <string name="pref_memory_resident_white_list" translatable="false">pref_memory_resident_white_list</string>
+    <string name="pref_memory_resident_foreground_service" translatable="false">pref_memory_resident_foreground_service</string>
+    <string name="pref_etc_check_update" translatable="false">pref_etc_check_update</string>
+    <string name="pref_etc_issue" translatable="false">pref_etc_issue</string>
 
 
 </resources>
