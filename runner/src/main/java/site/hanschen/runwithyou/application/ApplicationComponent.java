@@ -1,8 +1,15 @@
 package site.hanschen.runwithyou.application;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.hardware.SensorManager;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
+import site.hanschen.runwithyou.dagger.AppContext;
+import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.service.RunnerManager;
 
 /**
@@ -13,4 +20,15 @@ import site.hanschen.runwithyou.service.RunnerManager;
 public interface ApplicationComponent {
 
     RunnerManager getRunnerManager();
+
+    @AppContext
+    Context getAppContext();
+
+    SettingRepository getSettingRepository();
+
+    SharedPreferences getDefaultSharedPreferences();
+
+    SensorManager getSensorManager();
+
+    NotificationManager getNotificationManager();
 }

@@ -58,15 +58,15 @@ public class CircleProgressBar extends View {
     /**
      * 上次设置的进度值
      */
-    private int    mOldProgress;
+    private float  mOldProgress;
     /**
      * 当前设置的进度值
      */
-    private int    mProgress;
+    private float  mProgress;
     /**
      * 当前绘制的进度值，动画过程中会改变
      */
-    private int    mCurrentDrawProgress;
+    private float  mCurrentDrawProgress;
     /**
      * 绘制弧线的画笔
      */
@@ -223,11 +223,12 @@ public class CircleProgressBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        float percentage = mCurrentDrawProgress / mMax > 1.0 ? (float) 1.0 : mCurrentDrawProgress / mMax;
         float start = (360 - ARC_FULL_DEGREE) >> 1; //进度条起始角度
-        float sweep = ARC_FULL_DEGREE * (mCurrentDrawProgress / mMax); //进度划过的角度
+        float sweep = ARC_FULL_DEGREE * percentage; //进度划过的角度
 
         //绘制进度条
-        mProgressPaint.setColor(calcColor(mCurrentDrawProgress / mMax, mProgressStartColor, mProgressEndColor));
+        mProgressPaint.setColor(calcColor(percentage, mProgressStartColor, mProgressEndColor));
         mProgressPaint.setStrokeWidth(ARC_LINE_WIDTH);
         float drawDegree = 1.6f;
         while (drawDegree <= ARC_FULL_DEGREE) {
@@ -258,7 +259,7 @@ public class CircleProgressBar extends View {
         //第一行文字
         mTextPaint.setTextSize(mContentTextSize);
         mTextPaint.setColor(mContentTextColor);
-        String text = String.valueOf((int) (100 * mCurrentDrawProgress / mMax));
+        String text = String.valueOf((int) mCurrentDrawProgress);
         float textLen = mTextPaint.measureText(text);
         //计算文字高度
         mTextPaint.getTextBounds(text, 0, 1, mTextBounds);
@@ -283,20 +284,25 @@ public class CircleProgressBar extends View {
         }
     }
 
+    public void setSubText(String text) {
+        this.mSubText = text;
+        invalidate();
+    }
+
     public void setMax(int max) {
         this.mMax = max;
         invalidate();
     }
 
     //设置新的进度值，带动画
-    public void setProgress(final int progress) {
+    public void setProgress(final float progress) {
         mOldProgress = mProgress;
         mProgress = progress;
         startAnimation();
     }
 
     //设置新的进度值，没有动画
-    public void setProgressWithoutAnim(final int progress) {
+    public void setProgressWithoutAnim(final float progress) {
         mOldProgress = mProgress;
         mProgress = progress;
         mCurrentDrawProgress = mProgress;

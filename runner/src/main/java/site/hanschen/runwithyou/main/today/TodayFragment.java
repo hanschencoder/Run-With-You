@@ -11,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
+import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.service.RunnerCallback;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
 
@@ -25,7 +28,10 @@ import site.hanschen.runwithyou.widget.CircleProgressBar;
 public class TodayFragment extends RunnerBaseFragment implements TodayContract.View {
 
     @Inject
-    TodayPresenter mPresenter;
+    TodayPresenter    mPresenter;
+    @Inject
+    SettingRepository mSettingRepository;
+
     private CircleProgressBar mProgressBar;
 
     @Nullable
@@ -39,12 +45,15 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.fragment_today_progress);
-        mProgressBar.setMax(100);
         DaggerTodayComponent.builder()
                             .applicationComponent(RunnerApplication.getInstance().getAppComponent())
                             .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
                             .build()
                             .inject(this);
+
+        int target = mSettingRepository.getTargetStep();
+        mProgressBar.setMax(target);
+        mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", target));
         try {
             RunnerApplication.getInstance().getRunnerManager().registerCallback(new RunnerCallback.Stub() {
                 @Override

@@ -2,6 +2,7 @@ package site.hanschen.runwithyou.main.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,7 +13,13 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 
+import java.util.Locale;
+
+import javax.inject.Inject;
+
 import site.hanschen.runwithyou.R;
+import site.hanschen.runwithyou.application.RunnerApplication;
+import site.hanschen.runwithyou.database.repository.SettingRepository;
 
 
 /**
@@ -20,11 +27,42 @@ import site.hanschen.runwithyou.R;
  */
 public class MeFragment extends PreferenceFragment {
 
+    @Inject
+    SettingRepository mSettingRepository;
+    @Inject
+    SharedPreferences mPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.me_preferences);
+        DaggerMeComponent.builder()
+                         .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                         .build()
+                         .inject(MeFragment.this);
+
+        mPreferences.registerOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
         initPreferences();
+    }
+
+    SharedPreferences.OnSharedPreferenceChangeListener mOnPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            switch (key) {
+                case "pref_target_step":
+                    int target = mSettingRepository.getTargetStep();
+                    findPreference(key).setSummary(String.format(Locale.getDefault(), "每日运动目标：%d步", target));
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPreferences.unregisterOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
     }
 
     private void initPreferences() {
@@ -32,6 +70,9 @@ public class MeFragment extends PreferenceFragment {
             ((PreferenceGroup) findPreference(getString(R.string.pref_category_memory_resident))).removePreference(findPreference(
                     getString(R.string.pref_memory_resident_white_list)));
         }
+
+        int target = mSettingRepository.getTargetStep();
+        findPreference(getString(R.string.pref_target_step)).setSummary(String.format(Locale.getDefault(), "每日运动目标：%d步", target));
     }
 
     @Override
