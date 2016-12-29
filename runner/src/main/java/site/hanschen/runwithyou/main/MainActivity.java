@@ -16,7 +16,9 @@ import site.hanschen.runwithyou.main.today.TodayFragment;
 import site.hanschen.runwithyou.main.together.TogetherFragment;
 import site.hanschen.runwithyou.utils.StepCountUtils;
 
-
+/**
+ * @author HansChen
+ */
 public class MainActivity extends RunnerBaseActivity implements OnTabSelectListener {
 
     private Toolbar   mToolbar;

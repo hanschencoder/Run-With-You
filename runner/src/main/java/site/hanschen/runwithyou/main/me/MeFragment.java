@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
+import site.hanschen.runwithyou.main.WebViewActivity;
 
 
 /**
@@ -93,8 +94,7 @@ public class MeFragment extends PreferenceFragment {
                 // TODO: 2016/12/28
                 break;
             case "pref_etc_issue":
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shensky711/Run-With-You/issues"));
-                startActivity(intent);
+                WebViewActivity.startup(getActivity(), "https://github.com/shensky711/Run-With-You/issues", "GitHub Issues");
                 break;
             default:
                 break;
