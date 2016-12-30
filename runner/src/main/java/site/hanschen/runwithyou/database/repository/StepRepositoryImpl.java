@@ -1,5 +1,9 @@
 package site.hanschen.runwithyou.database.repository;
 
+
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import site.hanschen.runwithyou.bean.StepRecord;
 import site.hanschen.runwithyou.database.entity.StepRecordEntity;
 import site.hanschen.runwithyou.database.gen.StepRecordEntityDao;
@@ -16,16 +20,21 @@ public class StepRepositoryImpl implements StepRepository {
     }
 
     @Override
-    public void insertStepRecord(StepRecord stepRecord) {
+    public void insertRecord(StepRecord stepRecord) {
         StepRecordEntity entity = new StepRecordEntity();
         entity.setCountSinceReboot(stepRecord.getCountSinceReboot());
         entity.setStepCount(stepRecord.getStepCount());
         entity.setStepTime(stepRecord.getStepTime());
-        mDao.insert(entity);
+        mDao.insertOrReplace(entity);
     }
 
+    @Nullable
     @Override
-    public StepRecord getStepRecord() {
-        return null;
+    public StepRecord getLatestRecord() {
+        StepRecordEntity entity = mDao.queryBuilder().orderDesc(StepRecordEntityDao.Properties.Id).unique();
+        if (entity == null) {
+            return null;
+        }
+        return new StepRecord(entity.getCountSinceReboot(), entity.getStepTime(), entity.getStepCount());
     }
 }

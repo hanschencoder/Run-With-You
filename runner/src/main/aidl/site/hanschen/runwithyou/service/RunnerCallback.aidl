@@ -5,6 +5,6 @@ package site.hanschen.runwithyou.service;
  */
 interface RunnerCallback {
 
-    void onStepUpdate(int count);
+    void onStepUpdate(long count);
 
 }

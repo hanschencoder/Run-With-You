@@ -18,23 +18,29 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
+import site.hanschen.runwithyou.bean.StepRecord;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
+import site.hanschen.runwithyou.database.repository.StepRepository;
 import site.hanschen.runwithyou.main.MainActivity;
+import site.hanschen.runwithyou.utils.TimeUtils;
 
 /**
  * @author HansChen
  */
 public class RunnerService extends Service {
 
-    private static final int NOTIFICATION_ID = 1;
+    private static final long UNINITIALIZED_VALUE = -1;
+    private static final int  NOTIFICATION_ID     = 1;
 
     public static void bind(Context context, ServiceConnection conn) {
         Intent intent = new Intent(context, RunnerService.class);
@@ -48,6 +54,8 @@ public class RunnerService extends Service {
     @Inject
     SettingRepository   mSettingRepository;
     @Inject
+    StepRepository      mStepRepository;
+    @Inject
     SharedPreferences   mPreferences;
     @Inject
     SensorManager       mSensorManager;
@@ -55,9 +63,11 @@ public class RunnerService extends Service {
     NotificationManager mNotificationManager;
 
     private Context mContext;
-    private final    Handler                            mMainHandler = new Handler(Looper.getMainLooper());
-    private final    RemoteCallbackList<RunnerCallback> mCallbacks   = new RemoteCallbackList<>();
-    private volatile int                                mStepCount   = 0;
+    private final    Handler                            mMainHandler          = new Handler(Looper.getMainLooper());
+    private final    RemoteCallbackList<RunnerCallback> mCallbacks            = new RemoteCallbackList<>();
+    private volatile long                               mStepCount            = UNINITIALIZED_VALUE;
+    private          long                               mLastInsertTime       = UNINITIALIZED_VALUE;
+    private          long                               mLastCountSinceReboot = UNINITIALIZED_VALUE;
     private boolean                    mIsForegroundService;
     private NotificationCompat.Builder mNotificationBuilder;
 
@@ -89,7 +99,7 @@ public class RunnerService extends Service {
         //Sensor stepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         //mSensorManager.registerListener(mSensorEventListener, stepDetectorSensor, SensorManager.SENSOR_DELAY_UI);
         Sensor stepCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        mSensorManager.registerListener(mSensorEventListener, stepCountSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mSensorEventListener, stepCountSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     private void teardownSensor() {
@@ -113,7 +123,13 @@ public class RunnerService extends Service {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-                mStepCount = (int) event.values[0];
+                long countSinceReboot = (long) event.values[0];
+                if (mStepCount == UNINITIALIZED_VALUE) {
+                    mStepCount = calcStepOfDay(countSinceReboot);
+                } else {
+                    mStepCount = mStepCount + countSinceReboot - mLastCountSinceReboot;
+                }
+                mLastCountSinceReboot = countSinceReboot;
                 dispatchCallback(new CallbackRunnable<RunnerCallback>() {
                     @Override
                     public void run(RunnerCallback callback) throws RemoteException {
@@ -123,6 +139,7 @@ public class RunnerService extends Service {
                 if (mIsForegroundService) {
                     mNotificationManager.notify(NOTIFICATION_ID, getNotification());
                 }
+                insertRecord(mStepCount, countSinceReboot);
             }
         }
 
@@ -131,6 +148,28 @@ public class RunnerService extends Service {
 
         }
     };
+
+    private long calcStepOfDay(long countSinceReboot) {
+        long currentTimeMillis = System.currentTimeMillis();
+        StepRecord record = mStepRepository.getLatestRecord();
+        if (record == null || !TimeUtils.isSameDayOfMillis(record.getStepTime(), currentTimeMillis)) {
+            return 0;
+        }
+        long bootTime = currentTimeMillis - SystemClock.elapsedRealtime();
+        if (bootTime > record.getStepTime()) {
+            return countSinceReboot + record.getStepCount();
+        } else {
+            return record.getStepCount() + countSinceReboot - record.getCountSinceReboot();
+        }
+    }
+
+    private void insertRecord(long stepCount, long countSinceReboot) {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (mLastInsertTime == UNINITIALIZED_VALUE || currentTimeMillis - mLastInsertTime >= TimeUnit.SECONDS.toMillis(10)) {
+            mStepRepository.insertRecord(new StepRecord(countSinceReboot, currentTimeMillis, stepCount));
+            mLastInsertTime = currentTimeMillis;
+        }
+    }
 
     private SharedPreferences.OnSharedPreferenceChangeListener mOnPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
@@ -181,7 +220,7 @@ public class RunnerService extends Service {
     public final class RunnerManagerImpl extends RunnerManager.Stub {
 
         @Override
-        public int getStepCount() throws RemoteException {
+        public long getStepCount() throws RemoteException {
             return mStepCount;
         }
 

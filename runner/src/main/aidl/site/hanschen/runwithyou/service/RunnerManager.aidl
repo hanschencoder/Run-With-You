@@ -6,7 +6,7 @@ import site.hanschen.runwithyou.service.RunnerCallback;
  */
 interface RunnerManager {
 
-    int getStepCount();
+    long getStepCount();
 
     void registerCallback(RunnerCallback callback);
 

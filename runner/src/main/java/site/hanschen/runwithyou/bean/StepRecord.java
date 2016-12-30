@@ -39,4 +39,13 @@ public class StepRecord {
     public void setStepCount(long stepCount) {
         this.mStepCount = stepCount;
     }
+
+    @Override
+    public String toString() {
+        return "StepRecord{" +
+                "mCountSinceReboot=" + mCountSinceReboot +
+                ", mStepTime=" + mStepTime +
+                ", mStepCount=" + mStepCount +
+                '}';
+    }
 }

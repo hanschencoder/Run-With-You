@@ -1,5 +1,7 @@
 package site.hanschen.runwithyou.database.repository;
 
+import android.support.annotation.Nullable;
+
 import site.hanschen.runwithyou.bean.StepRecord;
 
 /**
@@ -7,7 +9,8 @@ import site.hanschen.runwithyou.bean.StepRecord;
  */
 public interface StepRepository {
 
-    void insertStepRecord(StepRecord stepRecord);
+    void insertRecord(StepRecord stepRecord);
 
-    StepRecord getStepRecord();
+    @Nullable
+    StepRecord getLatestRecord();
 }

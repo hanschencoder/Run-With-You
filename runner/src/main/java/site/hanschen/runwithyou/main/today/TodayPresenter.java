@@ -1,6 +1,7 @@
 package site.hanschen.runwithyou.main.today;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import javax.inject.Inject;
 
@@ -35,20 +36,20 @@ class TodayPresenter implements TodayContract.Presenter {
 
     @Override
     public void loadStepCount() {
-        Observable.create(new ObservableOnSubscribe<Integer>() {
+        Observable.create(new ObservableOnSubscribe<Long>() {
             @Override
-            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<Long> emitter) throws Exception {
                 emitter.onNext(mRunnerManager.getStepCount());
                 emitter.onComplete();
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(Integer count) {
+            public void onNext(Long count) {
                 mView.onStepLoadSuccess(count);
             }
 

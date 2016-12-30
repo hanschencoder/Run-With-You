@@ -57,7 +57,7 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
         try {
             RunnerApplication.getInstance().getRunnerManager().registerCallback(new RunnerCallback.Stub() {
                 @Override
-                public void onStepUpdate(int count) throws RemoteException {
+                public void onStepUpdate(long count) throws RemoteException {
                     mProgressBar.setProgress(count);
                 }
             });
@@ -94,7 +94,7 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     }
 
     @Override
-    public void onStepLoadSuccess(int count) {
+    public void onStepLoadSuccess(long count) {
         mProgressBar.setProgress(count);
     }
 
