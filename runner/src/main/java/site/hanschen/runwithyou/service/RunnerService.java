@@ -151,11 +151,17 @@ public class RunnerService extends Service {
 
     private long calcStepOfDay(long countSinceReboot) {
         long currentTimeMillis = System.currentTimeMillis();
-        StepRecord record = mStepRepository.getLatestRecord();
-        if (record == null || !TimeUtils.isSameDayOfMillis(record.getStepTime(), currentTimeMillis)) {
-            return 0;
-        }
         long bootTime = currentTimeMillis - SystemClock.elapsedRealtime();
+        StepRecord record = mStepRepository.getLatestRecord();
+
+        if (record == null || !TimeUtils.isSameDayOfMillis(record.getStepTime(), currentTimeMillis)) {
+            if (TimeUtils.isSameDayOfMillis(bootTime, currentTimeMillis)) {
+                return countSinceReboot;
+            } else {
+                return 0;
+            }
+        }
+        
         if (bootTime > record.getStepTime()) {
             return countSinceReboot + record.getStepCount();
         } else {

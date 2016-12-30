@@ -14,6 +14,7 @@ ext {
     rxJava2Version = '2.0.3'
     rxAndroid1Version = '1.2.1'
     rxAndroid2Version = '2.0.1'
+    butterKnifeVersion = '8.4.0'
 
     dependencies = [
             common                   : 'site.hanschen:common:1.0.8',
@@ -42,9 +43,9 @@ ext {
             rxAndroid1               : "io.reactivex:rxandroid:$rxAndroid1Version",
             rxAndroid2               : "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version",
             greenDAO                 : 'org.greenrobot:greendao:3.2.0',
+            butterKnife              : "com.jakewharton:butterknife:$butterKnifeVersion",
+            butterKnifeProcessor     : "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
     ]
-
-
 
 
     isCi = "true".equals(System.getenv('CI'))

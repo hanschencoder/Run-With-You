@@ -64,6 +64,10 @@ dependencies {
     compile rootProject.ext.dependencies.dagger
     annotationProcessor rootProject.ext.dependencies.daggerAnnotationProcessor
 
+    // butter knife
+    compile rootProject.ext.dependencies.butterKnife
+    annotationProcessor rootProject.ext.dependencies.butterKnifeProcessor
+
     // ReactiveX
     compile rootProject.ext.dependencies.rxJava2
     compile rootProject.ext.dependencies.rxAndroid2

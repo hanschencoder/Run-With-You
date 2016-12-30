@@ -1,7 +1,6 @@
 package site.hanschen.runwithyou.main.today;
 
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +18,8 @@ import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
-import site.hanschen.runwithyou.service.RunnerCallback;
+import site.hanschen.runwithyou.eventbus.EventBus;
+import site.hanschen.runwithyou.eventbus.OnStepCallback;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
 
 /**
@@ -54,22 +54,20 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
         int target = mSettingRepository.getTargetStep();
         mProgressBar.setMax(target);
         mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", target));
-        try {
-            RunnerApplication.getInstance().getRunnerManager().registerCallback(new RunnerCallback.Stub() {
-                @Override
-                public void onStepUpdate(long count) throws RemoteException {
-                    mProgressBar.setProgress(count);
-                }
-            });
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
+
+    private OnStepCallback mOnStepCallback = new OnStepCallback() {
+        @Override
+        public void onStepUpdate(long count) {
+            mProgressBar.setProgress(count);
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.loadStepCount();
+        EventBus.getInstance().registerStepCallback(TodayFragment.this, mOnStepCallback);
     }
 
     @Override

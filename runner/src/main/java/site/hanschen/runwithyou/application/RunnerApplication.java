@@ -5,12 +5,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
 
 import site.hanschen.common.base.application.BaseApplication;
+import site.hanschen.runwithyou.eventbus.EventBus;
 import site.hanschen.runwithyou.service.RunnerManager;
 import site.hanschen.runwithyou.service.RunnerService;
 
@@ -88,6 +90,10 @@ public class RunnerApplication extends BaseApplication {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mRunnerManager = RunnerManager.Stub.asInterface(service);
+            try {
+                mRunnerManager.registerCallback(EventBus.getInstance());
+            } catch (RemoteException ignore) {
+            }
         }
 
         @Override
@@ -105,7 +111,7 @@ public class RunnerApplication extends BaseApplication {
         mRunnerManager = null;
     }
 
-    public RunnerManager getRunnerManager() {
+    RunnerManager getRunnerManager() {
         if (mRunnerManager == null) {
             throw new IllegalStateException("mRunnerManager is null now ");
         }
