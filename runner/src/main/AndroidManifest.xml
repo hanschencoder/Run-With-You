@@ -18,7 +18,8 @@
         android:theme="@style/RunnerTheme">
         <activity
             android:name=".startup.WelcomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -28,8 +29,8 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".startup.DexInstallActivity"

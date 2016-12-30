@@ -42,7 +42,7 @@ public class WelcomeActivity extends BaseActivity {
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                     finish();
                 }
-            }, TimeUnit.SECONDS.toMillis(1));
+            }, TimeUnit.SECONDS.toMillis(0));
         }
 
         @Override
