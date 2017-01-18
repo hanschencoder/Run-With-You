@@ -15,6 +15,7 @@ import site.hanschen.common.base.application.BaseApplication;
 import site.hanschen.runwithyou.eventbus.EventBus;
 import site.hanschen.runwithyou.service.RunnerManager;
 import site.hanschen.runwithyou.service.RunnerService;
+import site.hanschen.runwithyou.utils.IMMLeaks;
 
 import static site.hanschen.runwithyou.utils.DexInstallHelper.isDexInstallProcess;
 import static site.hanschen.runwithyou.utils.DexInstallHelper.isMultiDexInstalled;
@@ -67,6 +68,7 @@ public class RunnerApplication extends BaseApplication {
         }
 
         sInstance = RunnerApplication.this;
+        IMMLeaks.fixFocusedViewLeak(RunnerApplication.this);
         LeakCanary.install(this);
         bindRunnerService();
         mApplicationComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
