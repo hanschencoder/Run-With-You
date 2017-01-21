@@ -8,6 +8,9 @@ import java.util.Map;
 import site.hanschen.runwithyou.service.RunnerCallback;
 
 /**
+ * 分发应用事件，可通过{@link #registerStepCallback(Object, OnStepCallback)}注册对{@link OnStepCallback}的监听
+ * 注意, 请在适当的时机调用{@link #unregisterCallback(Object)}方法,否则可能会引起内存泄露
+ *
  * @author HansChen
  */
 public class EventBus extends RunnerCallback.Stub {
