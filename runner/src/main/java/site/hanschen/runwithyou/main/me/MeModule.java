@@ -6,6 +6,6 @@ import dagger.Module;
  * @author HansChen
  */
 @Module
-public class MeModule {
+class MeModule {
 
 }

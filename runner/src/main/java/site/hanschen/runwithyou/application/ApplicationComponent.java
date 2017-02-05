@@ -1,6 +1,7 @@
 package site.hanschen.runwithyou.application;
 
 import android.app.NotificationManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
@@ -34,4 +35,6 @@ public interface ApplicationComponent {
     SensorManager getSensorManager();
 
     NotificationManager getNotificationManager();
+
+    BluetoothAdapter getBluetoothAdapter();
 }

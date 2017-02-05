@@ -6,10 +6,16 @@
     android:background="@color/light_content_background"
     android:orientation="vertical">
 
-    <TextView
+    <Button
+        android:id="@+id/together_connect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/together"/>
+        android:layout_height="wrap_content"
+        android:text="Connect"/>
+
+    <Button
+        android:id="@+id/together_make_discoverable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Make discoverable"/>
 
 </LinearLayout>

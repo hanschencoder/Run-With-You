@@ -9,7 +9,7 @@ import site.hanschen.runwithyou.dagger.FragmentScoped;
  */
 @FragmentScoped
 @Component(dependencies = ApplicationComponent.class, modules = MeModule.class)
-public interface MeComponent {
+interface MeComponent {
 
     void inject(MeFragment fragment);
 }

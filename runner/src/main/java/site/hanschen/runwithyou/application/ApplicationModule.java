@@ -1,6 +1,7 @@
 package site.hanschen.runwithyou.application;
 
 import android.app.NotificationManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,12 +46,6 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    SettingRepository provideSettingRepository(@AppContext Context context) {
-        return new SettingRepositoryImpl(context, PreferenceManager.getDefaultSharedPreferences(context));
-    }
-
-    @Provides
-    @Singleton
     SharedPreferences provideDefaultSharedPreferences(@AppContext Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -65,6 +60,18 @@ class ApplicationModule {
     @Singleton
     NotificationManager provideNotificationManager(@AppContext Context context) {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    BluetoothAdapter provideBluetoothAdapter() {
+        return BluetoothAdapter.getDefaultAdapter();
+    }
+
+    @Provides
+    @Singleton
+    SettingRepository provideSettingRepository(@AppContext Context context) {
+        return new SettingRepositoryImpl(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     @Provides
