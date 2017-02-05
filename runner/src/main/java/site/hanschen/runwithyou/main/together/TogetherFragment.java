@@ -1,6 +1,5 @@
 package site.hanschen.runwithyou.main.together;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,36 +22,24 @@ import site.hanschen.runwithyou.base.RunnerBaseFragment;
 /**
  * @author HansChen
  */
-public class TogetherFragment extends RunnerBaseFragment implements View.OnClickListener {
-
-    private static final int REQUEST_BT_ENABLE       = 1;
-    private static final int REQUEST_BT_DISCOVERABLE = 2;
-
+public class TogetherFragment extends RunnerBaseFragment implements View.OnClickListener, TogetherContract.View {
 
     private Button mConnectBtn;
     private Button mDiscoverableBtn;
     @Inject
-    BluetoothAdapter mBluetoothAdapter;
+    BluetoothAdapter  mBluetoothAdapter;
+    @Inject
+    TogetherPresenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerTogetherComponent.builder()
                                .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                               .togetherModule(new TogetherModule(TogetherFragment.this))
                                .build()
                                .inject(TogetherFragment.this);
-        enableBluetooth();
-    }
-
-    private void enableBluetooth() {
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(mContext.getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_BT_ENABLE);
-        }
+        mPresenter.requestBluetoothEnable();
     }
 
     @Nullable
@@ -78,21 +65,7 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_BT_ENABLE:
-                if (resultCode != Activity.RESULT_OK) {
-                    Toast.makeText(getActivity(), "Bluetooth was not enabled", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case REQUEST_BT_DISCOVERABLE:
-                if (resultCode == Activity.RESULT_CANCELED) {
-                    Toast.makeText(getActivity(), "user has rejected the request", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "Bluetooth is discoverable now", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -101,21 +74,41 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
             case R.id.together_connect:
                 break;
             case R.id.together_make_discoverable:
-                ensureDiscoverable();
+                mPresenter.requestBluetoothDiscoverable();
                 break;
         }
     }
 
-    /**
-     * Makes this device discoverable.
-     */
-    private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivityForResult(discoverableIntent, REQUEST_BT_DISCOVERABLE);
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void onBluetoothUnavailable() {
+        Toast.makeText(mContext.getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBluetoothEnable(boolean enable) {
+        if (enable) {
+            Toast.makeText(getActivity(), "Bluetooth is enabled", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), "Bluetooth is discoverable now", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Bluetooth is not enabled", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBluetoothDiscoverable(boolean discoverable) {
+        if (discoverable) {
+            Toast.makeText(getActivity(), "Bluetooth is discoverable now", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "user has rejected the request", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void setPresenter(TogetherContract.Presenter presenter) {
+        mPresenter = (TogetherPresenter) presenter;
     }
 }
