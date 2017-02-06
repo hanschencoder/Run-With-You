@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
+import site.hanschen.runwithyou.main.devicelist.DeviceListActivity;
 
 
 /**
@@ -34,12 +35,6 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerTogetherComponent.builder()
-                               .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                               .togetherModule(new TogetherModule(TogetherFragment.this))
-                               .build()
-                               .inject(TogetherFragment.this);
-        mPresenter.requestBluetoothEnable();
     }
 
     @Nullable
@@ -59,6 +54,17 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        DaggerTogetherComponent.builder()
+                               .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                               .togetherModule(new TogetherModule(TogetherFragment.this))
+                               .build()
+                               .inject(TogetherFragment.this);
+        mPresenter.requestBluetoothEnable();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_together_fragment, menu);
     }
@@ -72,6 +78,7 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.together_connect:
+                startActivity(new Intent(getActivity(), DeviceListActivity.class));
                 break;
             case R.id.together_make_discoverable:
                 mPresenter.requestBluetoothDiscoverable();

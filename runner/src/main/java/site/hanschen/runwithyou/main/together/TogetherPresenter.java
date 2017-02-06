@@ -25,6 +25,11 @@ class TogetherPresenter implements TogetherContract.Presenter {
         this.mBluetoothAdapter = PreconditionUtils.checkNotNull(adapter, "BluetoothAdapter cannot be null!");
     }
 
+    @Inject
+    void setupListeners() {
+        mView.setPresenter(this);
+    }
+
     @Override
     public void requestBluetoothEnable() {
         if (mBluetoothAdapter == null) {

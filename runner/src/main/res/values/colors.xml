@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/teal</color>
-    <color name="colorPrimaryDark">@color/teal</color>
+    <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">@color/teal</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="ripple_color">#B2DFDB</color>
 
 </resources>

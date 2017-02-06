@@ -35,6 +35,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".main.devicelist.DeviceListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".startup.DexInstallActivity"
             android:alwaysRetainTaskState="false"
             android:excludeFromRecents="true"

@@ -4,18 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_content_background"
+    android:gravity="center"
     android:orientation="vertical">
 
     <Button
         android:id="@+id/together_connect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Connect"/>
+        style="@style/TextHeadline"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:background="@drawable/selector_radius_teal"
+        android:text="主动连接"
+        android:textColor="@color/text_color_white_primary"/>
 
     <Button
         android:id="@+id/together_make_discoverable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Make discoverable"/>
+        style="@style/TextHeadline"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/selector_radius_yellow"
+        android:text="等待连接"
+        android:textColor="@color/text_color_white_primary"/>
 
 </LinearLayout>

@@ -45,15 +45,6 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.fragment_today_progress);
-        DaggerTodayComponent.builder()
-                            .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                            .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
-                            .build()
-                            .inject(this);
-
-        int target = mSettingRepository.getTargetStep();
-        mProgressBar.setMax(target);
-        mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", target));
     }
 
     private OnStepCallback mOnStepCallback = new OnStepCallback() {
@@ -66,6 +57,15 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        DaggerTodayComponent.builder()
+                            .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                            .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
+                            .build()
+                            .inject(this);
+
+        int target = mSettingRepository.getTargetStep();
+        mProgressBar.setMax(target);
+        mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", target));
         mPresenter.loadStepCount();
         EventBus.getInstance().registerStepCallback(TodayFragment.this, mOnStepCallback);
     }

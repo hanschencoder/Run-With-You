@@ -7,35 +7,34 @@
     android:layout_height="match_parent"
     android:background="@color/light_content_background"
     android:orientation="vertical"
-    tools:context="site.hanschen.runwithyou.main.MainActivity">
+    tools:context="site.hanschen.runwithyou.main.devicelist.DeviceListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
+            android:id="@+id/device_list_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
             android:theme="@style/Toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/device_list_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/ripple_color"
+            app:tabMode="fixed"/>
+
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/main_fragment_container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/device_list_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
-
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/main_bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:bb_behavior="shifting|underNavbar"
-        app:bb_tabXmlResource="@xml/bottom_bar"/>
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

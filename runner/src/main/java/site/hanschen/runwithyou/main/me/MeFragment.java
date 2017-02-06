@@ -37,6 +37,11 @@ public class MeFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.me_preferences);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         DaggerMeComponent.builder()
                          .applicationComponent(RunnerApplication.getInstance().getAppComponent())
                          .build()
