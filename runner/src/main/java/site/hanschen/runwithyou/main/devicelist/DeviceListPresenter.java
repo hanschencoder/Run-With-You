@@ -3,8 +3,7 @@ package site.hanschen.runwithyou.main.devicelist;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -39,7 +38,7 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
     @Override
     public void loadPairedDevices() {
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-        List<Device> devices = new ArrayList<>();
+        Set<Device> devices = new HashSet<>();
         for (BluetoothDevice device : pairedDevices) {
             devices.add(new Device(device.getName(), device.getAddress()));
         }
@@ -47,7 +46,11 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
     }
 
     @Override
-    public void findNewDevices() {
-
+    public void discoveryDevices() {
+        mView.onDiscoveryStart();
+        if (mBtAdapter.isDiscovering()) {
+            mBtAdapter.cancelDiscovery();
+        }
+        mBtAdapter.startDiscovery();
     }
 }

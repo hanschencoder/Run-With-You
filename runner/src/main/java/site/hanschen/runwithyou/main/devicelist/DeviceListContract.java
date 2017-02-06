@@ -1,7 +1,7 @@
 package site.hanschen.runwithyou.main.devicelist;
 
 
-import java.util.List;
+import java.util.Set;
 
 import site.hanschen.runwithyou.base.BasePresenter;
 import site.hanschen.runwithyou.base.BaseView;
@@ -14,7 +14,13 @@ class DeviceListContract {
 
     interface View extends BaseView<Presenter> {
 
-        void onDeviceLoaded(List<Device> devices);
+        void onDeviceLoaded(Set<Device> devices);
+
+        void onNewDeviceFound(Device device);
+
+        void onDiscoveryStart();
+
+        void onDiscoveryFinished();
     }
 
     interface Presenter extends BasePresenter {
@@ -23,7 +29,6 @@ class DeviceListContract {
 
         void loadPairedDevices();
 
-        void findNewDevices();
-
+        void discoveryDevices();
     }
 }
