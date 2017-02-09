@@ -2,38 +2,29 @@ package site.hanschen.runwithyou.base;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.View;
 
 /**
  * lazy load data until fragment is visible. It is useful when use fragment in {@link android.support.v4.view.ViewPager}
  *
  * @author HansChen
  */
-public abstract class LazyFragment extends Fragment {
+public abstract class LazyFragment extends RunnerBaseFragment {
 
 
-    private boolean isPrepared        = false;
-    private boolean isVisibleToUser   = false;
     private boolean isFragmentCreated = false;
+    private boolean isFirstVisible    = true;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         this.isFragmentCreated = true;
-        initPrepare();
     }
-
-    private boolean isFirstResume = true;
 
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstResume) {
-            isFirstResume = false;
-            return;
-        }
-        if (getUserVisibleHint()) {
-            onUserVisible();
-        }
+        attemptPerformOnUserVisible();
     }
 
     @Override
@@ -44,29 +35,38 @@ public abstract class LazyFragment extends Fragment {
         }
     }
 
-    private boolean isFirstVisible = true;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.isFragmentCreated = false;
+        this.isFirstVisible = true;
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        this.isVisibleToUser = isVisibleToUser;
         if (isVisibleToUser) {
-            if (isFirstVisible) {
-                isFirstVisible = false;
-                initPrepare();
-            } else {
-                onUserVisible();
-            }
+            attemptPerformOnUserVisible();
         } else {
-            onUserInvisible();
+            if (!isFirstVisible) {
+                // invoke only when fragment have been visible
+                onUserInvisible();
+            }
         }
     }
 
-    private void initPrepare() {
-        if (isPrepared) {
-            onFirstUserVisible();
-        } else {
-            isPrepared = true;
+    /**
+     * call me when fragment is onResume and visible to user, because the invoke order of {@link Fragment#setUserVisibleHint(boolean)}
+     * and {@link Fragment#onResume()} (Bundle)} is uncertainty.
+     */
+    private void attemptPerformOnUserVisible() {
+        if (getUserVisibleHint() && isFragmentCreated) {
+            if (isFirstVisible) {
+                isFirstVisible = false;
+                onFirstUserVisible();
+            } else {
+                onUserVisible();
+            }
         }
     }
 
@@ -76,13 +76,16 @@ public abstract class LazyFragment extends Fragment {
     protected abstract void onFirstUserVisible();
 
     /**
-     * this method like the fragment's lifecycle method onResume()
+     * this method invoke when fragment is visible to user
      */
-    protected abstract void onUserVisible();
+    protected void onUserVisible() {
+
+    }
 
     /**
-     * this method like the fragment's lifecycle method onPause()
+     * this method invoke when fragment is invisible to user
      */
-    protected abstract void onUserInvisible();
+    protected void onUserInvisible() {
 
+    }
 }

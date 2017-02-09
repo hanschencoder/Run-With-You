@@ -28,14 +28,14 @@ import javax.inject.Inject;
 
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
-import site.hanschen.runwithyou.base.RunnerBaseFragment;
+import site.hanschen.runwithyou.base.LazyFragment;
 import site.hanschen.runwithyou.main.devicelist.adapter.DeviceListAdapter;
 import site.hanschen.runwithyou.main.devicelist.bean.Device;
 
 /**
  * @author HansChen
  */
-public class DeviceFragment extends RunnerBaseFragment implements DeviceListContract.View {
+public class DeviceFragment extends LazyFragment implements DeviceListContract.View {
 
     private static String KEY_CATEGORY = "KEY_CATEGORY";
 
@@ -112,9 +112,7 @@ public class DeviceFragment extends RunnerBaseFragment implements DeviceListCont
                                  .deviceListModule(new DeviceListModule(DeviceFragment.this))
                                  .build()
                                  .inject(DeviceFragment.this);
-        if (mCategory == DeviceCategory.PAIRED) {
-            mPresenter.loadPairedDevices();
-        } else if (mCategory == DeviceCategory.NEW) {
+        if (mCategory == DeviceCategory.NEW) {
             // Register for broadcasts when a device is discovered
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             getActivity().registerReceiver(mReceiver, filter);
@@ -122,16 +120,24 @@ public class DeviceFragment extends RunnerBaseFragment implements DeviceListCont
             // Register for broadcasts when discovery has finished
             filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
             getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
 
+    @Override
+    protected void onFirstUserVisible() {
+        if (mCategory == DeviceCategory.PAIRED) {
+            mPresenter.loadPairedDevices();
+        } else if (mCategory == DeviceCategory.NEW) {
             mPresenter.discoveryDevices();
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (mCategory == DeviceCategory.NEW) {
             getActivity().unregisterReceiver(mReceiver);
+            mPresenter.cancelDiscovery();
         }
     }
 

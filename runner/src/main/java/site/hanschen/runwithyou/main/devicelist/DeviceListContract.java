@@ -30,5 +30,7 @@ class DeviceListContract {
         void loadPairedDevices();
 
         void discoveryDevices();
+
+        void cancelDiscovery();
     }
 }

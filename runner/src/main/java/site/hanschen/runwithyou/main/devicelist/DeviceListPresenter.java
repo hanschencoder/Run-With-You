@@ -53,4 +53,11 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
         }
         mBtAdapter.startDiscovery();
     }
+
+    @Override
+    public void cancelDiscovery() {
+        if (mBtAdapter.isDiscovering()) {
+            mBtAdapter.cancelDiscovery();
+        }
+    }
 }
