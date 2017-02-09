@@ -36,6 +36,5 @@
     <string name="together">一起</string>
     <string name="i_see">知道了</string>
     <string name="not_support_step_count">您的手机不支持记步功能</string>
-    <string name="pref_etc_check_update" translatable="false"></string>
 
 </resources>
