@@ -1,7 +1,7 @@
 ext {
     compileSdkVersion = 24
     buildToolsVersion = '24.0.3'
-    minSdkVersion = 14
+    minSdkVersion = 15
     targetSdkVersion = 21
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
