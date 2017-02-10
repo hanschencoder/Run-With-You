@@ -42,6 +42,7 @@ public class DeviceListActivity extends RunnerBaseActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.device_list_tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.device_list_pager);
+        mViewPager.setOffscreenPageLimit(2);
         DeviceCategory[] categories = new DeviceCategory[]{
                 DeviceCategory.HISTORY, DeviceCategory.PAIRED, DeviceCategory.NEW};
         mViewPager.setAdapter(new DevicePagerAdapter(getFragmentManager(), Arrays.asList(categories)));

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import site.hanschen.runwithyou.main.devicelist.bean.Device;
 /**
  * @author HansChen
  */
-public class DeviceFragment extends LazyFragment implements DeviceListContract.View {
+public class DeviceFragment extends LazyFragment implements DeviceListContract.View, View.OnClickListener {
 
     private static String KEY_CATEGORY = "KEY_CATEGORY";
 
@@ -50,8 +53,9 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     private DeviceCategory mCategory;
     private List<Device> mDevices = new ArrayList<>();
     private RecyclerView      mRecyclerView;
+    private Button            mDiscoveryBtn;
+    private ProgressBar       mDiscoveryStatus;
     private DeviceListAdapter mAdapter;
-    private MaterialDialog    mWaitingDialog;
     @Inject
     DeviceListPresenter mPresenter;
 
@@ -98,11 +102,50 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     }
 
     private void initViews(View root) {
+        mDiscoveryBtn = (Button) root.findViewById(R.id.device_list_discovery);
+        if (mCategory == DeviceCategory.NEW) {
+            mDiscoveryBtn.setVisibility(View.VISIBLE);
+        } else {
+            mDiscoveryBtn.setVisibility(View.GONE);
+        }
+        mDiscoveryBtn.setOnClickListener(DeviceFragment.this);
+        mDiscoveryStatus = (ProgressBar) root.findViewById(R.id.device_list_discovery_status);
+        mDiscoveryStatus.setVisibility(View.GONE);
+        mDiscoveryStatus.setIndeterminate(true);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.device_list_devices);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new DeviceListAdapter(mContext);
+        mAdapter.setOnItemClickListener(mOnItemClickListener);
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    private DeviceListAdapter.OnItemClickListener mOnItemClickListener = new DeviceListAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(Device device) {
+            new MaterialDialog.Builder(mContext).title("连接设备")
+                                                .content(String.format("尝试连接设备[设备名:%s, 地址:%s] ?",
+                                                                       device.getName(),
+                                                                       device.getAddress()))
+                                                .positiveText("连接")
+                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                                        @NonNull DialogAction which) {
+
+                                                    }
+                                                })
+                                                .negativeText("取消")
+                                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                                        @NonNull DialogAction which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .build()
+                                                .show();
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -127,8 +170,6 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     protected void onFirstUserVisible() {
         if (mCategory == DeviceCategory.PAIRED) {
             mPresenter.loadPairedDevices();
-        } else if (mCategory == DeviceCategory.NEW) {
-            mPresenter.discoveryDevices();
         }
     }
 
@@ -141,25 +182,33 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
         }
     }
 
-    private boolean isWaitingDialogShowing() {
-        return mWaitingDialog != null && mWaitingDialog.isShowing();
-    }
-
-    public void showWaitingDialog(String title, String content) {
-        if (!isWaitingDialogShowing()) {
-            mWaitingDialog = new MaterialDialog.Builder(mContext).progress(true, 0)
-                                                                 .progressIndeterminateStyle(true)
-                                                                 .title(title)
-                                                                 .content(content)
-                                                                 .build();
-            mWaitingDialog.setCancelable(false);
-            mWaitingDialog.show();
-        }
-    }
-
-    public void dismissWaitingDialog() {
-        if (isWaitingDialogShowing()) {
-            mWaitingDialog.dismiss();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.device_list_discovery:
+                new MaterialDialog.Builder(mContext).title("发现设备")
+                                                    .content("请先在另一台设备点击[等待连接], 然后点击[发现]按钮")
+                                                    .positiveText("发现")
+                                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                        @Override
+                                                        public void onClick(@NonNull MaterialDialog dialog,
+                                                                            @NonNull DialogAction which) {
+                                                            mPresenter.discoveryDevices();
+                                                        }
+                                                    })
+                                                    .negativeText("取消")
+                                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                        @Override
+                                                        public void onClick(@NonNull MaterialDialog dialog,
+                                                                            @NonNull DialogAction which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    })
+                                                    .build()
+                                                    .show();
+                break;
+            default:
+                break;
         }
     }
 
@@ -185,12 +234,15 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
 
     @Override
     public void onDiscoveryStart() {
-        Toast.makeText(mContext.getApplicationContext(), "onDiscoveryStart", Toast.LENGTH_SHORT).show();
+        mDiscoveryBtn.setVisibility(View.GONE);
+        mDiscoveryStatus.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onDiscoveryFinished() {
-        Toast.makeText(mContext.getApplicationContext(), "onDiscoveryFinished", Toast.LENGTH_SHORT).show();
+        mDiscoveryBtn.setVisibility(View.VISIBLE);
+        mDiscoveryStatus.setVisibility(View.GONE);
+        mDiscoveryBtn.setText("再次查找设备");
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
