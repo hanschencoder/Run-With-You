@@ -42,6 +42,7 @@ ext {
             rxJava2                  : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
             rxAndroid1               : "io.reactivex:rxandroid:$rxAndroid1Version",
             rxAndroid2               : "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version",
+            rxPermissions            : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.1@aar',
             greenDAO                 : 'org.greenrobot:greendao:3.2.0',
             butterKnife              : "com.jakewharton:butterknife:$butterKnifeVersion",
             butterKnifeProcessor     : "com.jakewharton:butterknife-compiler:$butterKnifeVersion",

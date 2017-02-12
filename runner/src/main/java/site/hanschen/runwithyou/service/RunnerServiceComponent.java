@@ -9,7 +9,7 @@ import site.hanschen.runwithyou.dagger.ServiceScoped;
  */
 @ServiceScoped
 @Component(dependencies = ApplicationComponent.class)
-public interface RunnerServiceComponent {
+interface RunnerServiceComponent {
 
     void inject(RunnerService service);
 }

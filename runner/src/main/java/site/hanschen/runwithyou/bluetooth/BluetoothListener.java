@@ -5,12 +5,17 @@ import site.hanschen.runwithyou.main.devicelist.bean.Device;
 /**
  * @author HansChen
  */
-public interface ConnectListener {
+public interface BluetoothListener {
 
     /**
      * 开始等待对方发起蓝牙连接
      */
     void onListenStart();
+
+    /**
+     * 等待连接超时
+     */
+    void onListenTimeout();
 
     /**
      * 开始连接目标设备
@@ -46,5 +51,5 @@ public interface ConnectListener {
      *
      * @param buffer 接收的数据内容
      */
-    void onDataReceived(byte[] buffer);
+    void onDataReceived(byte[] buffer, int byteRead);
 }

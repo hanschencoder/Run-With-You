@@ -109,6 +109,7 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     public void onBluetoothDiscoverable(boolean discoverable) {
         if (discoverable) {
             Toast.makeText(getActivity(), "Bluetooth is discoverable now", Toast.LENGTH_SHORT).show();
+            DoubleRunnerActivity.startAsClient(mContext);
         } else {
             Toast.makeText(getActivity(), "user has rejected the request", Toast.LENGTH_SHORT).show();
         }

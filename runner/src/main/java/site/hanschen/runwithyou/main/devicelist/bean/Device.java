@@ -1,13 +1,16 @@
 package site.hanschen.runwithyou.main.devicelist.bean;
 
+import java.io.Serializable;
+
 /**
  * @author HansChen
  */
-public class Device {
+public class Device implements Serializable {
+
+    private static final long serialVersionUID = -3779363556041275676L;
 
     private String mName;
     private String mAddress;
-
 
     public Device(String name, String address) {
         this.mName = name;

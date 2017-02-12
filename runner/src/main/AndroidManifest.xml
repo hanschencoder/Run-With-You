@@ -51,6 +51,10 @@
             android:name=".main.WebViewActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".main.together.DoubleRunnerActivity"
+            android:screenOrientation="portrait"/>
+
         <service android:name=".service.RunnerService"/>
     </application>
 
