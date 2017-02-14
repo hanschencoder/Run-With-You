@@ -15,12 +15,58 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        release {
+            try {
+                storeFile file("release.keystore")
+                storePassword STORE_PASSWORD
+                keyAlias KEY_ALIAS
+                keyPassword KEY_PASSWORD
+            } catch (ignored) {
+                println '********************************************************************************\n' +
+                        'You can define STORE_PASSWORD, KEY_ALIAS and KEY_PASSWORD in gradle.properties.\n' +
+                        '********************************************************************************\n'
+                if (System.console() != null) {
+                    storePassword new String(System.console().readPassword("\n\$ Enter storePassword: "))
+                    keyAlias new String(System.console().readLine("\n\$ Enter keyAlias: "))
+                    keyPassword new String(System.console().readPassword("\n\$ Enter keyPassword: "))
+                }
+            }
+        }
+
+        debug {
+            // No debug config
+        }
     }
 
     buildTypes {
         release {
+            buildConfigField "boolean", "LOG_ENABLE", "false"
+            signingConfig signingConfigs.release
             minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [AMAP_KEY: project.hasProperty('amap.release.key') ? project.property('amap.release.key') : System.getenv('AMAP_RELEASE_KEY')]
+        }
+
+        debug {
+            buildConfigField "boolean", "LOG_ENABLE", "true"
+            signingConfig signingConfigs.debug
+            manifestPlaceholders = [AMAP_KEY: project.hasProperty('amap.debug.key') ? project.property('amap.debug.key') : System.getenv('AMAP_DEBUG_KEY')]
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def releaseApkName = String.format("%s_%s_%s_%s.apk", "Runner", getVersionName(), getDate(), variant.buildType.name);
+            output.outputFile = new File(oldFile.parent, releaseApkName)
         }
     }
 
@@ -28,10 +74,14 @@ android {
         sourceCompatibility rootProject.ext.sourceCompatibilityVersion
         targetCompatibility rootProject.ext.targetCompatibilityVersion
     }
+}
 
-    defaultConfig {
-        vectorDrawables.useSupportLibrary = true
-    }
+def getDate() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+def getVersionName() {
+    return "v" + android.defaultConfig.versionName
 }
 
 greendao {
