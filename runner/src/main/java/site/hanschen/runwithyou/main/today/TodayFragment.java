@@ -87,6 +87,12 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+    }
+
+    @Override
     public void setPresenter(TodayContract.Presenter presenter) {
         mPresenter = (TodayPresenter) presenter;
     }

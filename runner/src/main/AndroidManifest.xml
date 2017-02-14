@@ -52,7 +52,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.together.DoubleRunnerActivity"
+            android:name=".main.doublerunner.DoubleRunnerActivity"
             android:screenOrientation="portrait"/>
 
         <service android:name=".service.RunnerService"/>

@@ -18,6 +18,7 @@ import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
 import site.hanschen.runwithyou.main.devicelist.DeviceListActivity;
+import site.hanschen.runwithyou.main.doublerunner.DoubleRunnerActivity;
 
 
 /**
@@ -75,10 +76,20 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.together_connect:
-                startActivity(new Intent(getActivity(), DeviceListActivity.class));
+                if (mPresenter.isBluetoothEnable()) {
+                    startActivity(new Intent(getActivity(), DeviceListActivity.class));
+                } else {
+                    mPresenter.requestBluetoothEnable();
+                }
                 break;
             case R.id.together_make_discoverable:
                 mPresenter.requestBluetoothDiscoverable();
@@ -92,26 +103,25 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
-    public void onBluetoothUnavailable() {
-        Toast.makeText(mContext.getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_LONG).show();
+    public void showBluetoothUnavailableTips() {
+        Toast.makeText(mContext.getApplicationContext(), "蓝牙不可用", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onBluetoothEnable(boolean enable) {
+    public void showBluetoothEnableTips(boolean enable) {
         if (enable) {
-            Toast.makeText(getActivity(), "Bluetooth is enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "蓝牙已打开", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), "Bluetooth is not enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "蓝牙已关闭", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onBluetoothDiscoverable(boolean discoverable) {
+    public void showBluetoothDiscoverableTips(boolean discoverable) {
         if (discoverable) {
-            Toast.makeText(getActivity(), "Bluetooth is discoverable now", Toast.LENGTH_SHORT).show();
-            DoubleRunnerActivity.startAsClient(mContext);
+            DoubleRunnerActivity.startAsServer(mContext);
         } else {
-            Toast.makeText(getActivity(), "user has rejected the request", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "请求被拒绝", Toast.LENGTH_SHORT).show();
         }
     }
 

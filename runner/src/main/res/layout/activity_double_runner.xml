@@ -5,18 +5,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/double_runner_bg"
-    tools:context="site.hanschen.runwithyou.main.together.DoubleRunnerActivity">
+    android:background="@color/background_double_runner"
+    tools:context="site.hanschen.runwithyou.main.doublerunner.DoubleRunnerActivity">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/double_runner_connecting_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/activi"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        app:indicatorName="LineScaleIndicator"/>
+        <TextView
+            android:id="@+id/double_runner_connecting_primary_text"
+            style="@style/TextHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/double_runner_connecting_sub_text"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:text="正在连接设备"
+            android:textColor="@color/text_color_white_primary"/>
+
+        <TextView
+            android:id="@+id/double_runner_connecting_sub_text"
+            style="@style/TextHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/double_runner_connecting"
+            android:layout_marginBottom="56dp"
+            android:gravity="center"
+            android:text="请将两部手机相互贴近"
+            android:textColor="@color/text_color_white_secondary"
+            android:textSize="12dp"/>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/double_runner_connecting"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            app:indicatorName="LineScaleIndicator"/>
+    </RelativeLayout>
 
 </RelativeLayout>

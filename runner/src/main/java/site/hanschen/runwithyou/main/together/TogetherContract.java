@@ -15,14 +15,16 @@ class TogetherContract {
 
         void startActivityForResult(Intent intent, int requestCode);
 
-        void onBluetoothUnavailable();
+        void showBluetoothUnavailableTips();
 
-        void onBluetoothEnable(boolean enable);
+        void showBluetoothEnableTips(boolean enable);
 
-        void onBluetoothDiscoverable(boolean discoverable);
+        void showBluetoothDiscoverableTips(boolean discoverable);
     }
 
     interface Presenter extends BasePresenter {
+
+        boolean isBluetoothEnable();
 
         void requestBluetoothEnable();
 

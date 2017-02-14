@@ -34,6 +34,11 @@ class TodayPresenter implements TodayContract.Presenter {
     }
 
     @Override
+    public void detach() {
+
+    }
+
+    @Override
     public void loadStepCount() {
         Observable.create(new ObservableOnSubscribe<Long>() {
             @Override

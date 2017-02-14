@@ -39,7 +39,12 @@ public interface BluetoothControler {
     void registerListener(BluetoothListener listener);
 
     /**
-     * 清楚监听器
+     * 清除监听器
      */
     void clearListener();
+
+    /**
+     * 取消所有任务
+     */
+    void reset();
 }

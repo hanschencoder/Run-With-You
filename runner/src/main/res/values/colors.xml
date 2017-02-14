@@ -7,6 +7,6 @@
     <color name="transparent">#00000000</color>
     <color name="ripple_color">#B2DFDB</color>
 
-    <color name="double_runner_bg">#0fa9c3</color>
+    <color name="background_double_runner">#0fa9c3</color>
 
 </resources>

@@ -31,6 +31,11 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
     }
 
     @Override
+    public void detach() {
+        cancelDiscovery();
+    }
+
+    @Override
     public void loadHistoryDevices() {
 
     }

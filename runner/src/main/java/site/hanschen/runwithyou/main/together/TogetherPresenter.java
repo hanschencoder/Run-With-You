@@ -31,9 +31,19 @@ class TogetherPresenter implements TogetherContract.Presenter {
     }
 
     @Override
+    public void detach() {
+
+    }
+
+    @Override
+    public boolean isBluetoothEnable() {
+        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
+    }
+
+    @Override
     public void requestBluetoothEnable() {
         if (mBluetoothAdapter == null) {
-            mView.onBluetoothUnavailable();
+            mView.showBluetoothUnavailableTips();
             return;
         }
         if (!mBluetoothAdapter.isEnabled()) {
@@ -49,7 +59,7 @@ class TogetherPresenter implements TogetherContract.Presenter {
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             mView.startActivityForResult(discoverableIntent, REQUEST_BT_DISCOVERABLE);
         } else {
-            mView.onBluetoothDiscoverable(true);
+            mView.showBluetoothDiscoverableTips(true);
         }
     }
 
@@ -58,16 +68,16 @@ class TogetherPresenter implements TogetherContract.Presenter {
         switch (requestCode) {
             case REQUEST_BT_ENABLE:
                 if (resultCode == Activity.RESULT_OK) {
-                    mView.onBluetoothEnable(true);
+                    mView.showBluetoothEnableTips(true);
                 } else {
-                    mView.onBluetoothEnable(false);
+                    mView.showBluetoothEnableTips(false);
                 }
                 break;
             case REQUEST_BT_DISCOVERABLE:
                 if (resultCode == Activity.RESULT_CANCELED) {
-                    mView.onBluetoothDiscoverable(false);
+                    mView.showBluetoothDiscoverableTips(false);
                 } else {
-                    mView.onBluetoothDiscoverable(true);
+                    mView.showBluetoothDiscoverableTips(true);
                 }
                 break;
         }

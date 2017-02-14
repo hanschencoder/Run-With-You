@@ -34,6 +34,7 @@ import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.LazyFragment;
 import site.hanschen.runwithyou.main.devicelist.adapter.DeviceListAdapter;
 import site.hanschen.runwithyou.main.devicelist.bean.Device;
+import site.hanschen.runwithyou.main.doublerunner.DoubleRunnerActivity;
 
 /**
  * @author HansChen
@@ -121,7 +122,7 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
 
     private DeviceListAdapter.OnItemClickListener mOnItemClickListener = new DeviceListAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(Device device) {
+        public void onItemClick(final Device device) {
             new MaterialDialog.Builder(mContext).title("连接设备")
                                                 .content(String.format("尝试连接设备[设备名:%s, 地址:%s] ?",
                                                                        device.getName(),
@@ -131,7 +132,7 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
                                                     @Override
                                                     public void onClick(@NonNull MaterialDialog dialog,
                                                                         @NonNull DialogAction which) {
-
+                                                        DoubleRunnerActivity.startAsClient(mContext, device);
                                                     }
                                                 })
                                                 .negativeText("取消")
@@ -176,6 +177,7 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mPresenter.detach();
         if (mCategory == DeviceCategory.NEW) {
             getActivity().unregisterReceiver(mReceiver);
             mPresenter.cancelDiscovery();

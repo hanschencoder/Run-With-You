@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
@@ -43,6 +46,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
     private       ConnectionState   mState;
     private       BluetoothListener mBluetoothListener;
     private       Device            mTarget;
+    private       Handler           mMainHandler;
 
     // Constants that indicate the current connection state
     enum ConnectionState {
@@ -56,6 +60,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
     public BluetoothControlerImpl(@AppContext Context context, BluetoothAdapter adapter) {
         this.mAdapter = adapter;
         this.mState = STATE_NONE;
+        this.mMainHandler = new Handler(Looper.getMainLooper(), new MainCallback());
     }
 
     @Override
@@ -136,41 +141,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
         mBluetoothListener = null;
     }
 
-    /**
-     * Set the current state of the chat connection
-     *
-     * @param state An integer defining the current connection state
-     */
-    private synchronized void setState(ConnectionState state) {
-        Log.d(TAG, "setState() " + mState + " -> " + state);
-        mState = state;
-
-        if (mBluetoothListener == null) {
-            return;
-        }
-
-        switch (state) {
-            case STATE_LISTEN:
-                mBluetoothListener.onListenStart();
-                break;
-            case STATE_CONNECTING:
-                mBluetoothListener.onConnectStart(mTarget);
-                break;
-            case STATE_CONNECTED:
-                mBluetoothListener.onConnectSucceed(mTarget);
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Return the current connection state.
-     */
-    public synchronized ConnectionState getState() {
-        return mState;
-    }
-
+    @Override
     public synchronized void reset() {
         Log.d(TAG, "reset");
 
@@ -197,6 +168,37 @@ public class BluetoothControlerImpl implements BluetoothControler {
         }
 
         setState(STATE_NONE);
+        mMainHandler.removeCallbacksAndMessages(null);
+    }
+
+    /**
+     * Set the current state of the chat connection
+     *
+     * @param state An integer defining the current connection state
+     */
+    private synchronized void setState(ConnectionState state) {
+        Log.d(TAG, "setState() " + mState + " -> " + state);
+        mState = state;
+        switch (state) {
+            case STATE_LISTEN:
+                mMainHandler.sendEmptyMessage(MainCallback.MSG_LISTEN_START);
+                break;
+            case STATE_CONNECTING:
+                mMainHandler.sendEmptyMessage(MainCallback.MSG_CONNECT_START);
+                break;
+            case STATE_CONNECTED:
+                mMainHandler.sendEmptyMessage(MainCallback.MSG_CONNECT_SUCCEED);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Return the current connection state.
+     */
+    public synchronized ConnectionState getState() {
+        return mState;
     }
 
     /**
@@ -229,6 +231,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
             mInsecureAcceptThread = null;
         }
 
+        mTarget = new Device(socket.getRemoteDevice().getName(), socket.getRemoteDevice().getAddress());
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket, secure);
         mConnectedThread.start();
@@ -241,10 +244,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
     private void connectionFailed() {
-        // Send a failure message back to the Activity
-        if (mBluetoothListener != null) {
-            mBluetoothListener.onConnectFailed(null);
-        }
+        mMainHandler.sendEmptyMessage(MainCallback.MSG_CONNECT_FAILED);
         // Start the service over to restart listening mode
         reset();
     }
@@ -253,10 +253,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-        // Send a failure message back to the Activity
-        if (mBluetoothListener != null) {
-            mBluetoothListener.onConnectLost();
-        }
+        mMainHandler.sendEmptyMessage(MainCallback.MSG_CONNECT_LOST);
         // Start the service over to restart listening mode
         reset();
     }
@@ -329,9 +326,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
                         }
                     }
                 } else {
-                    if (mBluetoothListener != null) {
-                        mBluetoothListener.onListenTimeout();
-                    }
+                    mMainHandler.sendEmptyMessage(MainCallback.MSG_LISTEN_TIMEOUT);
                 }
             }
             Log.i(TAG, "END mAcceptThread, socket Type: " + getSocketType(mSecure));
@@ -463,11 +458,11 @@ public class BluetoothControlerImpl implements BluetoothControler {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-
-                    // Send the obtained bytes to the UI Activity
-                    if (mBluetoothListener != null) {
-                        mBluetoothListener.onDataReceived(buffer, bytes);
-                    }
+                    Message msg = Message.obtain();
+                    msg.what = MainCallback.MSG_DATA_RECEIVED;
+                    msg.arg1 = bytes;
+                    msg.obj = buffer;
+                    mMainHandler.sendMessage(msg);
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
@@ -486,11 +481,10 @@ public class BluetoothControlerImpl implements BluetoothControler {
         void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
-
-                // Share the sent message back to the UI Activity
-                if (mBluetoothListener != null) {
-                    mBluetoothListener.onDataSent(buffer);
-                }
+                Message msg = Message.obtain();
+                msg.what = MainCallback.MSG_DATA_SENT;
+                msg.obj = buffer;
+                mMainHandler.sendMessage(msg);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }
@@ -502,6 +496,56 @@ public class BluetoothControlerImpl implements BluetoothControler {
             } catch (IOException e) {
                 Log.e(TAG, "close() of connect socket failed", e);
             }
+        }
+    }
+
+    private class MainCallback implements Handler.Callback {
+
+        private static final int MSG_LISTEN_START    = 0;
+        private static final int MSG_LISTEN_TIMEOUT  = 1;
+        private static final int MSG_CONNECT_START   = 2;
+        private static final int MSG_CONNECT_SUCCEED = 3;
+        private static final int MSG_CONNECT_FAILED  = 4;
+        private static final int MSG_CONNECT_LOST    = 5;
+        private static final int MSG_DATA_SENT       = 6;
+        private static final int MSG_DATA_RECEIVED   = 7;
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (mBluetoothListener == null) {
+                return false;
+            }
+
+            switch (msg.what) {
+                case MSG_LISTEN_START:
+                    mBluetoothListener.onListenStart();
+                    break;
+                case MSG_LISTEN_TIMEOUT:
+                    mBluetoothListener.onListenTimeout();
+                    break;
+                case MSG_CONNECT_START:
+                    mBluetoothListener.onConnectStart(mTarget);
+                    break;
+                case MSG_CONNECT_SUCCEED:
+                    mBluetoothListener.onConnectSucceed(mTarget);
+                    break;
+                case MSG_CONNECT_FAILED:
+                    mBluetoothListener.onConnectFailed(mTarget);
+                    break;
+                case MSG_CONNECT_LOST:
+                    mBluetoothListener.onConnectLost();
+                    break;
+                case MSG_DATA_SENT:
+                    mBluetoothListener.onDataSent((byte[]) msg.obj);
+                    break;
+                case MSG_DATA_RECEIVED:
+                    mBluetoothListener.onDataReceived((byte[]) msg.obj, msg.arg1);
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
         }
     }
 }

@@ -5,5 +5,5 @@ package site.hanschen.runwithyou.base;
  */
 public interface BasePresenter {
 
-//    void start();
+    void detach();
 }

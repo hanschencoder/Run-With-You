@@ -17,14 +17,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/device_list_discovery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_margin="16dp"
             android:background="@drawable/selector_radius_teal"
             android:text="开始查找设备"
             android:textColor="@color/text_color_white_primary"/>
@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_margin="16dp"
             android:indeterminate="true"/>
     </RelativeLayout>
 
