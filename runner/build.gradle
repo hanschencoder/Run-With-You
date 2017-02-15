@@ -44,13 +44,13 @@ android {
             // 移除无用的resource文件
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [AMAP_KEY: getProperty('amap.release.key', 'AMAP_RELEASE_KEY')]
+            manifestPlaceholders = [AMAP_KEY: getProperty('amap.key', 'AMAP_KEY')]
         }
 
         debug {
             buildConfigField 'boolean', 'LOG_ENABLE', 'true'
             signingConfig signingConfigs.debug
-            manifestPlaceholders = [AMAP_KEY: getProperty('amap.debug.key', 'AMAP_DEBUG_KEY')]
+            manifestPlaceholders = [AMAP_KEY: getProperty('amap.key', 'AMAP_KEY')]
         }
     }
 
