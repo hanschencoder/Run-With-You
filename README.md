@@ -28,6 +28,8 @@
     - [ ] 帮助与反馈
     - [ ] 后台常驻：通知栏&白名单
 
+# 软件架构
+MVP + Dagger2 + Retrofit + RxJava + Protobuf
 
 # LICENSE
 Apache License 2.0
