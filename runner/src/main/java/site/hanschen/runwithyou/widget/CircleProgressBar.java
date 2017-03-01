@@ -298,7 +298,13 @@ public class CircleProgressBar extends View {
     public void setProgress(final float progress) {
         mOldProgress = mProgress;
         mProgress = progress;
-        startAnimation();
+        long duration;
+        if (Math.abs(mProgress - mOldProgress) < 1000) {
+            duration = (long) Math.abs(mProgress - mOldProgress);
+        } else {
+            duration = 1000L;
+        }
+        startAnimation(duration);
     }
 
     //设置新的进度值，没有动画
@@ -309,9 +315,9 @@ public class CircleProgressBar extends View {
         postInvalidate();
     }
 
-    private void startAnimation() {
+    private void startAnimation(long duration) {
         ValueAnimator anim = ValueAnimator.ofFloat(0f, 1f);
-        anim.setDuration(1000);
+        anim.setDuration(duration);
         anim.setInterpolator(mTimeInterpolator);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

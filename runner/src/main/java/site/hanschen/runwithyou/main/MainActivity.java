@@ -1,8 +1,10 @@
 package site.hanschen.runwithyou.main;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.roughike.bottombar.BottomBar;
@@ -21,15 +23,27 @@ import site.hanschen.runwithyou.utils.StepCountUtils;
  */
 public class MainActivity extends RunnerBaseActivity implements OnTabSelectListener {
 
-    private Toolbar   mToolbar;
-    private BottomBar mBottomBar;
+    private Toolbar                                mToolbar;
+    private BottomBar                              mBottomBar;
+    private SparseArray<Class<? extends Fragment>> mMap;
+    private int                                    mPreSelectedTab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initData();
         initViews();
         checkStepCountSupport();
+    }
+
+    private void initData() {
+        mMap = new SparseArray<>(4);
+        mMap.put(R.id.tab_today, TodayFragment.class);
+        mMap.put(R.id.tab_together, TogetherFragment.class);
+        mMap.put(R.id.tab_discover, DiscoverFragment.class);
+        mMap.put(R.id.tab_me, MeFragment.class);
     }
 
     private void initViews() {
@@ -53,23 +67,18 @@ public class MainActivity extends RunnerBaseActivity implements OnTabSelectListe
 
     @Override
     public void onTabSelected(@IdRes int tabId) {
-        // attention here, don't add exitAnim for replace fragment, otherwise when fast switch fragment would have problem.
-        // because fragment will not remove before animator is end
-        switch (tabId) {
-            case R.id.tab_today:
-                replaceFragment(R.id.main_fragment_container, TodayFragment.class, R.animator.fade_in, 0);
-                break;
-            case R.id.tab_together:
-                replaceFragment(R.id.main_fragment_container, TogetherFragment.class, R.animator.fade_in, 0);
-                break;
-            case R.id.tab_discover:
-                replaceFragment(R.id.main_fragment_container, DiscoverFragment.class, R.animator.fade_in, 0);
-                break;
-            case R.id.tab_me:
-                replaceFragment(R.id.main_fragment_container, MeFragment.class, R.animator.fade_in, 0);
-                break;
-            default:
-                break;
+        if (mPreSelectedTab != tabId) {
+            Class<? extends Fragment> clz = mMap.get(mPreSelectedTab);
+            if (clz != null) {
+                hideFragment(clz);
+            }
+
+            clz = mMap.get(tabId);
+            if (clz != null) {
+                showFragment(R.id.main_fragment_container, clz, R.animator.fade_in, 0);
+            }
+
+            mPreSelectedTab = tabId;
         }
     }
 }
