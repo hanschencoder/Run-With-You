@@ -1,4 +1,4 @@
-package site.hanschen.runwithyou.main.me;
+package site.hanschen.runwithyou.main.setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +21,13 @@ import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.main.WebViewActivity;
+import site.hanschen.runwithyou.main.about.AboutActivity;
 
 
 /**
  * @author HansChen
  */
-public class MeFragment extends PreferenceFragment {
+public class SettingFragment extends PreferenceFragment {
 
     @Inject
     SettingRepository mSettingRepository;
@@ -36,16 +37,16 @@ public class MeFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.me_preferences);
+        addPreferencesFromResource(R.xml.setting_preferences);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerMeComponent.builder()
-                         .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                         .build()
-                         .inject(MeFragment.this);
+        DaggerSettingComponent.builder()
+                              .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                              .build()
+                              .inject(SettingFragment.this);
 
         mPreferences.registerOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
         initPreferences();
@@ -73,12 +74,14 @@ public class MeFragment extends PreferenceFragment {
 
     private void initPreferences() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            ((PreferenceGroup) findPreference(getString(R.string.pref_category_memory_resident))).removePreference(findPreference(
-                    getString(R.string.pref_memory_resident_white_list)));
+            ((PreferenceGroup) findPreference(getString(R.string.pref_category_memory_resident))).removePreference(
+                    findPreference(getString(R.string.pref_memory_resident_white_list)));
         }
 
         int target = mSettingRepository.getTargetStep();
-        findPreference(getString(R.string.pref_target_step)).setSummary(String.format(Locale.getDefault(), "每日运动目标：%d步", target));
+        findPreference(getString(R.string.pref_target_step)).setSummary(String.format(Locale.getDefault(),
+                                                                                      "每日运动目标：%d步",
+                                                                                      target));
     }
 
     @Override
@@ -100,6 +103,9 @@ public class MeFragment extends PreferenceFragment {
                 break;
             case "pref_etc_issue":
                 WebViewActivity.startup(getActivity(), "https://github.com/shensky711/Run-With-You/issues", "GitHub Issues");
+                break;
+            case "pref_etc_about":
+                startActivity(new Intent(getActivity(), AboutActivity.class));
                 break;
             default:
                 break;

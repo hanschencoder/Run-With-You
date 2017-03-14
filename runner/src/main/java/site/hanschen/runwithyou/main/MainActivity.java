@@ -13,7 +13,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.main.discover.DiscoverFragment;
-import site.hanschen.runwithyou.main.me.MeFragment;
+import site.hanschen.runwithyou.main.setting.SettingFragment;
 import site.hanschen.runwithyou.main.today.TodayFragment;
 import site.hanschen.runwithyou.main.together.TogetherFragment;
 import site.hanschen.runwithyou.utils.StepCountUtils;
@@ -43,7 +43,7 @@ public class MainActivity extends RunnerBaseActivity implements OnTabSelectListe
         mMap.put(R.id.tab_today, TodayFragment.class);
         mMap.put(R.id.tab_together, TogetherFragment.class);
         mMap.put(R.id.tab_discover, DiscoverFragment.class);
-        mMap.put(R.id.tab_me, MeFragment.class);
+        mMap.put(R.id.setting, SettingFragment.class);
     }
 
     private void initViews() {

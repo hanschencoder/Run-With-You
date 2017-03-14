@@ -39,5 +39,10 @@
             android:layout="@layout/preference_checkbox_with_summary"
             android:summary="前往GitHub项目主页提交issue"
             android:title="帮助与反馈"/>
+        <Preference
+            android:key="@string/pref_etc_about"
+            android:layout="@layout/preference_checkbox_with_summary"
+            android:summary="详细信息"
+            android:title="关于软件"/>
     </PreferenceCategory>
 </PreferenceScreen>

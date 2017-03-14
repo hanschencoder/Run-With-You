@@ -44,6 +44,7 @@
     <string name="pref_memory_resident_foreground_service" translatable="false">pref_memory_resident_foreground_service</string>
     <string name="pref_etc_check_update" translatable="false">pref_etc_check_update</string>
     <string name="pref_etc_issue" translatable="false">pref_etc_issue</string>
+    <string name="pref_etc_about" translatable="false">pref_etc_about</string>
 
 
 </resources>

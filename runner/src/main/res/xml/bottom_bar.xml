@@ -14,6 +14,6 @@
         title="@string/discover"/>
     <tab
         icon="@drawable/ic_account_circle_black_24dp"
-        id="@+id/tab_me"
+        id="@+id/setting"
         title="@string/me"/>
 </tabs>
