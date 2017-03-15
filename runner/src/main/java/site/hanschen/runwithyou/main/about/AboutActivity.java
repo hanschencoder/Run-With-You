@@ -10,6 +10,7 @@ import com.vansuita.materialabout.builder.AboutBuilder;
 import com.vansuita.materialabout.views.AboutView;
 
 import site.hanschen.common.statusbar.StatusBarCompat;
+import site.hanschen.common.utils.AppUtils;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 
@@ -40,7 +41,7 @@ public class AboutActivity extends RunnerBaseActivity {
                                      .addLinkedInLink("航-陈-a7843b118")
                                      .addAndroidLink("shensky711")
                                      .setAppIcon(R.mipmap.ic_launcher)
-                                     .setAppName(R.string.app_name)
+                                     .setAppName(AppUtils.getAppName(AboutActivity.this) + "    ")
                                      .addFiveStarsAction()
                                      .addShareAction(R.string.app_name)
                                      .addFeedbackAction("shensky711@gmail.com")
@@ -50,7 +51,7 @@ public class AboutActivity extends RunnerBaseActivity {
                                      .setLinksAnimated(true)
                                      .setBackgroundColor(R.color.dark_content_background)
                                      .setDividerDashGap(12)
-                                     .setVersionNameAsAppSubTitle()
+                                     .setAppTitle(String.format("版本 %s", AppUtils.getVersionName(AboutActivity.this)))
                                      .setWrapScrollView(true)
                                      .setShowAsCard(true)
                                      .build();
