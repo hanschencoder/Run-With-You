@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
-import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.eventbus.EventBus;
 import site.hanschen.runwithyou.eventbus.OnStepCallback;
 import site.hanschen.runwithyou.widget.CircleProgressBar;
@@ -28,9 +27,7 @@ import site.hanschen.runwithyou.widget.CircleProgressBar;
 public class TodayFragment extends RunnerBaseFragment implements TodayContract.View {
 
     @Inject
-    TodayPresenter    mPresenter;
-    @Inject
-    SettingRepository mSettingRepository;
+    TodayPresenter mPresenter;
 
     private CircleProgressBar mProgressBar;
 
@@ -63,9 +60,6 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
                             .build()
                             .inject(this);
 
-        int target = mSettingRepository.getTargetStep();
-        mProgressBar.setMax(target);
-        mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", target));
         mPresenter.loadStepCount();
         EventBus.getInstance().registerStepCallback(TodayFragment.this, mOnStepCallback);
     }
@@ -98,12 +92,18 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     }
 
     @Override
-    public void onStepLoadSuccess(long count) {
+    public void showMaxCount(long max) {
+        mProgressBar.setMax((int) max);
+        mProgressBar.setSubText(String.format(Locale.getDefault(), "今天目标：%d步", max));
+    }
+
+    @Override
+    public void showCurrentStepCount(long count) {
         mProgressBar.setProgress(count);
     }
 
     @Override
-    public void onStepLoadFailed() {
+    public void showStepLoadFailInfo() {
         Toast.makeText(mContext.getApplicationContext(), "获取步数失败", Toast.LENGTH_SHORT).show();
     }
 }

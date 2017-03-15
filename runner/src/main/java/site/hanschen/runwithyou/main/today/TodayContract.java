@@ -11,9 +11,11 @@ class TodayContract {
 
     interface View extends BaseView<Presenter> {
 
-        void onStepLoadSuccess(long count);
+        void showMaxCount(long max);
 
-        void onStepLoadFailed();
+        void showCurrentStepCount(long count);
+
+        void showStepLoadFailInfo();
     }
 
     interface Presenter extends BasePresenter {
