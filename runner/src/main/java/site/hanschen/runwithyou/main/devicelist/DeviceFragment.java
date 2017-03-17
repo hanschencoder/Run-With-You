@@ -67,6 +67,31 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
             throw new IllegalStateException("bundle must contain category info");
         }
         mCategory = (DeviceCategory) getArguments().getSerializable(KEY_CATEGORY);
+
+        DaggerDeviceListComponent.builder()
+                                 .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                                 .deviceListModule(new DeviceListModule(DeviceFragment.this))
+                                 .build()
+                                 .inject(DeviceFragment.this);
+        if (mCategory == DeviceCategory.NEW) {
+            // Register for broadcasts when a device is discovered
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            getActivity().registerReceiver(mReceiver, filter);
+
+            // Register for broadcasts when discovery has finished
+            filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+            getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCategory == DeviceCategory.NEW) {
+            getActivity().unregisterReceiver(mReceiver);
+        }
+        mPresenter.cancelDiscovery();
+        mPresenter.detach();
     }
 
     @Nullable
@@ -149,38 +174,9 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     };
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        DaggerDeviceListComponent.builder()
-                                 .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                                 .deviceListModule(new DeviceListModule(DeviceFragment.this))
-                                 .build()
-                                 .inject(DeviceFragment.this);
-        if (mCategory == DeviceCategory.NEW) {
-            // Register for broadcasts when a device is discovered
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            getActivity().registerReceiver(mReceiver, filter);
-
-            // Register for broadcasts when discovery has finished
-            filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
     protected void onFirstUserVisible() {
         if (mCategory == DeviceCategory.PAIRED) {
             mPresenter.loadPairedDevices();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mPresenter.detach();
-        if (mCategory == DeviceCategory.NEW) {
-            getActivity().unregisterReceiver(mReceiver);
-            mPresenter.cancelDiscovery();
         }
     }
 
@@ -220,14 +216,14 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     }
 
     @Override
-    public void onDeviceLoaded(Set<Device> devices) {
+    public void showAllDevice(Set<Device> devices) {
         mDevices.clear();
         mDevices.addAll(devices);
         mAdapter.setData(mDevices);
     }
 
     @Override
-    public void onNewDeviceFound(Device device) {
+    public void addNewDevice(Device device) {
         if (!mDevices.contains(device)) {
             mDevices.add(device);
             mAdapter.setData(mDevices);
@@ -235,13 +231,13 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     }
 
     @Override
-    public void onDiscoveryStart() {
+    public void showDiscoveryStartInfo() {
         mDiscoveryBtn.setVisibility(View.GONE);
         mDiscoveryStatus.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onDiscoveryFinished() {
+    public void showDiscoveryFinishedInfo() {
         mDiscoveryBtn.setVisibility(View.VISIBLE);
         mDiscoveryStatus.setVisibility(View.GONE);
         mDiscoveryBtn.setText("再次查找设备");
@@ -253,9 +249,9 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                onNewDeviceFound(new Device(device.getName(), device.getAddress()));
+                addNewDevice(new Device(device.getName(), device.getAddress()));
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                onDiscoveryFinished();
+                showDiscoveryFinishedInfo();
             }
         }
     };

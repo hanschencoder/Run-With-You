@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import site.hanschen.common.utils.PreconditionUtils;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.main.devicelist.bean.Device;
 
@@ -58,7 +59,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
 
     @Inject
     public BluetoothControlerImpl(@AppContext Context context, BluetoothAdapter adapter) {
-        this.mAdapter = adapter;
+        this.mAdapter = PreconditionUtils.checkNotNull(adapter, "BluetoothAdapter cannot be null!");
         this.mState = STATE_NONE;
         this.mMainHandler = new Handler(Looper.getMainLooper(), new MainCallback());
     }
@@ -396,8 +397,7 @@ public class BluetoothControlerImpl implements BluetoothControler {
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
-                    Log.e(TAG, "unable to close() " + getSocketType(mSecure) +
-                               " socket during connection failure", e2);
+                    Log.e(TAG, "unable to close() " + getSocketType(mSecure) + " socket during connection failure", e2);
                 }
                 connectionFailed();
                 return;

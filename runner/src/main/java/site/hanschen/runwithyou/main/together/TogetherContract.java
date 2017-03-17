@@ -15,23 +15,48 @@ class TogetherContract {
 
         void startActivityForResult(Intent intent, int requestCode);
 
-        void showBluetoothUnavailableTips();
+        /**
+         * 显示蓝牙不可用的提示
+         */
+        void showBTUnavailable();
 
-        void showBluetoothEnableTips(boolean enable);
+        /**
+         * 显示蓝牙打开/关闭的提示
+         */
+        void showBTSwitch(boolean enable);
 
-        void showBluetoothDiscoverableTips(boolean discoverable);
+        /**
+         * 显示用户拒绝蓝牙可发现信息
+         */
+        void showDiscoverRefuseInfo();
+
+        /**
+         * 跳转主动连接界面
+         */
+        void showConnectDeviceInfo();
+
+        /**
+         * 跳转被动连接界面
+         */
+        void showDiscoverableInfo();
     }
 
     interface Presenter extends BasePresenter {
 
-        boolean isBluetoothEnable();
-
-        void requestBluetoothEnable();
+        /**
+         * 请求打开蓝牙
+         */
+        void requestEnable();
 
         /**
-         * Makes this device discoverable
+         * 请求主动连接
          */
-        void requestBluetoothDiscoverable();
+        void connectDevice();
+
+        /**
+         * 请求被动连接
+         */
+        void requestDiscoverable();
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
     }

@@ -1,16 +1,17 @@
 package site.hanschen.runwithyou.main.today;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import site.hanschen.common.utils.PreconditionUtils;
@@ -32,8 +33,7 @@ class TodayPresenter implements TodayContract.Presenter {
                    @NonNull SettingRepository settingRepository) {
         this.mView = PreconditionUtils.checkNotNull(view, "TodayContract.View cannot be null!");
         this.mRunnerManager = PreconditionUtils.checkNotNull(runnerManager, "RunnerManager cannot be null!");
-        this.mSettingRepository = PreconditionUtils.checkNotNull(settingRepository,
-                                                                 "SettingRepository cannot be null!");
+        this.mSettingRepository = PreconditionUtils.checkNotNull(settingRepository, "SettingRepository cannot be null!");
     }
 
     @Inject
@@ -50,27 +50,28 @@ class TodayPresenter implements TodayContract.Presenter {
     public void loadStepCount() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
-            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Log.d("Hans", "Thread:" + Thread.currentThread() + "getTargetStep");
-                emitter.onNext(mSettingRepository.getTargetStep());
-                emitter.onComplete();
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                e.onNext(mSettingRepository.getTargetStep());
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).map(new Function<Integer, Integer>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Consumer<Integer>() {
             @Override
-            public Integer apply(Integer max) throws Exception {
-                Log.d("Hans", "Thread:" + Thread.currentThread() + "showMaxCount");
+            public void accept(Integer max) throws Exception {
                 mView.showMaxCount(max);
-                return 1;
             }
-        }).observeOn(Schedulers.io()).map(new Function<Integer, Long>() {
+        }).observeOn(Schedulers.io()).flatMap(new Function<Integer, ObservableSource<Long>>() {
             @Override
-            public Long apply(Integer aVoid) throws Exception {
-                Log.d("Hans", "Thread:" + Thread.currentThread() + "getStepCount");
-                long count = mRunnerManager.getStepCount();
-                if (count >= 0) {
-                    return count;
-                }
-                throw new IllegalStateException("count < 0");
+            public ObservableSource<Long> apply(Integer max) throws Exception {
+
+                return Observable.create(new ObservableOnSubscribe<Long>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Long> e) throws Exception {
+                        long count = mRunnerManager.getStepCount();
+                        if (count < 0) {
+                            throw new IllegalStateException("count < 0");
+                        }
+                        e.onNext(count);
+                    }
+                });
             }
         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Long>() {
             @Override
@@ -80,13 +81,11 @@ class TodayPresenter implements TodayContract.Presenter {
 
             @Override
             public void onNext(Long count) {
-                Log.d("Hans", "Thread:" + Thread.currentThread() + "showCurrentStepCount");
                 mView.showCurrentStepCount(count);
             }
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
                 mView.showStepLoadFailInfo();
             }
 

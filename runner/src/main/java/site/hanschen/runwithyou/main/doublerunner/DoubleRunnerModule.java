@@ -2,6 +2,7 @@ package site.hanschen.runwithyou.main.doublerunner;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import dagger.Module;
 import dagger.Provides;
@@ -27,7 +28,7 @@ class DoubleRunnerModule {
     }
 
     @Provides
-    BluetoothControler provideBluetoothControler(@AppContext Context context, BluetoothAdapter adapter) {
+    BluetoothControler provideBluetoothControler(@AppContext Context context, @Nullable BluetoothAdapter adapter) {
         return new BluetoothControlerImpl(context, adapter);
     }
 }

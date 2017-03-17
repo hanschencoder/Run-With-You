@@ -31,6 +31,25 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
 
     private CircleProgressBar mProgressBar;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DaggerTodayComponent.builder()
+                            .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                            .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
+                            .build()
+                            .inject(this);
+        EventBus.getInstance().registerStepCallback(TodayFragment.this, mOnStepCallback);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+        EventBus.getInstance().unregisterCallback(TodayFragment.this);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,21 +66,14 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     private OnStepCallback mOnStepCallback = new OnStepCallback() {
         @Override
         public void onStepUpdate(long count) {
-            mProgressBar.setProgress(count);
+            showCurrentStepCount(count);
         }
     };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerTodayComponent.builder()
-                            .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                            .todayPresenterModule(new TodayPresenterModule(TodayFragment.this))
-                            .build()
-                            .inject(this);
-
         mPresenter.loadStepCount();
-        EventBus.getInstance().registerStepCallback(TodayFragment.this, mOnStepCallback);
     }
 
     @Override
@@ -78,12 +90,6 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_today_fragment, menu);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.detach();
     }
 
     @Override

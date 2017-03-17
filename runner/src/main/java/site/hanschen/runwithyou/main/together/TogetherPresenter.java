@@ -3,6 +3,7 @@ package site.hanschen.runwithyou.main.together;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
@@ -20,9 +21,9 @@ class TogetherPresenter implements TogetherContract.Presenter {
     private TogetherContract.View mView;
 
     @Inject
-    TogetherPresenter(TogetherContract.View view, BluetoothAdapter adapter) {
+    TogetherPresenter(TogetherContract.View view, @Nullable BluetoothAdapter adapter) {
         this.mView = PreconditionUtils.checkNotNull(view, "TogetherContract.View cannot be null!");
-        this.mBluetoothAdapter = PreconditionUtils.checkNotNull(adapter, "BluetoothAdapter cannot be null!");
+        this.mBluetoothAdapter = adapter;
     }
 
     @Inject
@@ -36,14 +37,9 @@ class TogetherPresenter implements TogetherContract.Presenter {
     }
 
     @Override
-    public boolean isBluetoothEnable() {
-        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
-    }
-
-    @Override
-    public void requestBluetoothEnable() {
+    public void requestEnable() {
         if (mBluetoothAdapter == null) {
-            mView.showBluetoothUnavailableTips();
+            mView.showBTUnavailable();
             return;
         }
         if (!mBluetoothAdapter.isEnabled()) {
@@ -53,14 +49,31 @@ class TogetherPresenter implements TogetherContract.Presenter {
     }
 
     @Override
-    public void requestBluetoothDiscoverable() {
+    public void connectDevice() {
+        if (!isBluetoothEnable()) {
+            requestEnable();
+        } else {
+            mView.showConnectDeviceInfo();
+        }
+    }
+
+    @Override
+    public void requestDiscoverable() {
+        if (mBluetoothAdapter == null) {
+            mView.showBTUnavailable();
+            return;
+        }
         if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             mView.startActivityForResult(discoverableIntent, REQUEST_BT_DISCOVERABLE);
         } else {
-            mView.showBluetoothDiscoverableTips(true);
+            mView.showDiscoverableInfo();
         }
+    }
+
+    private boolean isBluetoothEnable() {
+        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
     }
 
     @Override
@@ -68,16 +81,16 @@ class TogetherPresenter implements TogetherContract.Presenter {
         switch (requestCode) {
             case REQUEST_BT_ENABLE:
                 if (resultCode == Activity.RESULT_OK) {
-                    mView.showBluetoothEnableTips(true);
+                    mView.showBTSwitch(true);
                 } else {
-                    mView.showBluetoothEnableTips(false);
+                    mView.showBTSwitch(false);
                 }
                 break;
             case REQUEST_BT_DISCOVERABLE:
                 if (resultCode == Activity.RESULT_CANCELED) {
-                    mView.showBluetoothDiscoverableTips(false);
+                    mView.showDiscoverRefuseInfo();
                 } else {
-                    mView.showBluetoothDiscoverableTips(true);
+                    mView.showDiscoverableInfo();
                 }
                 break;
         }

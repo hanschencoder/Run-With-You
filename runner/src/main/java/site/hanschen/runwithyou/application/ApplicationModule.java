@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.SensorManager;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
 import javax.inject.Singleton;
 
@@ -63,7 +64,7 @@ class ApplicationModule {
     }
 
     @Provides
-    @Singleton
+    @Nullable
     BluetoothAdapter provideBluetoothAdapter() {
         return BluetoothAdapter.getDefaultAdapter();
     }

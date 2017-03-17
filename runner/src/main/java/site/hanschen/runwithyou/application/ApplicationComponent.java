@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
+import android.support.annotation.Nullable;
 
 import javax.inject.Singleton;
 
@@ -36,5 +37,6 @@ public interface ApplicationComponent {
 
     NotificationManager getNotificationManager();
 
+    @Nullable
     BluetoothAdapter getBluetoothAdapter();
 }

@@ -17,6 +17,12 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
@@ -37,18 +43,23 @@ public class SettingFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerSettingComponent.builder()
+                              .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                              .build()
+                              .inject(SettingFragment.this);
         addPreferencesFromResource(R.xml.setting_preferences);
+        mPreferences.registerOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPreferences.unregisterOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerSettingComponent.builder()
-                              .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                              .build()
-                              .inject(SettingFragment.this);
-
-        mPreferences.registerOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
         initPreferences();
     }
 
@@ -66,22 +77,25 @@ public class SettingFragment extends PreferenceFragment {
         }
     };
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPreferences.unregisterOnSharedPreferenceChangeListener(mOnPreferenceChangeListener);
-    }
-
     private void initPreferences() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             ((PreferenceGroup) findPreference(getString(R.string.pref_category_memory_resident))).removePreference(
                     findPreference(getString(R.string.pref_memory_resident_white_list)));
         }
 
-        int target = mSettingRepository.getTargetStep();
-        findPreference(getString(R.string.pref_target_step)).setSummary(String.format(Locale.getDefault(),
-                                                                                      "每日运动目标：%d步",
-                                                                                      target));
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                e.onNext(mSettingRepository.getTargetStep());
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer target) throws Exception {
+                findPreference(getString(R.string.pref_target_step)).setSummary(String.format(Locale.getDefault(),
+                                                                                              "每日运动目标：%d步",
+                                                                                              target));
+            }
+        });
     }
 
     @Override

@@ -14,13 +14,13 @@ class DeviceListContract {
 
     interface View extends BaseView<Presenter> {
 
-        void onDeviceLoaded(Set<Device> devices);
+        void showAllDevice(Set<Device> devices);
 
-        void onNewDeviceFound(Device device);
+        void addNewDevice(Device device);
 
-        void onDiscoveryStart();
+        void showDiscoveryStartInfo();
 
-        void onDiscoveryFinished();
+        void showDiscoveryFinishedInfo();
     }
 
     interface Presenter extends BasePresenter {

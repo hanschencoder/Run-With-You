@@ -26,8 +26,7 @@ import site.hanschen.runwithyou.main.doublerunner.DoubleRunnerActivity;
  */
 public class TogetherFragment extends RunnerBaseFragment implements View.OnClickListener, TogetherContract.View {
 
-    private Button mConnectBtn;
-    private Button mDiscoverableBtn;
+    @Nullable
     @Inject
     BluetoothAdapter  mBluetoothAdapter;
     @Inject
@@ -36,6 +35,17 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerTogetherComponent.builder()
+                               .applicationComponent(RunnerApplication.getInstance().getAppComponent())
+                               .togetherModule(new TogetherModule(TogetherFragment.this))
+                               .build()
+                               .inject(TogetherFragment.this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
     }
 
     @Nullable
@@ -48,21 +58,16 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mConnectBtn = (Button) view.findViewById(R.id.together_connect);
-        mConnectBtn.setOnClickListener(this);
-        mDiscoverableBtn = (Button) view.findViewById(R.id.together_make_discoverable);
-        mDiscoverableBtn.setOnClickListener(this);
+        Button connectBtn = (Button) view.findViewById(R.id.together_connect);
+        connectBtn.setOnClickListener(this);
+        Button discoverableBtn = (Button) view.findViewById(R.id.together_make_discoverable);
+        discoverableBtn.setOnClickListener(this);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerTogetherComponent.builder()
-                               .applicationComponent(RunnerApplication.getInstance().getAppComponent())
-                               .togetherModule(new TogetherModule(TogetherFragment.this))
-                               .build()
-                               .inject(TogetherFragment.this);
-        mPresenter.requestBluetoothEnable();
+        mPresenter.requestEnable();
     }
 
     @Override
@@ -76,23 +81,13 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.detach();
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.together_connect:
-                if (mPresenter.isBluetoothEnable()) {
-                    startActivity(new Intent(getActivity(), DeviceListActivity.class));
-                } else {
-                    mPresenter.requestBluetoothEnable();
-                }
+                mPresenter.connectDevice();
                 break;
             case R.id.together_make_discoverable:
-                mPresenter.requestBluetoothDiscoverable();
+                mPresenter.requestDiscoverable();
                 break;
         }
     }
@@ -103,12 +98,12 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showBluetoothUnavailableTips() {
+    public void showBTUnavailable() {
         Toast.makeText(mContext.getApplicationContext(), "蓝牙不可用", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void showBluetoothEnableTips(boolean enable) {
+    public void showBTSwitch(boolean enable) {
         if (enable) {
             Toast.makeText(getActivity(), "蓝牙已打开", Toast.LENGTH_SHORT).show();
         } else {
@@ -117,12 +112,18 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showBluetoothDiscoverableTips(boolean discoverable) {
-        if (discoverable) {
-            DoubleRunnerActivity.startAsServer(mContext);
-        } else {
-            Toast.makeText(getActivity(), "请求被拒绝", Toast.LENGTH_SHORT).show();
-        }
+    public void showDiscoverRefuseInfo() {
+        Toast.makeText(getActivity(), "请求被拒绝", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showConnectDeviceInfo() {
+        startActivity(new Intent(getActivity(), DeviceListActivity.class));
+    }
+
+    @Override
+    public void showDiscoverableInfo() {
+        DoubleRunnerActivity.startAsServer(mContext);
     }
 
     @Override

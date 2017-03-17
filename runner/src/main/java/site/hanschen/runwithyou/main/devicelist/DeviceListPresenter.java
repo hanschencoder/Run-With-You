@@ -2,6 +2,7 @@ package site.hanschen.runwithyou.main.devicelist;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.support.annotation.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +21,9 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
     private DeviceListContract.View mView;
 
     @Inject
-    DeviceListPresenter(DeviceListContract.View view, BluetoothAdapter btAdapter) {
+    DeviceListPresenter(DeviceListContract.View view, @Nullable BluetoothAdapter btAdapter) {
         this.mView = PreconditionUtils.checkNotNull(view, "DeviceListContract.View cannot be null!");
+        assert btAdapter != null;
         this.mBtAdapter = PreconditionUtils.checkNotNull(btAdapter, "BluetoothAdapter cannot be null!");
     }
 
@@ -32,7 +34,7 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
 
     @Override
     public void detach() {
-        cancelDiscovery();
+
     }
 
     @Override
@@ -47,12 +49,12 @@ class DeviceListPresenter implements DeviceListContract.Presenter {
         for (BluetoothDevice device : pairedDevices) {
             devices.add(new Device(device.getName(), device.getAddress()));
         }
-        mView.onDeviceLoaded(devices);
+        mView.showAllDevice(devices);
     }
 
     @Override
     public void discoveryDevices() {
-        mView.onDiscoveryStart();
+        mView.showDiscoveryStartInfo();
         if (mBtAdapter.isDiscovering()) {
             mBtAdapter.cancelDiscovery();
         }
