@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_login"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="site.hanschen.runwithyou.login.LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:tint="@color/background_double_runner"
+        app:srcCompat="@drawable/ic_cloud_outline"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/activity_login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="请输入用户名"
+        app:met_baseColor="@color/text_color_white_primary"
+        app:met_errorColor="#ddaa00"
+        app:met_floatingLabel="normal"
+        app:met_floatingLabelText="请输入用户名"
+        app:met_primaryColor="@color/background_double_runner"
+        app:met_singleLineEllipsis="true"/>
+
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/activity_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        app:met_baseColor="@color/text_color_white_primary"
+        app:met_errorColor="#ddaa00"
+        app:met_floatingLabel="normal"
+        app:met_floatingLabelText="请输入密码"
+        app:met_primaryColor="@color/background_double_runner"
+        app:met_singleLineEllipsis="true"/>
+
+    <Button
+        android:id="@+id/activity_login_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:background="@color/background_double_runner"
+        android:text="登 录"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/activity_login_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="8dp"
+            android:text="忘记密码?"/>
+
+        <TextView
+            android:id="@+id/activity_login_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:padding="8dp"
+            android:text="注册帐号"/>
+    </RelativeLayout>
+
+</LinearLayout>

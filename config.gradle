@@ -15,6 +15,7 @@ ext {
     rxAndroid1Version = '1.2.1'
     rxAndroid2Version = '2.0.1'
     butterKnifeVersion = '8.4.0'
+    gRPC = '1.2.0'
 
     dependencies = [
             common                   : 'site.hanschen:common:1.0.8',

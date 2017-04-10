@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+// 在生成对应的C++文件时，将被替换为命名空间。在Java上对应包名
+package site.hanschen.api.user;
+// 指定生成Java代码的包名，对非Java代码无效
+option java_package = "site.hanschen.api.user";
+// 指定生成Java代码的外部类名称
+option java_outer_classname = "UserCenterProto";
+// 指定生成的代码效率优先
+option optimize_for = SPEED; //[SPEED|CODE_SIZE|LITE_RUNTIME]
+// 定义在最外层的 message 、enum、service 将作为单独的类存在
+option java_multiple_files = true;
+
+enum Sex {
+    MALE = 0;
+    FEMALE = 1;
+}
+
+message LoginInfo {
+    string username = 1;
+    string password_md5 = 2;
+}
+
+message LoginReply {
+
+    enum ErrorCode {
+        ACCOUNT_PASSWORD_INCORRECT = 0;
+        ACCOUNT_EMPTY = 1;
+        PASSWORD_EMPTY = 2;
+    }
+
+    bool succeed = 1; // 登录是否成功
+    string token = 2; // 登录成功后返回的标识
+    ErrorCode errCode = 3; // 登录失败的错误码
+}
+
+message RegisterInfo {
+    string username = 1;
+    string password_md5 = 2;
+    string email = 3;
+    string phone = 4;
+}
+
+message RegisterReply {
+
+    enum ErrorCode {
+        USERNAME_INVALID = 0;
+        EMAIL_INVALID = 1;
+        PHONE_INVALID = 2;
+        USERNAME_ALREADY_REGISTERED = 3;
+        EMAIL_ALREADY_REGISTERED = 4;
+        PHONE_ALREADY_REGISTERED = 5;
+    }
+
+    bool succeed = 1; // 注册是否成功
+    ErrorCode errCode = 3; // 注册失败的错误码
+}
+
+message AuthorizationRequest {
+    string username = 1;
+    string password_md5 = 2;
+}
+
+message AuthorizationReply {
+    bool succeed = 1; // 密码是否正确
+    string authorization = 2; // 授权码
+}
+
+message NewPassword {
+    string token = 1; // 用户标识
+    string newPassword = 2; // 新的密码
+    string authorization = 3; // 授权码
+}
+
+message NewPasswordReply {
+
+    enum ErrorCode {
+        PASSWORD_NOT_CHANGED = 0;
+        AUTHORIZATION_INVALID = 1;
+    }
+
+    bool succeed = 1; // 修改密码是否成功
+    ErrorCode errCode = 3; // 修改密码失败的错误码
+}
+
+message OperateToken {
+    string token = 1;
+}
+
+message UpdateRequest {
+    string token = 1;
+    UserInfo userInfo = 2;
+}
+
+message ResultReply {
+    bool secceed = 1;
+}
+
+message UserInfo {
+    string nickname = 1;
+    string email = 2;
+    string phone = 3;
+    string birthday = 4;
+    int32 age = 5;
+    Sex sex = 6;
+    string bio = 7;
+    string Location = 8;
+}
+
+service UserCenter {
+
+    // 登录接口
+    rpc login (LoginInfo) returns (LoginReply) {
+    }
+
+    // 注册接口
+    rpc register (RegisterInfo) returns (RegisterReply) {
+    }
+
+    // 请求修改密码授权码
+    rpc requestAuthorization (AuthorizationRequest) returns (AuthorizationReply) {
+    }
+
+    // 修改密码
+    rpc changePassword (NewPassword) returns (NewPasswordReply) {
+    }
+
+    // 获取用户信息
+    rpc requestUserInfo (OperateToken) returns (UserInfo) {
+    }
+
+    // 修改用户信息
+    rpc updateUserInfo (UpdateRequest) returns (ResultReply) {
+    }
+}
+

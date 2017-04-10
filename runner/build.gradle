@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.google.protobuf'
 
 android {
 
@@ -97,6 +98,31 @@ greendao {
     targetGenDir 'src/main/java'
 }
 
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.2.0'
+    }
+    plugins {
+        javalite {
+            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+        }
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.2.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                javalite {}
+                grpc {
+                    // Options added to --grpc_out
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -139,9 +165,18 @@ dependencies {
     // MaterialAbout, see: https://github.com/jrvansuita/MaterialAbout
     compile 'com.github.jrvansuita:MaterialAbout:0.1.2'
 
+    // MaterialEditText, see: https://github.com/rengwuxian/MaterialEditText
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    // You need to build grpc-java to obtain these libraries below.
+    compile 'io.grpc:grpc-okhttp:1.2.0'
+    compile 'io.grpc:grpc-protobuf-lite:1.2.0'
+    compile 'io.grpc:grpc-stub:1.2.0'
+
     // test framework
     testCompile rootProject.ext.dependencies.junit
     androidTestCompile(rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
 }

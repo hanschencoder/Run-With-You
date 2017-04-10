@@ -9,4 +9,6 @@
 
     <color name="background_double_runner">#0fa9c3</color>
 
+    <color name="background_login">#454257</color>
+
 </resources>

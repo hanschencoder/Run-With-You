@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import site.hanschen.common.base.activity.BaseActivity;
 import site.hanschen.runwithyou.R;
-import site.hanschen.runwithyou.main.MainActivity;
+import site.hanschen.runwithyou.login.LoginActivity;
 import site.hanschen.runwithyou.service.RunnerService;
 
 /**
@@ -39,7 +39,7 @@ public class WelcomeActivity extends BaseActivity {
             getMainHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                     finish();
                 }
             }, TimeUnit.SECONDS.toMillis(0));

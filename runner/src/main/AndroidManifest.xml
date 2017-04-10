@@ -45,6 +45,14 @@
         </activity>
 
         <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".login.RegisterActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
