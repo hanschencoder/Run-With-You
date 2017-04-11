@@ -1,4 +1,10 @@
 # Run-With-You
+
+[![Build Status](https://travis-ci.org/shensky711/Run-With-You.svg?branch=master)](https://travis-ci.org/shensky711/Run-With-You)
+
+----------
+
+# 描述
 一款支持双人跑步的应用
 
 # 功能需求
