@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import site.hanschen.api.user.UserCenterApi;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.database.repository.StepRepository;
@@ -39,4 +40,6 @@ public interface ApplicationComponent {
 
     @Nullable
     BluetoothAdapter getBluetoothAdapter();
+
+    UserCenterApi getUserCenterApi();
 }

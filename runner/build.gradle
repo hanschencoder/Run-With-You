@@ -137,6 +137,7 @@ dependencies {
     // third part library
     compile rootProject.ext.dependencies.materialDialog
     compile rootProject.ext.dependencies.bottomBar
+    compile rootProject.ext.dependencies.commonsCodec
 
     // leakCanary
     debugCompile rootProject.ext.dependencies.leakCanaryDebug
@@ -172,6 +173,7 @@ dependencies {
     compile 'io.grpc:grpc-okhttp:1.2.0'
     compile 'io.grpc:grpc-protobuf-lite:1.2.0'
     compile 'io.grpc:grpc-stub:1.2.0'
+    compile 'javax.annotation:javax.annotation-api:1.2'
 
     // test framework
     testCompile rootProject.ext.dependencies.junit

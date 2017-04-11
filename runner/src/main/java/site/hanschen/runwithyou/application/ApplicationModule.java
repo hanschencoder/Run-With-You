@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import site.hanschen.api.user.UserCenterApi;
+import site.hanschen.api.user.UserCenterApiImpl;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.database.gen.DaoMaster;
 import site.hanschen.runwithyou.database.gen.DaoSession;
@@ -87,5 +89,11 @@ class ApplicationModule {
     @Singleton
     StepRepository provideStepRepository(DaoSession daoSession) {
         return new StepRepositoryImpl(daoSession.getStepRecordEntityDao());
+    }
+
+    @Provides
+    @Singleton
+    UserCenterApi provideUserCenterApi() {
+        return new UserCenterApiImpl("localhost", 8980);
     }
 }
