@@ -83,54 +83,77 @@
 #-keep public class * extends android.preference.Preference
 #-keep public class * extends android.view.View
 
--keep class org.**
+-keep class org.** { *; }
 -dontwarn org.**
 
--keep class io.**
+-keep class io.** { *; }
 -dontwarn io.**
 
--keep class javax.**
+-keep class javax.** { *; }
 -dontwarn javax.**
 
--keep class org.greenrobot.greendao.**
+-keep class org.greenrobot.greendao.** { *; }
 -dontwarn org.greenrobot.greendao.**
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
     public static java.lang.String TABLENAME;
 }
--keep class **$Properties
+-keep class **$Properties { *; }
 
--keep class butterknife.**
+-keep class butterknife.** { *; }
 -dontwarn butterknife.**
 
--keep class com.afollestad.materialdialogs.**
+-keep class com.afollestad.materialdialogs.** { *; }
 -dontwarn com.afollestad.materialdialogs.**
 
--keep class com.roughike.bottombar.**
+-keep class com.roughike.bottombar.** { *; }
 -dontwarn com.roughike.bottombar.**
 
--keep class com.squareup.**
+-keep class com.squareup.** { *; }
 -dontwarn com.squareup.**
 
--keep class com.tbruyelle.**
+-keep class com.tbruyelle.** { *; }
 -dontwarn com.tbruyelle.**
 
--keep class com.wang.avi.**
+-keep class com.wang.avi.** { *; }
 -dontwarn com.wang.avi.**
 
--keep class dagger.**
+-keep class dagger.** { *; }
 -dontwarn dagger.**
 
--keep class io.reactivex.**
+-keep class io.reactivex.** { *; }
 -dontwarn io.reactivex.**
 
--keep class me.zhanghai.android.materialprogressbar.**
+-keep class me.zhanghai.android.materialprogressbar.** { *; }
 -dontwarn me.zhanghai.android.materialprogressbar.**
 
--keep class org.reactivestreams.**
+-keep class org.reactivestreams.** { *; }
 -dontwarn org.reactivestreams.**
 
--keep class com.amap.**
+-keep class com.amap.** { *; }
 -dontwarn com.amap.**
 
--keep class com.autonavi.**
+-keep class com.autonavi.** { *; }
 -dontwarn com.autonavi.**
+
+-keep class com.google.** { *; }
+-dontwarn com.google.**
+
+-keep class com.maploc.** { *; }
+-dontwarn com.maploc.**
+
+-keep class com.nineoldandroids.** { *; }
+-dontwarn com.nineoldandroids.**
+
+-keep class com.rengwuxian.** { *; }
+-dontwarn com.rengwuxian.**
+
+-keep class com.tbruyelle.** { *; }
+-dontwarn com.tbruyelle.**
+
+-keep class com.vansuita.** { *; }
+-dontwarn com.vansuita.**
+
+-keep class okio.** { *; }
+-dontwarn okio.**
+
+-keep public class * extends com.google.protobuf.** { *; }
