@@ -71,8 +71,8 @@ public class RegisterActivity extends RunnerBaseActivity {
         @Override
         public void afterTextChanged(Editable s) {
             String username = mUsername.getEditableText().toString();
-            String password = mUsername.getEditableText().toString();
-            String passwordRepeat = mUsername.getEditableText().toString();
+            String password = mPassword.getEditableText().toString();
+            String passwordRepeat = mPasswordRepeat.getEditableText().toString();
             if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || !password.equals(passwordRepeat)) {
                 mRegisterBtn.setEnabled(false);
             } else {
