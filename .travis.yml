@@ -16,7 +16,7 @@ android:
     - 'google-gdk-license-.+'
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_44467df48425_key -iv $encrypted_44467df48425_iv -in keystore/release.keystore.enc -out keystore/release.keystore -d
+  - openssl aes-256-cbc -K $encrypted_cb5b1fb3a2b5_key -iv $encrypted_cb5b1fb3a2b5_iv -in keystore/release.keystore.enc -out keystore/release.keystore -d
 
 script:
   - "./gradlew assembleRelease --stacktrace"
