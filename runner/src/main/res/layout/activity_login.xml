@@ -8,7 +8,7 @@
     android:background="@color/background_login"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="site.hanschen.runwithyou.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"

@@ -1,6 +1,6 @@
 package site.hanschen.runwithyou.bluetooth;
 
-import site.hanschen.runwithyou.main.devicelist.bean.Device;
+import site.hanschen.runwithyou.ui.home.devicelist.bean.Device;
 
 /**
  * @author HansChen

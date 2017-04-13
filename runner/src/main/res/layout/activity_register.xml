@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_content_background"
     android:orientation="vertical"
-    tools:context="site.hanschen.runwithyou.login.RegisterActivity">
+    tools:context=".ui.login.RegisterActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

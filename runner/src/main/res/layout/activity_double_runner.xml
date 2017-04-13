@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_double_runner"
-    tools:context="site.hanschen.runwithyou.main.doublerunner.DoubleRunnerActivity">
+    tools:context=".ui.home.doublerunner.DoubleRunnerActivity">
 
     <RelativeLayout
         android:id="@+id/double_runner_connecting_info"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="site.hanschen.runwithyou.startup.DexInstallActivity">
+    tools:context="site.hanschen.runwithyou.dexinstall.DexInstallActivity">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Display1"

@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 import site.hanschen.common.utils.PreconditionUtils;
 import site.hanschen.runwithyou.dagger.AppContext;
-import site.hanschen.runwithyou.main.devicelist.bean.Device;
+import site.hanschen.runwithyou.ui.home.devicelist.bean.Device;
 
 import static site.hanschen.runwithyou.bluetooth.BluetoothControlerImpl.ConnectionState.STATE_CONNECTED;
 import static site.hanschen.runwithyou.bluetooth.BluetoothControlerImpl.ConnectionState.STATE_CONNECTING;

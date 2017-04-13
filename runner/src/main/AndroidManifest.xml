@@ -34,7 +34,7 @@
         </meta-data>
 
         <activity
-            android:name=".startup.WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Welcome">
             <intent-filter>
@@ -45,24 +45,24 @@
         </activity>
 
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".login.RegisterActivity"
+            android:name=".ui.login.RegisterActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.devicelist.DeviceListActivity"
+            android:name=".ui.home.devicelist.DeviceListActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".startup.DexInstallActivity"
+            android:name=".dexinstall.DexInstallActivity"
             android:alwaysRetainTaskState="false"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -71,20 +71,25 @@
             android:theme="@style/Fullscreen"/>
 
         <activity
-            android:name=".main.WebViewActivity"
+            android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.doublerunner.DoubleRunnerActivity"
+            android:name=".ui.home.doublerunner.DoubleRunnerActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.TestActivity"
+            android:name=".ui.LocationActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".main.about.AboutActivity"
+            android:name=".ui.about.AboutActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.VideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Fullscreen"/>
 
         <service android:name=".service.RunnerService"/>
     </application>

@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import site.hanschen.common.utils.AppUtils;
-import site.hanschen.runwithyou.startup.DexInstallActivity;
+import site.hanschen.runwithyou.dexinstall.DexInstallActivity;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 

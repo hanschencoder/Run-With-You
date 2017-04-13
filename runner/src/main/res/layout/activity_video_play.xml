@@ -1,0 +1,30 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <VideoView
+        android:id="@+id/activity_video_play_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+    </VideoView>
+
+    <ProgressBar
+        android:id="@+id/activity_video_play_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_video_play_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CC000000"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+</FrameLayout>
+

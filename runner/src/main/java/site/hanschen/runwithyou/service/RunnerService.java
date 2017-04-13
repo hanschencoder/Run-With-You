@@ -31,7 +31,7 @@ import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.bean.StepRecord;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.database.repository.StepRepository;
-import site.hanschen.runwithyou.main.MainActivity;
+import site.hanschen.runwithyou.ui.home.HomeActivity;
 import site.hanschen.runwithyou.utils.TimeUtils;
 
 /**
@@ -210,7 +210,7 @@ public class RunnerService extends Service {
 
     private Notification getNotification() {
         if (mNotificationBuilder == null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             mNotificationBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher)
                                                                        .setContentTitle(getString(R.string.app_name))
