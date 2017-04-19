@@ -123,6 +123,55 @@ protobuf {
     }
 }
 
+public class BuildTimeListener implements TaskExecutionListener, BuildListener {
+    private clock
+    private times = []
+    private total = 0;
+
+    @Override
+    void beforeExecute(Task task) {
+        clock = new Clock();
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState taskState) {
+        def ms = clock.timeInMs
+        total += ms
+        times.add([ms, task.path, task.description])
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task spend time:"
+        for (time in times) {
+            printf "%7s ms  %s[%s]\n", time
+        }
+        printf "%7s ms  Total\n", total
+    }
+
+    @Override
+    void buildStarted(Gradle gradle) {
+
+    }
+
+    @Override
+    void settingsEvaluated(Settings settings) {
+
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+
+    }
+}
+
+project.gradle.addListener(new BuildTimeListener())
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
