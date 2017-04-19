@@ -35,6 +35,7 @@
         android:id="@+id/home_bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/light_content_background"
         app:bb_behavior="shifting|underNavbar"
         app:bb_tabXmlResource="@xml/bottom_bar"/>
 

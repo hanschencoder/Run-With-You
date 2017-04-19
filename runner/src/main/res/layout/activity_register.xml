@@ -17,7 +17,7 @@
             android:id="@+id/register_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_login"
+            android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
             android:theme="@style/Toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -40,7 +40,7 @@
             app:met_errorColor="#ddaa00"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请输入注册邮箱"
-            app:met_primaryColor="@color/background_login"
+            app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"/>
 
 
@@ -54,7 +54,7 @@
             app:met_errorColor="#ddaa00"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请输入密码"
-            app:met_primaryColor="@color/background_login"
+            app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -67,7 +67,7 @@
             app:met_errorColor="#ddaa00"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请再次输入密码"
-            app:met_primaryColor="@color/background_login"
+            app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"/>
 
         <Button
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:background="@color/background_login"
+            android:background="@drawable/selector_radius_primary"
             android:text="注 册"/>
     </LinearLayout>
 

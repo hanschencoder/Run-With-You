@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_login"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".ui.login.LoginActivity">
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:tint="@color/background_double_runner"
+        android:tint="@color/colorAccent"
         app:srcCompat="@drawable/ic_cloud_outline"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -29,7 +29,7 @@
         app:met_errorColor="#ddaa00"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="请输入邮箱"
-        app:met_primaryColor="@color/background_double_runner"
+        app:met_primaryColor="@color/colorAccent"
         app:met_singleLineEllipsis="true"/>
 
 
@@ -43,7 +43,7 @@
         app:met_errorColor="#ddaa00"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="请输入密码"
-        app:met_primaryColor="@color/background_double_runner"
+        app:met_primaryColor="@color/colorAccent"
         app:met_singleLineEllipsis="true"/>
 
     <Button
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:background="@color/background_double_runner"
+        android:background="@drawable/selector_radius_accent"
         android:text="登 录"/>
 
     <RelativeLayout

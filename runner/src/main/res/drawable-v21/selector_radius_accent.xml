@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/ripple_color">
+    <item>
+        <selector>
+            <item
+                android:drawable="@drawable/shape_radius_accent_disable"
+                android:state_enabled="false"/>
+            <item android:drawable="@drawable/shape_radius_accent_normal"/>
+            <item
+                android:drawable="@drawable/shape_radius_accent_press"
+                android:state_pressed="true"/>
+        </selector>
+    </item>
+</ripple>

@@ -47,7 +47,7 @@ public class RegisterActivity extends RunnerBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        StatusBarCompat.setColor(RegisterActivity.this, ResourceUtils.getColor(mContext, R.color.background_login), 0);
+        StatusBarCompat.setColor(RegisterActivity.this, ResourceUtils.getColor(mContext, R.color.colorPrimary), 0);
         initViews();
 
         DaggerRegisterComponent.builder()

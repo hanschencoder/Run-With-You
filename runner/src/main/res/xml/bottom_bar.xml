@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
+        activeColor="@color/colorPrimary"
         icon="@drawable/ic_runner_black_24dp"
         id="@+id/tab_today"
+        inActiveColor="#c4c6cd"
         title="@string/today"/>
     <tab
+        activeColor="@color/colorPrimary"
         icon="@drawable/ic_we_black_24dp"
         id="@+id/tab_together"
+        inActiveColor="#c4c6cd"
         title="@string/together"/>
     <tab
+        activeColor="@color/colorPrimary"
         icon="@drawable/ic_discover_black_24dp"
         id="@+id/tab_discover"
+        inActiveColor="#c4c6cd"
         title="@string/discover"/>
     <tab
+        activeColor="@color/colorPrimary"
         icon="@drawable/ic_account_circle_black_24dp"
         id="@+id/setting"
+        inActiveColor="#c4c6cd"
         title="@string/me"/>
 </tabs>
