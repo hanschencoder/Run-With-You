@@ -12,17 +12,16 @@ public interface UserCenterApi {
      * @param password 密码
      * @return 登录结果
      */
-    LoginReply login(String username, String password);
+    LoginReply login(final String username, final String password);
 
     /**
      * 注册接口
      *
-     * @param username 用户名
+     * @param email    注册邮箱
      * @param password 密码
-     * @param phone    手机号
      * @return 注册结果
      */
-    RegisterReply register(String username, String password, String phone);
+    RegisterReply register(final String email, final String password);
 
     /**
      * 请求修改密码的权限
@@ -31,7 +30,7 @@ public interface UserCenterApi {
      * @param password 密码
      * @return 权限码
      */
-    AuthorizationReply requestAuthorization(String username, String password);
+    AuthorizationReply requestAuthorization(final String username, final String password);
 
     /**
      * 修改密码
@@ -41,7 +40,7 @@ public interface UserCenterApi {
      * @param authorization 权限码
      * @return 修改结果
      */
-    NewPasswordReply changePassword(String token, String newPassword, String authorization);
+    NewPasswordReply changePassword(final String token, final String newPassword, final String authorization);
 
     /**
      * 获取用户信息
@@ -49,7 +48,7 @@ public interface UserCenterApi {
      * @param token 用户标识
      * @return 用户信息
      */
-    UserInfo requestUserInfo(String token);
+    UserInfo requestUserInfo(final String token);
 
     /**
      * 更新用户信息
@@ -58,5 +57,5 @@ public interface UserCenterApi {
      * @param userInfo 新的用户信息
      * @return 操作结果
      */
-    ResultReply updateUserInfo(String token, UserInfo userInfo);
+    ResultReply updateUserInfo(final String token, final UserInfo userInfo);
 }

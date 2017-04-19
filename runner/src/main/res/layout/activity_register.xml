@@ -30,15 +30,16 @@
         android:padding="16dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/activity_register_username"
+            android:id="@+id/activity_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:hint="请输入用户名"
+            android:hint="请输入注册邮箱"
+            android:inputType="textEmailAddress"
             app:met_baseColor="@color/text_color_black_secondary"
             app:met_errorColor="#ddaa00"
             app:met_floatingLabel="normal"
-            app:met_floatingLabelText="请输入用户名"
+            app:met_floatingLabelText="请输入注册邮箱"
             app:met_primaryColor="@color/background_login"
             app:met_singleLineEllipsis="true"/>
 

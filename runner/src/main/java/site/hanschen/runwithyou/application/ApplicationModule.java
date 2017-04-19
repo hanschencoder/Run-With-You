@@ -94,6 +94,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     UserCenterApi provideUserCenterApi() {
-        return new UserCenterApiImpl("localhost", 8980);
+        boolean remoteServer = false;
+        return new UserCenterApiImpl(remoteServer ? "www.hanschen.site" : "192.168.1.3", 8980);
     }
 }

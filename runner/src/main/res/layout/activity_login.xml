@@ -23,12 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:hint="请输入用户名"
-        android:inputType="number"
+        android:hint="请输入邮箱"
+        android:inputType="textEmailAddress"
         app:met_baseColor="@color/text_color_white_primary"
         app:met_errorColor="#ddaa00"
         app:met_floatingLabel="normal"
-        app:met_floatingLabelText="请输入用户名"
+        app:met_floatingLabelText="请输入邮箱"
         app:met_primaryColor="@color/background_double_runner"
         app:met_singleLineEllipsis="true"/>
 

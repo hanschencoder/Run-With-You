@@ -38,23 +38,23 @@ public class UserCenterApiImpl implements UserCenterApi {
     }
 
     @Override
-    public LoginReply login(String username, String password) {
+    public LoginReply login(final String username, final String password) {
         LoginInfo info = LoginInfo.newBuilder().setUsername(username).setPasswordMd5(MD5Utils.getMD5(password)).build();
         return blockingStub.login(info);
     }
 
     @Override
-    public RegisterReply register(String username, String password, String phone) {
+    public RegisterReply register(final String email, final String password) {
         RegisterInfo info = RegisterInfo.newBuilder()
-                                        .setUsername(username)
+                                        .setEmail(email)
+                                        .setPassword(password)
                                         .setPasswordMd5(MD5Utils.getMD5(password))
-                                        .setPhone(phone)
                                         .build();
         return blockingStub.register(info);
     }
 
     @Override
-    public AuthorizationReply requestAuthorization(String username, String password) {
+    public AuthorizationReply requestAuthorization(final String username, final String password) {
         AuthorizationRequest info = AuthorizationRequest.newBuilder()
                                                         .setUsername(username)
                                                         .setPasswordMd5(MD5Utils.getMD5(password))
@@ -63,7 +63,7 @@ public class UserCenterApiImpl implements UserCenterApi {
     }
 
     @Override
-    public NewPasswordReply changePassword(String token, String newPassword, String authorization) {
+    public NewPasswordReply changePassword(final String token, final String newPassword, final String authorization) {
         NewPassword password = NewPassword.newBuilder()
                                           .setToken(token)
                                           .setNewPassword(MD5Utils.getMD5(newPassword))
@@ -73,13 +73,13 @@ public class UserCenterApiImpl implements UserCenterApi {
     }
 
     @Override
-    public UserInfo requestUserInfo(String token) {
+    public UserInfo requestUserInfo(final String token) {
         OperateToken operateToken = OperateToken.newBuilder().setToken(token).build();
         return blockingStub.requestUserInfo(operateToken);
     }
 
     @Override
-    public ResultReply updateUserInfo(String token, UserInfo userInfo) {
+    public ResultReply updateUserInfo(final String token, final UserInfo userInfo) {
         UpdateRequest request = UpdateRequest.newBuilder().setToken(token).setUserInfo(userInfo).build();
         return blockingStub.updateUserInfo(request);
     }

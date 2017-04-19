@@ -35,21 +35,18 @@ message LoginReply {
 }
 
 message RegisterInfo {
-    string username = 1;
-    string password_md5 = 2;
-    string email = 3;
-    string phone = 4;
+    string email = 1;
+    string password = 2;
+    string password_md5 = 3;
 }
 
 message RegisterReply {
 
     enum ErrorCode {
-        USERNAME_INVALID = 0;
-        EMAIL_INVALID = 1;
-        PHONE_INVALID = 2;
-        USERNAME_ALREADY_REGISTERED = 3;
-        EMAIL_ALREADY_REGISTERED = 4;
-        PHONE_ALREADY_REGISTERED = 5;
+        EMAIL_INVALID = 0;
+        PASSWORD_INVALID = 1;
+        EMAIL_ALREADY_REGISTERED = 2;
+        UNKNOWN = 3;
     }
 
     bool succeed = 1; // 注册是否成功
@@ -104,7 +101,7 @@ message UserInfo {
     int32 age = 5;
     Sex sex = 6;
     string bio = 7;
-    string Location = 8;
+    string location = 8;
 }
 
 service UserCenter {
@@ -133,4 +130,3 @@ service UserCenter {
     rpc updateUserInfo (UpdateRequest) returns (ResultReply) {
     }
 }
-

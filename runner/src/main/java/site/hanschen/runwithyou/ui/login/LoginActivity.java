@@ -133,6 +133,9 @@ public class LoginActivity extends RunnerBaseActivity {
                 if (loginReply.getSucceed()) {
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), loginReply.getErrCode().toString(), Toast.LENGTH_SHORT)
+                         .show();
                 }
             }
 
