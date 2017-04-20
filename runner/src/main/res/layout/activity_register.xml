@@ -33,7 +33,6 @@
             android:id="@+id/activity_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:hint="请输入注册邮箱"
             android:inputType="textEmailAddress"
             app:met_baseColor="@color/text_color_black_secondary"

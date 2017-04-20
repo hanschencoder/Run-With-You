@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="16dp"
-            android:background="@drawable/selector_radius_teal"
+            android:background="@drawable/selector_radius_primary"
             android:text="开始查找设备"
             android:textColor="@color/text_color_white_primary"/>
 

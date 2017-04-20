@@ -55,7 +55,7 @@ public class DoubleRunnerActivity extends RunnerBaseActivity implements DoubleRu
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_double_runner);
-        StatusBarCompat.setColor(this, ResourceUtils.getColor(mContext, R.color.background_double_runner), 0);
+        StatusBarCompat.setColor(this, ResourceUtils.getColor(mContext, R.color.colorPrimary), 0);
         parseData();
         initViews();
         DaggerDoubleRunnerComponent.builder()

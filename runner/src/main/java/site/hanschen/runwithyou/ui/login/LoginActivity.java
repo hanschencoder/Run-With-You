@@ -68,9 +68,10 @@ public class LoginActivity extends RunnerBaseActivity {
         mUsername.addTextChangedListener(mTextWatcher);
         mPassword.addTextChangedListener(mTextWatcher);
         mLoginBtn.setOnClickListener(onBtnClick);
-        mLoginBtn.setEnabled(false);
         mForgetPasswordBtn.setOnClickListener(onBtnClick);
         mRegisterBtn.setOnClickListener(onBtnClick);
+
+        setLoginBtnState();
     }
 
     private TextWatcher mTextWatcher = new TextWatcher() {
@@ -86,15 +87,19 @@ public class LoginActivity extends RunnerBaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            String username = mUsername.getEditableText().toString();
-            String password = mPassword.getEditableText().toString();
-            if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                mLoginBtn.setEnabled(false);
-            } else {
-                mLoginBtn.setEnabled(true);
-            }
+            setLoginBtnState();
         }
     };
+
+    private void setLoginBtnState() {
+        String username = mUsername.getEditableText().toString();
+        String password = mPassword.getEditableText().toString();
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            mLoginBtn.setEnabled(false);
+        } else {
+            mLoginBtn.setEnabled(true);
+        }
+    }
 
     private View.OnClickListener onBtnClick = new View.OnClickListener() {
         @Override
@@ -125,7 +130,7 @@ public class LoginActivity extends RunnerBaseActivity {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<LoginReply>() {
             @Override
             public void onSubscribe(Disposable d) {
-
+                showWaitingDialog();
             }
 
             @Override
@@ -146,7 +151,7 @@ public class LoginActivity extends RunnerBaseActivity {
 
             @Override
             public void onComplete() {
-
+                dismissWaitingDialog();
             }
         });
     }

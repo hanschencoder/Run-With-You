@@ -26,7 +26,7 @@
             android:id="@+id/device_list_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/ripple_color"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabMode="fixed"/>
 
     </android.support.design.widget.AppBarLayout>
