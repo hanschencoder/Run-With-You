@@ -44,10 +44,17 @@ public class UserCenterApiImpl implements UserCenterApi {
     }
 
     @Override
-    public RegisterReply register(final String email, final String password) {
+    public VerificationReply requestVerificationCode(String email) {
+        VerificationRequest request = VerificationRequest.newBuilder().setEmail(email).build();
+        return blockingStub.requestVerificationCode(request);
+    }
+
+    @Override
+    public RegisterReply register(final String email, final String verificationCode, final String password) {
         RegisterInfo info = RegisterInfo.newBuilder()
                                         .setEmail(email)
                                         .setPassword(password)
+                                        .setVerificationCode(verificationCode)
                                         .setPasswordMd5(MD5Utils.getMD5(password))
                                         .build();
         return blockingStub.register(info);

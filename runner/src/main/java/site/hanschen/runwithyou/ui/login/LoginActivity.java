@@ -49,13 +49,12 @@ public class LoginActivity extends RunnerBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         StatusBarCompat.setColor(LoginActivity.this, ResourceUtils.getColor(mContext, R.color.colorPrimary), 0);
-        initViews();
-
         DaggerLoginComponent.builder()
                             .applicationComponent(RunnerApplication.getInstance().getAppComponent())
                             .loginModule(new LoginModule())
                             .build()
                             .inject(LoginActivity.this);
+        initViews();
     }
 
     private void initViews() {

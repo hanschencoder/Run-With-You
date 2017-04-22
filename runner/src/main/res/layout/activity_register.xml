@@ -25,7 +25,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -41,6 +41,35 @@
             app:met_floatingLabelText="请输入注册邮箱"
             app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/activity_register_verification_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                app:met_baseColor="@color/text_color_black_secondary"
+                app:met_errorColor="#ddaa00"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请输入注册邮箱"
+                app:met_primaryColor="@color/colorPrimary"
+                app:met_singleLineEllipsis="true"/>
+
+            <Button
+                android:id="@+id/activity_register_verification_code_request_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/selector_radius_primary"
+                android:padding="8dp"
+                android:text="获取验证码"/>
+        </LinearLayout>
 
 
         <com.rengwuxian.materialedittext.MaterialEditText

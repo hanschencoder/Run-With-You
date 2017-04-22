@@ -15,13 +15,21 @@ public interface UserCenterApi {
     LoginReply login(final String username, final String password);
 
     /**
+     * 请求注册验证码
+     *
+     * @param email 接收验证码的邮箱地址
+     * @return 验证码
+     */
+    VerificationReply requestVerificationCode(final String email);
+
+    /**
      * 注册接口
      *
      * @param email    注册邮箱
      * @param password 密码
      * @return 注册结果
      */
-    RegisterReply register(final String email, final String password);
+    RegisterReply register(final String email, final String verificationCode, final String password);
 
     /**
      * 请求修改密码的权限
