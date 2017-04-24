@@ -14,7 +14,7 @@ ext {
     rxJava2Version = '2.0.3'
     rxAndroid1Version = '1.2.1'
     rxAndroid2Version = '2.0.1'
-    butterKnifeVersion = '8.4.0'
+    butterKnifeVersion = '8.5.1'
     gRPC = '1.2.0'
 
     dependencies = [

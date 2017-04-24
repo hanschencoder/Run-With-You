@@ -9,11 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
@@ -24,7 +25,7 @@ import site.hanschen.runwithyou.ui.home.doublerunner.DoubleRunnerActivity;
 /**
  * @author HansChen
  */
-public class TogetherFragment extends RunnerBaseFragment implements View.OnClickListener, TogetherContract.View {
+public class TogetherFragment extends RunnerBaseFragment implements TogetherContract.View {
 
     @Nullable
     @Inject
@@ -58,10 +59,7 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button connectBtn = (Button) view.findViewById(R.id.together_connect);
-        connectBtn.setOnClickListener(this);
-        Button discoverableBtn = (Button) view.findViewById(R.id.together_make_discoverable);
-        discoverableBtn.setOnClickListener(this);
+        ButterKnife.bind(TogetherFragment.this, view);
     }
 
     @Override
@@ -80,8 +78,8 @@ public class TogetherFragment extends RunnerBaseFragment implements View.OnClick
         mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.together_connect, R.id.together_make_discoverable})
+    void onBtnClick(View v) {
         switch (v.getId()) {
             case R.id.together_connect:
                 mPresenter.connectDevice();

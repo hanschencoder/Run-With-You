@@ -29,6 +29,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.LazyFragment;
@@ -51,11 +53,15 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
         return fragment;
     }
 
+    @BindView(R.id.device_list_devices)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.device_list_discovery)
+    Button       mDiscoveryBtn;
+    @BindView(R.id.device_list_discovery_status)
+    ProgressBar  mDiscoveryStatus;
+
     private DeviceCategory mCategory;
     private List<Device> mDevices = new ArrayList<>();
-    private RecyclerView      mRecyclerView;
-    private Button            mDiscoveryBtn;
-    private ProgressBar       mDiscoveryStatus;
     private DeviceListAdapter mAdapter;
     @Inject
     DeviceListPresenter mPresenter;
@@ -106,7 +112,7 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view);
+        ButterKnife.bind(this, view);
     }
 
     @Override
@@ -127,18 +133,15 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
         }
     }
 
-    private void initViews(View root) {
-        mDiscoveryBtn = (Button) root.findViewById(R.id.device_list_discovery);
+    private void initViews() {
         if (mCategory == DeviceCategory.NEW) {
             mDiscoveryBtn.setVisibility(View.VISIBLE);
         } else {
             mDiscoveryBtn.setVisibility(View.GONE);
         }
         mDiscoveryBtn.setOnClickListener(DeviceFragment.this);
-        mDiscoveryStatus = (ProgressBar) root.findViewById(R.id.device_list_discovery_status);
         mDiscoveryStatus.setVisibility(View.GONE);
         mDiscoveryStatus.setIndeterminate(true);
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.device_list_devices);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new DeviceListAdapter(mContext);
         mAdapter.setOnItemClickListener(mOnItemClickListener);

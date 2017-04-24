@@ -10,6 +10,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.ui.home.discover.DiscoverFragment;
@@ -23,8 +25,10 @@ import site.hanschen.runwithyou.utils.StepCountUtils;
  */
 public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListener {
 
-    private Toolbar                                mToolbar;
-    private BottomBar                              mBottomBar;
+    @BindView(R.id.home_toolbar)
+    Toolbar   mToolbar;
+    @BindView(R.id.home_bottomBar)
+    BottomBar mBottomBar;
     private SparseArray<Class<? extends Fragment>> mMap;
     private int                                    mPreSelectedTab;
 
@@ -33,6 +37,7 @@ public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(HomeActivity.this);
         initData();
         initViews();
         checkStepCountSupport();
@@ -47,11 +52,9 @@ public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListe
     }
 
     private void initViews() {
-        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         mToolbar.setTitle(R.string.app_name);
         setSupportActionBar(mToolbar);
 
-        mBottomBar = (BottomBar) findViewById(R.id.home_bottomBar);
         mBottomBar.setOnTabSelectListener(HomeActivity.this);
     }
 

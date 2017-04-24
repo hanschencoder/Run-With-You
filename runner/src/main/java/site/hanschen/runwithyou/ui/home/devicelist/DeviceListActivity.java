@@ -9,6 +9,8 @@ import android.view.View;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.ui.home.devicelist.adapter.DevicePagerAdapter;
@@ -18,13 +20,16 @@ import site.hanschen.runwithyou.ui.home.devicelist.adapter.DevicePagerAdapter;
  */
 public class DeviceListActivity extends RunnerBaseActivity {
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    @BindView(R.id.device_list_tab_layout)
+    TabLayout mTabLayout;
+    @BindView(R.id.device_list_pager)
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+        ButterKnife.bind(this);
         initViews();
     }
 
@@ -40,8 +45,6 @@ public class DeviceListActivity extends RunnerBaseActivity {
             }
         });
 
-        mTabLayout = (TabLayout) findViewById(R.id.device_list_tab_layout);
-        mViewPager = (ViewPager) findViewById(R.id.device_list_pager);
         mViewPager.setOffscreenPageLimit(2);
         DeviceCategory[] categories = new DeviceCategory[]{
                 DeviceCategory.HISTORY, DeviceCategory.PAIRED, DeviceCategory.NEW};

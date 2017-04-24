@@ -10,6 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
 import site.hanschen.runwithyou.ui.home.userinfo.UserInfoActivity;
@@ -19,9 +22,12 @@ import site.hanschen.runwithyou.ui.home.userinfo.UserInfoActivity;
  */
 public class SettingFragment extends RunnerBaseFragment {
 
-    private FrameLayout mUserLayout;
-    private TextView    mUsername;
-    private ImageView   mUserIcon;
+    @BindView(R.id.fragment_setting_user_layout)
+    FrameLayout mUserLayout;
+    @BindView(R.id.fragment_setting_username)
+    TextView    mUsername;
+    @BindView(R.id.fragment_setting_user_icon)
+    ImageView   mUserIcon;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,14 +48,11 @@ public class SettingFragment extends RunnerBaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mUserLayout = (FrameLayout) view.findViewById(R.id.fragment_setting_user_layout);
-        mUserLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, UserInfoActivity.class));
-            }
-        });
-        mUsername = (TextView) view.findViewById(R.id.fragment_setting_username);
-        mUserIcon = (ImageView) view.findViewById(R.id.fragment_setting_user_icon);
+        ButterKnife.bind(SettingFragment.this, view);
+    }
+
+    @OnClick(R.id.fragment_setting_user_layout)
+    void onUserLayoutClick() {
+        startActivity(new Intent(mContext, UserInfoActivity.class));
     }
 }

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.ui.home.devicelist.bean.Device;
 
@@ -72,13 +74,14 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.primary_text)
         TextView deviceName;
+        @BindView(R.id.secondary_text)
         TextView deviceAddress;
 
         ViewHolder(View itemView) {
             super(itemView);
-            deviceName = (TextView) itemView.findViewById(R.id.primary_text);
-            deviceAddress = (TextView) itemView.findViewById(R.id.secondary_text);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

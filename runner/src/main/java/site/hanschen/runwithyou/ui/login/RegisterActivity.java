@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +14,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import site.hanschen.api.user.RegisterReply;
@@ -33,13 +35,20 @@ import site.hanschen.runwithyou.utils.CommonUtils;
  */
 public class RegisterActivity extends RunnerBaseActivity {
 
-    private EditText mEmail;
-    private EditText mPassword;
-    private EditText mPasswordRepeat;
-    private EditText mVerificationCode;
-    private Button   mRequestCodeBtn;
-    private Button   mRegisterBtn;
-    private int      mCountDown;
+    @BindView(R.id.activity_register_email)
+    EditText mEmail;
+    @BindView(R.id.activity_register_password)
+    EditText mPassword;
+    @BindView(R.id.activity_register_password_repeat)
+    EditText mPasswordRepeat;
+    @BindView(R.id.activity_register_verification_code)
+    EditText mVerificationCode;
+    @BindView(R.id.activity_register_verification_code_request_btn)
+    Button   mRequestCodeBtn;
+    @BindView(R.id.activity_register_btn)
+    Button   mRegisterBtn;
+
+    private int mCountDown;
 
     @Inject
     UserCenterApiWrapper mUserCenterApi;
@@ -48,6 +57,7 @@ public class RegisterActivity extends RunnerBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
         StatusBarCompat.setColor(RegisterActivity.this, ResourceUtils.getColor(mContext, R.color.colorPrimary), 0);
         DaggerRegisterComponent.builder()
                                .applicationComponent(RunnerApplication.getInstance().getAppComponent())
@@ -75,37 +85,17 @@ public class RegisterActivity extends RunnerBaseActivity {
             }
         });
 
-        mEmail = findView(R.id.activity_register_email);
-        mEmail.addTextChangedListener(mTextWatcher);
-        mVerificationCode = findView(R.id.activity_register_verification_code);
-        mVerificationCode.addTextChangedListener(mTextWatcher);
-        mRequestCodeBtn = findView(R.id.activity_register_verification_code_request_btn);
-        mRequestCodeBtn.setOnClickListener(onBtnClick);
-        mPassword = findView(R.id.activity_register_password);
-        mPassword.addTextChangedListener(mTextWatcher);
-        mPasswordRepeat = findView(R.id.activity_register_password_repeat);
-        mPasswordRepeat.addTextChangedListener(mTextWatcher);
-        mRegisterBtn = findView(R.id.activity_register_btn);
-        mRegisterBtn.setOnClickListener(onBtnClick);
         refreshRegisterBtnState();
     }
 
-    private TextWatcher mTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            refreshRegisterBtnState();
-        }
-    };
+    @OnTextChanged({
+            R.id.activity_register_email,
+            R.id.activity_register_verification_code,
+            R.id.activity_register_password,
+            R.id.activity_register_password_repeat})
+    void onTextChanged() {
+        refreshRegisterBtnState();
+    }
 
     private void refreshRegisterBtnState() {
         String email = mEmail.getEditableText().toString();
@@ -120,13 +110,30 @@ public class RegisterActivity extends RunnerBaseActivity {
         }
     }
 
+    @OnClick({R.id.activity_register_verification_code_request_btn, R.id.activity_register_btn})
+    void onBtnClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_register_verification_code_request_btn:
+                if (!CommonUtils.isEmailValid(mEmail.getEditableText().toString())) {
+                    mEmail.setError("邮箱地址不合法，请重新输入");
+                } else {
+                    requestVerificationCode(mEmail.getEditableText().toString());
+                }
+                break;
+            case R.id.activity_register_btn:
+                register();
+                break;
+            default:
+                break;
+        }
+    }
+
     private void clearErrorInfo() {
         mEmail.setError(null);
         mVerificationCode.setError(null);
         mPassword.setError(null);
         mPasswordRepeat.setError(null);
     }
-
 
     private void register() {
         String email = mEmail.getEditableText().toString();
@@ -149,26 +156,6 @@ public class RegisterActivity extends RunnerBaseActivity {
             doRegister(email, verificationCode, password);
         }
     }
-
-    private View.OnClickListener onBtnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.activity_register_verification_code_request_btn:
-                    if (!CommonUtils.isEmailValid(mEmail.getEditableText().toString())) {
-                        mEmail.setError("邮箱地址不合法，请重新输入");
-                    } else {
-                        requestVerificationCode(mEmail.getEditableText().toString());
-                    }
-                    break;
-                case R.id.activity_register_btn:
-                    register();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     private Runnable mRefreshTask = new Runnable() {
         @Override

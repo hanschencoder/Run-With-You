@@ -14,6 +14,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
@@ -27,9 +29,9 @@ import site.hanschen.runwithyou.widget.CircleProgressBar;
 public class TodayFragment extends RunnerBaseFragment implements TodayContract.View {
 
     @Inject
-    TodayPresenter mPresenter;
-
-    private CircleProgressBar mProgressBar;
+    TodayPresenter    mPresenter;
+    @BindView(R.id.fragment_today_progress)
+    CircleProgressBar mProgressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +51,6 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
         EventBus.getInstance().unregisterCallback(TodayFragment.this);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class TodayFragment extends RunnerBaseFragment implements TodayContract.V
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProgressBar = (CircleProgressBar) view.findViewById(R.id.fragment_today_progress);
+        ButterKnife.bind(this, view);
     }
 
     private OnStepCallback mOnStepCallback = new OnStepCallback() {
