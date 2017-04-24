@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import site.hanschen.api.user.UserCenterApi;
+import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.database.repository.SettingRepository;
 import site.hanschen.runwithyou.database.repository.StepRepository;
@@ -42,4 +43,6 @@ public interface ApplicationComponent {
     BluetoothAdapter getBluetoothAdapter();
 
     UserCenterApi getUserCenterApi();
+
+    UserCenterApiWrapper getUserCenterApiWrapper();
 }

@@ -10,19 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import site.hanschen.api.user.LoginReply;
-import site.hanschen.api.user.UserCenterApi;
+import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.common.statusbar.StatusBarCompat;
 import site.hanschen.common.utils.ResourceUtils;
 import site.hanschen.runwithyou.R;
@@ -42,7 +36,7 @@ public class LoginActivity extends RunnerBaseActivity {
     private TextView mRegisterBtn;
 
     @Inject
-    UserCenterApi mUserCenterApi;
+    UserCenterApiWrapper mUserCenterApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +102,7 @@ public class LoginActivity extends RunnerBaseActivity {
                     doLogin(mUsername.getEditableText().toString(), mPassword.getEditableText().toString());
                     break;
                 case R.id.activity_login_forget_password:
+                    toast("开发中，敬请期待");
                     break;
                 case R.id.activity_login_register:
                     startActivity(new Intent(mContext, RegisterActivity.class));
@@ -119,14 +114,7 @@ public class LoginActivity extends RunnerBaseActivity {
     };
 
     private void doLogin(final String username, final String password) {
-        Observable.create(new ObservableOnSubscribe<LoginReply>() {
-            @Override
-            public void subscribe(ObservableEmitter<LoginReply> e) throws Exception {
-                LoginReply reply = mUserCenterApi.login(username, password);
-                e.onNext(reply);
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<LoginReply>() {
+        mUserCenterApi.login(username, password).subscribe(new Observer<LoginReply>() {
             @Override
             public void onSubscribe(Disposable d) {
                 showWaitingDialog();
@@ -134,23 +122,36 @@ public class LoginActivity extends RunnerBaseActivity {
 
             @Override
             public void onNext(LoginReply loginReply) {
+                dismissWaitingDialog();
                 if (loginReply.getSucceed()) {
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), loginReply.getErrCode().toString(), Toast.LENGTH_SHORT)
-                         .show();
+                    switch (loginReply.getErrCode()) {
+                        case ACCOUNT_PASSWORD_INCORRECT:
+                            mPassword.setError("帐号或密码不正确");
+                            break;
+                        case ACCOUNT_EMPTY:
+                            mUsername.setError("帐号不能为空");
+                            break;
+                        case PASSWORD_EMPTY:
+                            mPassword.setError("密码不能为空");
+                            break;
+                        default:
+                            toast("登录失败:" + loginReply.getErrCode().toString());
+                            break;
+                    }
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(mContext.getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                dismissWaitingDialog();
+                toast("网络错误:" + e.toString());
             }
 
             @Override
             public void onComplete() {
-                dismissWaitingDialog();
             }
         });
     }

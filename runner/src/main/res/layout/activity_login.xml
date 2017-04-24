@@ -26,11 +26,10 @@
         android:hint="请输入邮箱"
         android:inputType="textEmailAddress"
         app:met_baseColor="@color/text_color_white_primary"
-        app:met_errorColor="#ddaa00"
+        app:met_errorColor="@color/error"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="请输入邮箱"
-        app:met_primaryColor="@color/colorAccent"
-        app:met_singleLineEllipsis="true"/>
+        app:met_primaryColor="@color/colorAccent"/>
 
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -40,11 +39,10 @@
         android:hint="请输入密码"
         android:inputType="textPassword"
         app:met_baseColor="@color/text_color_white_primary"
-        app:met_errorColor="#ddaa00"
+        app:met_errorColor="@color/error"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="请输入密码"
-        app:met_primaryColor="@color/colorAccent"
-        app:met_singleLineEllipsis="true"/>
+        app:met_primaryColor="@color/colorAccent"/>
 
     <Button
         android:id="@+id/activity_login_login_btn"

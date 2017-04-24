@@ -1,5 +1,7 @@
 package site.hanschen.api.user;
 
+import android.util.Log;
+
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
@@ -22,6 +24,7 @@ public class UserCenterApiImpl implements UserCenterApi {
      */
     public UserCenterApiImpl(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port).usePlaintext(true));
+        Log.d("Hans", "UserCenter: " + host + ":" + port);
     }
 
     /**

@@ -16,15 +16,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import site.hanschen.api.user.RegisterReply;
-import site.hanschen.api.user.UserCenterApi;
+import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.api.user.VerificationReply;
 import site.hanschen.common.statusbar.StatusBarCompat;
 import site.hanschen.common.utils.ResourceUtils;
@@ -47,20 +42,19 @@ public class RegisterActivity extends RunnerBaseActivity {
     private int      mCountDown;
 
     @Inject
-    UserCenterApi mUserCenterApi;
+    UserCenterApiWrapper mUserCenterApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         StatusBarCompat.setColor(RegisterActivity.this, ResourceUtils.getColor(mContext, R.color.colorPrimary), 0);
-        initViews();
-
         DaggerRegisterComponent.builder()
                                .applicationComponent(RunnerApplication.getInstance().getAppComponent())
                                .registerModule(new RegisterModule())
                                .build()
                                .inject(RegisterActivity.this);
+        initViews();
     }
 
     @Override
@@ -192,64 +186,48 @@ public class RegisterActivity extends RunnerBaseActivity {
     }
 
     private void requestVerificationCode(final String email) {
-        Observable.create(new ObservableOnSubscribe<VerificationReply>() {
+        mUserCenterApi.requestVerificationCode(email).subscribe(new Observer<VerificationReply>() {
             @Override
-            public void subscribe(ObservableEmitter<VerificationReply> e) throws Exception {
-                VerificationReply reply = mUserCenterApi.requestVerificationCode(email);
-                e.onNext(reply);
-                e.onComplete();
+            public void onSubscribe(Disposable d) {
+                showWaitingDialog();
             }
-        })
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(AndroidSchedulers.mainThread())
-                  .subscribe(new Observer<VerificationReply>() {
-                      @Override
-                      public void onSubscribe(Disposable d) {
-                          showWaitingDialog();
-                      }
 
-                      @Override
-                      public void onNext(VerificationReply reply) {
-                          if (reply.getSucceed()) {
-                              startCountDown();
-                              toast("验证码已发送到您的邮箱");
-                          } else {
-                              switch (reply.getErrCode()) {
-                                  case EMAIL_ALREADY_REGISTERED:
-                                      toast("邮箱已注册，请换个邮箱试试");
-                                      break;
-                                  case EMAIL_INVALID:
-                                      toast("无效邮箱，请换个邮箱试试");
-                                      break;
-                                  case UNKNOWN:
-                                  default:
-                                      toast("请求失败，请重新获取验证码");
-                                      break;
-                              }
-                          }
-                      }
+            @Override
+            public void onNext(VerificationReply reply) {
+                dismissWaitingDialog();
+                if (reply.getSucceed()) {
+                    startCountDown();
+                    toast("验证码已发送到您的邮箱");
+                } else {
+                    switch (reply.getErrCode()) {
+                        case EMAIL_ALREADY_REGISTERED:
+                            mEmail.setError("邮箱已注册，请换个邮箱试试");
+                            break;
+                        case EMAIL_INVALID:
+                            mEmail.setError("无效邮箱，请换个邮箱试试");
+                            break;
+                        case UNKNOWN:
+                        default:
+                            toast("请求失败，请重新获取验证码");
+                            break;
+                    }
+                }
+            }
 
-                      @Override
-                      public void onError(Throwable e) {
-                          toast("请求失败，请重新获取验证码 " + e);
-                      }
+            @Override
+            public void onError(Throwable e) {
+                dismissWaitingDialog();
+                toast("网络错误:" + e.toString());
+            }
 
-                      @Override
-                      public void onComplete() {
-                          dismissWaitingDialog();
-                      }
-                  });
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
     private void doRegister(final String email, final String verificationCode, final String password) {
-        Observable.create(new ObservableOnSubscribe<RegisterReply>() {
-            @Override
-            public void subscribe(ObservableEmitter<RegisterReply> e) throws Exception {
-                RegisterReply reply = mUserCenterApi.register(email, verificationCode, password);
-                e.onNext(reply);
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<RegisterReply>() {
+        mUserCenterApi.register(email, verificationCode, password).subscribe(new Observer<RegisterReply>() {
             @Override
             public void onSubscribe(Disposable d) {
                 showWaitingDialog();
@@ -257,6 +235,7 @@ public class RegisterActivity extends RunnerBaseActivity {
 
             @Override
             public void onNext(RegisterReply reply) {
+                dismissWaitingDialog();
                 if (reply.getSucceed()) {
                     new MaterialDialog.Builder(mContext).title("注册成功")
                                                         .content("注册成功，欢迎您使用")
@@ -277,7 +256,8 @@ public class RegisterActivity extends RunnerBaseActivity {
 
             @Override
             public void onError(Throwable e) {
-                toast("请求失败，请重试 " + e);
+                dismissWaitingDialog();
+                toast("网络错误:" + e.toString());
             }
 
             @Override

@@ -9,5 +9,6 @@
     <color name="ripple_color">#bfbdca</color>
 
     <color name="background_double_runner">#0fa9c3</color>
+    <color name="error">#ea482d</color>
 
 </resources>

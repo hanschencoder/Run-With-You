@@ -15,6 +15,7 @@ import dagger.Module;
 import dagger.Provides;
 import site.hanschen.api.user.UserCenterApi;
 import site.hanschen.api.user.UserCenterApiImpl;
+import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.runwithyou.dagger.AppContext;
 import site.hanschen.runwithyou.database.gen.DaoMaster;
 import site.hanschen.runwithyou.database.gen.DaoSession;
@@ -96,5 +97,11 @@ class ApplicationModule {
     UserCenterApi provideUserCenterApi() {
         boolean remoteServer = true;
         return new UserCenterApiImpl(remoteServer ? "www.hanschen.site" : "192.168.1.3", 8980);
+    }
+
+    @Provides
+    @Singleton
+    UserCenterApiWrapper provideUserCenterApiWrapper(UserCenterApi api) {
+        return new UserCenterApiWrapper(api);
     }
 }

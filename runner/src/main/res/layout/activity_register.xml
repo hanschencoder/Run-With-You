@@ -36,11 +36,10 @@
             android:hint="请输入注册邮箱"
             android:inputType="textEmailAddress"
             app:met_baseColor="@color/text_color_black_secondary"
-            app:met_errorColor="#ddaa00"
+            app:met_errorColor="@color/error"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请输入注册邮箱"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_singleLineEllipsis="true"/>
+            app:met_primaryColor="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,11 +54,10 @@
                 android:hint="请输入验证码"
                 android:inputType="number"
                 app:met_baseColor="@color/text_color_black_secondary"
-                app:met_errorColor="#ddaa00"
+                app:met_errorColor="@color/error"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="请输入注册邮箱"
-                app:met_primaryColor="@color/colorPrimary"
-                app:met_singleLineEllipsis="true"/>
+                app:met_primaryColor="@color/colorPrimary"/>
 
             <Button
                 android:id="@+id/activity_register_verification_code_request_btn"
@@ -79,11 +77,10 @@
             android:hint="请输入密码"
             android:inputType="textPassword"
             app:met_baseColor="@color/text_color_black_secondary"
-            app:met_errorColor="#ddaa00"
+            app:met_errorColor="@color/error"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请输入密码"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_singleLineEllipsis="true"/>
+            app:met_primaryColor="@color/colorPrimary"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/activity_register_password_repeat"
@@ -92,11 +89,10 @@
             android:hint="请再次输入密码"
             android:inputType="textPassword"
             app:met_baseColor="@color/text_color_black_secondary"
-            app:met_errorColor="#ddaa00"
+            app:met_errorColor="@color/error"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="请再次输入密码"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_singleLineEllipsis="true"/>
+            app:met_primaryColor="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/activity_register_btn"
