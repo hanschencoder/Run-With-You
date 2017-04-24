@@ -5,6 +5,7 @@
     <color name="colorAccent">#0fa9c3</color>
     <color name="colorAccentDark">#31747f</color>
 
+    <color name="divider">#d1d1d1</color>
     <color name="transparent">#00000000</color>
     <color name="ripple_color">#bfbdca</color>
 

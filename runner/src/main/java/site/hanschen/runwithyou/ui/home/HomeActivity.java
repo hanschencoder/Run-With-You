@@ -79,6 +79,12 @@ public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListe
             }
 
             mPreSelectedTab = tabId;
+
+            if (tabId == R.id.setting) {
+                getSupportActionBar().hide();
+            } else {
+                getSupportActionBar().show();
+            }
         }
     }
 }

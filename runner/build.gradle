@@ -218,6 +218,9 @@ dependencies {
     // MaterialEditText, see: https://github.com/rengwuxian/MaterialEditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
 
+    // Glide, see: https://github.com/bumptech/glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
     // You need to build grpc-java to obtain these libraries below.
     compile 'io.grpc:grpc-okhttp:1.2.0'
     compile 'io.grpc:grpc-protobuf-lite:1.2.0'

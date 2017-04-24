@@ -113,10 +113,16 @@ public class LoginActivity extends RunnerBaseActivity {
         }
     };
 
+    private void clearErrorInfo() {
+        mUsername.setError(null);
+        mPassword.setError(null);
+    }
+
     private void doLogin(final String username, final String password) {
         mUserCenterApi.login(username, password).subscribe(new Observer<LoginReply>() {
             @Override
             public void onSubscribe(Disposable d) {
+                clearErrorInfo();
                 showWaitingDialog();
             }
 

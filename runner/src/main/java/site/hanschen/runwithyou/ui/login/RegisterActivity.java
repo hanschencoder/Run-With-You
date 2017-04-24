@@ -120,12 +120,21 @@ public class RegisterActivity extends RunnerBaseActivity {
         }
     }
 
+    private void clearErrorInfo() {
+        mEmail.setError(null);
+        mVerificationCode.setError(null);
+        mPassword.setError(null);
+        mPasswordRepeat.setError(null);
+    }
+
+
     private void register() {
         String email = mEmail.getEditableText().toString();
         String verificationCode = mVerificationCode.getEditableText().toString();
         String password = mPassword.getEditableText().toString();
         String passwordRepeat = mPasswordRepeat.getEditableText().toString();
 
+        clearErrorInfo();
         if (!CommonUtils.isEmailValid(email)) {
             mEmail.setError("邮箱地址不合法，请重新输入");
         } else if (verificationCode.length() != 6) {
@@ -250,7 +259,24 @@ public class RegisterActivity extends RunnerBaseActivity {
                                                         .build()
                                                         .show();
                 } else {
-                    new MaterialDialog.Builder(mContext).title("注册失败").content(reply.getErrCode().toString()).build().show();
+                    switch (reply.getErrCode()) {
+                        case EMAIL_INVALID:
+                            mEmail.setError("无效邮箱，请换个邮箱试试");
+                            break;
+                        case PASSWORD_INVALID:
+                            mPassword.setError("请输入8-20位密码，必须包含字母和数字");
+                            break;
+                        case EMAIL_ALREADY_REGISTERED:
+                            mEmail.setError("邮箱已注册，请换个邮箱试试");
+                            break;
+                        case VERIFICATION_CODE_ERROR:
+                            mVerificationCode.setError("验证码错误");
+                            break;
+                        case UNKNOWN:
+                        default:
+                            toast("注册失败，请重试~");
+                            break;
+                    }
                 }
             }
 
