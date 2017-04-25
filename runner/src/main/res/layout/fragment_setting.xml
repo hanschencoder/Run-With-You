@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/fragment_setting_user_icon"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
@@ -31,8 +31,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/hanschen"/>
+                    android:src="@drawable/hanschen"
+                    app:civ_border_color="#88FFEB3B"
+                    app:civ_border_width="1dp"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

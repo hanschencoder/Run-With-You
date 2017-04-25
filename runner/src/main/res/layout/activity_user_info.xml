@@ -23,133 +23,205 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     </android.support.design.widget.AppBarLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp">
+        android:paddingStart="16dp">
 
-        <TextView
-            style="@style/RobotoRegular"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="昵称"
-            android:textColor="@color/text_color_black_primary"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_account_circle_black_24dp"/>
 
-        <TextView
-            style="@style/RobotoRegular"
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/user_info_nickname"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="HansChen"
-            android:textColor="@color/text_color_black_secondary"
-            android:textSize="16sp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:hint="昵称"
+            app:met_baseColor="@color/text_color_black_primary"
+            app:met_errorColor="@color/error"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="昵称"
+            app:met_primaryColor="@color/colorPrimary"
+            />
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp">
+        android:paddingStart="16dp">
 
-        <TextView
-            style="@style/RobotoRegular"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="昵称"
-            android:textColor="@color/text_color_black_primary"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_phone_black_24dp"/>
 
-        <TextView
-            style="@style/RobotoRegular"
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/user_info_phone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="HansChen"
-            android:textColor="@color/text_color_black_secondary"
-            android:textSize="16sp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:hint="手机"
+            app:met_baseColor="@color/text_color_black_primary"
+            app:met_errorColor="@color/error"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="手机"
+            app:met_primaryColor="@color/colorPrimary"
+            />
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp">
+        android:paddingStart="16dp">
 
-        <TextView
-            style="@style/RobotoRegular"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="昵称"
-            android:textColor="@color/text_color_black_primary"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_date_range_black_24dp"/>
 
-        <TextView
-            style="@style/RobotoRegular"
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/user_info_birthday"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="HansChen"
-            android:textColor="@color/text_color_black_secondary"
-            android:textSize="16sp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:focusable="false"
+            android:hint="生日"
+            app:met_baseColor="@color/text_color_black_primary"
+            app:met_errorColor="@color/error"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="生日"
+            app:met_primaryColor="@color/colorPrimary"
+            />
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp">
+        android:paddingStart="16dp">
 
-        <TextView
-            style="@style/RobotoRegular"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="昵称"
-            android:textColor="@color/text_color_black_primary"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_gender"
+            android:tint="@color/colorPrimary"/>
 
-        <TextView
-            style="@style/RobotoRegular"
+
+        <RadioGroup
+            android:id="@+id/radioGroup1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="HansChen"
-            android:textColor="@color/text_color_black_secondary"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <RadioButton
+                android:id="@+id/radio0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="男"/>
+
+            <RadioButton
+                android:id="@+id/radio1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="女"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_description"
+            android:tint="@color/colorPrimary"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/user_info_bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:hint="一句话描述自己"
+            app:met_baseColor="@color/text_color_black_primary"
+            app:met_errorColor="@color/error"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="一句话描述自己"
+            app:met_primaryColor="@color/colorPrimary"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_location_on_black_24dp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/user_info_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:focusable="false"
+            android:hint="居住地"
+            app:met_baseColor="@color/text_color_black_primary"
+            app:met_errorColor="@color/error"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="居住地"
+            app:met_primaryColor="@color/colorPrimary"/>
+    </LinearLayout>
 
 </LinearLayout>

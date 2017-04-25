@@ -93,6 +93,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".ui.EditActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".ui.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Fullscreen"/>
