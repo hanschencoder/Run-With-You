@@ -117,6 +117,12 @@
 -keep class com.wang.avi.** { *; }
 -dontwarn com.wang.avi.**
 
+-keep class com.wdullaer.materialdatetimepicker.** { *; }
+-dontwarn com.wdullaer.materialdatetimepicker.**
+
+-keep class de.hdodenhof.circleimageview.** { *; }
+-dontwarn de.hdodenhof.circleimageview.**
+
 -keep class dagger.** { *; }
 -dontwarn dagger.**
 
@@ -134,6 +140,9 @@
 
 -keep class com.autonavi.** { *; }
 -dontwarn com.autonavi.**
+
+-keep class com.bumptech.glide.** { *; }
+-dontwarn com.bumptech.glide.**
 
 -keep class com.google.** { *; }
 -dontwarn com.google.**

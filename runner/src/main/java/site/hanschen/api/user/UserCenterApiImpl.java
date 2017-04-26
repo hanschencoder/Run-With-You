@@ -83,7 +83,7 @@ public class UserCenterApiImpl implements UserCenterApi {
     }
 
     @Override
-    public UserInfo requestUserInfo(final String token) {
+    public UserInfoReply requestUserInfo(final String token) {
         OperateToken operateToken = OperateToken.newBuilder().setToken(token).build();
         return blockingStub.requestUserInfo(operateToken);
     }

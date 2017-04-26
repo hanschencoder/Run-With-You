@@ -56,7 +56,7 @@ public interface UserCenterApi {
      * @param token 用户标识
      * @return 用户信息
      */
-    UserInfo requestUserInfo(final String token);
+    UserInfoReply requestUserInfo(final String token);
 
     /**
      * 更新用户信息

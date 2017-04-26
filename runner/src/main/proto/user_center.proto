@@ -113,13 +113,22 @@ message ResultReply {
 
 message UserInfo {
     string nickname = 1;
-    string email = 2;
-    string phone = 3;
-    string birthday = 4;
-    int32 age = 5;
-    Sex sex = 6;
-    string bio = 7;
-    string location = 8;
+    string phone = 2;
+    string birthday = 3;
+    int32 age = 4;
+    Sex sex = 5;
+    string bio = 6;
+}
+
+message UserInfoReply {
+    enum ErrorCode {
+        TOKEN_INVALID = 0;
+        UNKNOWN = 1;
+    }
+
+    bool succeed = 1;
+    ErrorCode errCode = 2;
+    UserInfo userInfo = 3;
 }
 
 service UserCenter {
@@ -145,7 +154,7 @@ service UserCenter {
     }
 
     // 获取用户信息
-    rpc requestUserInfo (OperateToken) returns (UserInfo) {
+    rpc requestUserInfo (OperateToken) returns (UserInfoReply) {
     }
 
     // 修改用户信息

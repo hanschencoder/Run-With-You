@@ -63,10 +63,10 @@ public class UserCenterApiWrapper {
         }.create();
     }
 
-    public Observable<UserInfo> requestUserInfo(final String token) {
-        return new ObservableApi<UserInfo>() {
+    public Observable<UserInfoReply> requestUserInfo(final String token) {
+        return new ObservableApi<UserInfoReply>() {
             @Override
-            protected UserInfo getResult() throws Exception {
+            protected UserInfoReply getResult() throws Exception {
                 return mApi.requestUserInfo(token);
             }
         }.create();

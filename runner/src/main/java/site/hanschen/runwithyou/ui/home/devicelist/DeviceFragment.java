@@ -113,6 +113,7 @@ public class DeviceFragment extends LazyFragment implements DeviceListContract.V
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        initViews();
     }
 
     @Override

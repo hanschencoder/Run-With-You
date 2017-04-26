@@ -21,6 +21,7 @@ import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.common.statusbar.StatusBarCompat;
 import site.hanschen.common.utils.ResourceUtils;
 import site.hanschen.runwithyou.R;
+import site.hanschen.runwithyou.application.AuthManager;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.ui.home.HomeActivity;
@@ -103,6 +104,7 @@ public class LoginActivity extends RunnerBaseActivity {
             public void onNext(LoginReply loginReply) {
                 dismissWaitingDialog();
                 if (loginReply.getSucceed()) {
+                    AuthManager.getInstance().setAuth(username, loginReply.getToken());
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 } else {

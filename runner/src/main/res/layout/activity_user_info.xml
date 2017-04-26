@@ -136,7 +136,7 @@
 
 
         <RadioGroup
-            android:id="@+id/radioGroup1"
+            android:id="@+id/user_info_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -145,14 +145,14 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radio0"
+                android:id="@+id/user_info_sex_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="男"/>
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/user_info_sex_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -200,7 +200,8 @@
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

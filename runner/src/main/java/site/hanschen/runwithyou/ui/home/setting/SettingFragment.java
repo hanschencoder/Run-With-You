@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import site.hanschen.runwithyou.R;
+import site.hanschen.runwithyou.application.AuthManager;
 import site.hanschen.runwithyou.base.RunnerBaseFragment;
 import site.hanschen.runwithyou.ui.home.userinfo.UserInfoActivity;
 
@@ -49,6 +50,7 @@ public class SettingFragment extends RunnerBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(SettingFragment.this, view);
+        mUsername.setText(AuthManager.getInstance().getEmail());
     }
 
     @OnClick(R.id.fragment_setting_user_layout)
