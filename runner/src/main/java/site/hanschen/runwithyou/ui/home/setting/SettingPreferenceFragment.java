@@ -3,6 +3,8 @@ package site.hanschen.runwithyou.ui.home.setting;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,7 +14,9 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
+import android.widget.Toast;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -139,6 +143,10 @@ public class SettingPreferenceFragment extends PreferenceFragment {
             intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + packageName));
         }
-        startActivity(intent);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "oops...", Toast.LENGTH_SHORT).show();
+        }
     }
 }

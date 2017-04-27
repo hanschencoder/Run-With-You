@@ -111,6 +111,8 @@ public class IMMLeaks {
                 Log.e("IMMLeaks", "Unexpected reflection exception", unexpected);
             } catch (InvocationTargetException unexpected) {
                 Log.e("IMMLeaks", "Unexpected reflection exception", unexpected);
+            } catch (Throwable unknown) {
+                Log.e("IMMLeaks", "unknown", unknown);
             }
         }
 

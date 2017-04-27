@@ -37,7 +37,7 @@ public class AboutActivity extends RunnerBaseActivity {
                                      .addSkypeLink("+8613825633225")
                                      .addGoogleLink("shensky711")
                                      .addEmailLink("shensky711@gmail.com")
-                                     .addGooglePlusLink("+shensky711")
+                                     .addGooglePlusLink("114746819615461693138")
                                      .addLinkedInLink("航-陈-a7843b118")
                                      .addAndroidLink("shensky711")
                                      .setAppIcon(R.mipmap.ic_launcher)
