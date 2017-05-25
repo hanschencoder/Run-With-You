@@ -3,8 +3,11 @@ package site.hanschen.runwithyou.ui.home;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
+import android.view.KeyEvent;
+import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.roughike.bottombar.BottomBar;
@@ -13,6 +16,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import site.hanschen.runwithyou.R;
+import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.ui.home.discover.DiscoverFragment;
 import site.hanschen.runwithyou.ui.home.setting.SettingFragment;
@@ -31,6 +35,7 @@ public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListe
     BottomBar mBottomBar;
     private SparseArray<Class<? extends Fragment>> mMap;
     private int                                    mPreSelectedTab;
+    private boolean mQuit = false;
 
 
     @Override
@@ -89,5 +94,34 @@ public class HomeActivity extends RunnerBaseActivity implements OnTabSelectListe
                 getSupportActionBar().show();
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (!mQuit) {
+                    mQuit = true;
+                    getMainHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mQuit = false;
+                        }
+                    }, 2000);
+                    Snackbar.make(findViewById(android.R.id.content), "再按一次退出程序", Snackbar.LENGTH_SHORT)
+                            .setAction("马上退出", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    getMainHandler().removeCallbacksAndMessages(null);
+                                    RunnerApplication.getInstance().exit();
+                                }
+                            })
+                            .show();
+                } else {
+                    RunnerApplication.getInstance().exit();
+                }
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
