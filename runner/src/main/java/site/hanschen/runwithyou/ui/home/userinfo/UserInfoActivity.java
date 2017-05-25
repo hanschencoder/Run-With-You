@@ -1,6 +1,8 @@
 package site.hanschen.runwithyou.ui.home.userinfo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -11,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Locale;
@@ -29,10 +33,13 @@ import site.hanschen.api.user.Sex;
 import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.api.user.UserInfo;
 import site.hanschen.api.user.UserInfoReply;
+import site.hanschen.runwithyou.Const;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.AuthManager;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
+import site.hanschen.runwithyou.ui.login.LoginActivity;
+import site.hanschen.runwithyou.utils.PreferencesUtils;
 
 /**
  * @author HansChen
@@ -173,6 +180,37 @@ public class UserInfoActivity extends RunnerBaseActivity {
         }, year, monthOfYear, dayOfMonth);
         dpd.setTitle("选择出生日期");
         dpd.show(getFragmentManager(), "DatePickerDialog");
+    }
+
+    private void logout() {
+        PreferencesUtils.remove(this, Const.KEY_PASSWORD);
+        AuthManager.getInstance().logout();
+        RunnerApplication.getInstance().exit();
+        startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
+    }
+
+    @OnClick(R.id.user_info_logout)
+    void onLogoutClick() {
+        new MaterialDialog.Builder(mContext).title("退出登录")
+                                            .content("是否退出登录 ？")
+                                            .positiveText("退出")
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog,
+                                                                    @NonNull DialogAction which) {
+                                                    logout();
+                                                }
+                                            })
+                                            .negativeText("取消")
+                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog,
+                                                                    @NonNull DialogAction which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .build()
+                                            .show();
     }
 
     private void refreshSaveBtn() {

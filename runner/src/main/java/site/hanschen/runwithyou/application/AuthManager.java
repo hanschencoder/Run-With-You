@@ -28,6 +28,11 @@ public class AuthManager {
     private AuthManager() {
     }
 
+    public void logout() {
+        email = null;
+        token = null;
+    }
+
     public void setAuth(String email, String token) {
         this.email = PreconditionUtils.checkNotNull(email);
         this.token = PreconditionUtils.checkNotNull(token);

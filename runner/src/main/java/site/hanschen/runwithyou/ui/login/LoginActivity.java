@@ -20,11 +20,13 @@ import site.hanschen.api.user.LoginReply;
 import site.hanschen.api.user.UserCenterApiWrapper;
 import site.hanschen.common.statusbar.StatusBarCompat;
 import site.hanschen.common.utils.ResourceUtils;
+import site.hanschen.runwithyou.Const;
 import site.hanschen.runwithyou.R;
 import site.hanschen.runwithyou.application.AuthManager;
 import site.hanschen.runwithyou.application.RunnerApplication;
 import site.hanschen.runwithyou.base.RunnerBaseActivity;
 import site.hanschen.runwithyou.ui.home.HomeActivity;
+import site.hanschen.runwithyou.utils.PreferencesUtils;
 
 /**
  * @author HansChen
@@ -53,6 +55,15 @@ public class LoginActivity extends RunnerBaseActivity {
                             .build()
                             .inject(LoginActivity.this);
         setLoginBtnState();
+
+        String username;
+        String password;
+        if ((username = PreferencesUtils.getString(this, Const.KEY_USERNAME)) != null
+            && (password = PreferencesUtils.getString(this, Const.KEY_PASSWORD)) != null) {
+            doLogin(username, password);
+        } else if (username != null) {
+            mUsername.setText(username);
+        }
     }
 
     private void setLoginBtnState() {
@@ -104,6 +115,8 @@ public class LoginActivity extends RunnerBaseActivity {
             public void onNext(LoginReply loginReply) {
                 dismissWaitingDialog();
                 if (loginReply.getSucceed()) {
+                    PreferencesUtils.putString(LoginActivity.this, Const.KEY_USERNAME, username);
+                    PreferencesUtils.putString(LoginActivity.this, Const.KEY_PASSWORD, password);
                     AuthManager.getInstance().setAuth(username, loginReply.getToken());
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();

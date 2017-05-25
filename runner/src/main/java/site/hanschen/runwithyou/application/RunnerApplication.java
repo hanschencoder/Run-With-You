@@ -1,6 +1,7 @@
 package site.hanschen.runwithyou.application;
 
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
@@ -118,5 +119,12 @@ public class RunnerApplication extends BaseApplication {
             throw new IllegalStateException("mRunnerManager is null now ");
         }
         return mRunnerManager;
+    }
+
+    public void exit() {
+        for (int i = mActivities.size() - 1; i >= 0; i--) {
+            Activity activity = mActivities.get(i);
+            activity.finish();
+        }
     }
 }
