@@ -7,6 +7,9 @@
 # 描述
 一款支持双人跑步的应用
 
+# 应用安装
+[豌豆荚下载地址](http://www.wandoujia.com/apps/site.hanschen.runwithyou)
+
 # 功能需求
 
 - [ ] 用户中心
